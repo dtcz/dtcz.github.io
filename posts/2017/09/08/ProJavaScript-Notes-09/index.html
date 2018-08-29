@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>重读 JS 高程（Chapter12） | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Chapter12. DOM2 和 DOM3DOM 变化DOM2 级和 3 级的目的在扩展 DOM API，以满足操作 XML 的所有需求，同时提供更好的错误处理及特性检测能力。 针对XML命名空间的变化Node类型的变化 DOM2 级中，Node类型包含下列特定于命名空间的属性。  localName：不带命名空间前缀的节点名称。 namespaceURI：命名空间 URI，未指定则为null。">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重读 JS 高程（Chapter12）">
+<meta property="og:url" content="http://yoursite.com/posts/2017/09/08/ProJavaScript-Notes-09/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="Chapter12. DOM2 和 DOM3DOM 变化DOM2 级和 3 级的目的在扩展 DOM API，以满足操作 XML 的所有需求，同时提供更好的错误处理及特性检测能力。 针对XML命名空间的变化Node类型的变化 DOM2 级中，Node类型包含下列特定于命名空间的属性。  localName：不带命名空间前缀的节点名称。 namespaceURI：命名空间 URI，未指定则为null。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-09-12T15:42:25.011Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重读 JS 高程（Chapter12）">
+<meta name="twitter:description" content="Chapter12. DOM2 和 DOM3DOM 变化DOM2 级和 3 级的目的在扩展 DOM API，以满足操作 XML 的所有需求，同时提供更好的错误处理及特性检测能力。 针对XML命名空间的变化Node类型的变化 DOM2 级中，Node类型包含下列特定于命名空间的属性。  localName：不带命名空间前缀的节点名称。 namespaceURI：命名空间 URI，未指定则为null。">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-ProJavaScript-Notes-09" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      重读 JS 高程（Chapter12）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/09/08/ProJavaScript-Notes-09/" class="article-date">
+  <time datetime="2017-09-08T00:52:33.000Z" itemprop="datePublished">2017-09-08</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter12-DOM2-和-DOM3"><a href="#Chapter12-DOM2-和-DOM3" class="headerlink" title="Chapter12. DOM2 和 DOM3"></a>Chapter12. DOM2 和 DOM3</h2><h3 id="DOM-变化"><a href="#DOM-变化" class="headerlink" title="DOM 变化"></a>DOM 变化</h3><p>DOM2 级和 3 级的目的在扩展 DOM API，以满足操作 XML 的所有需求，同时提供更好的错误处理及特性检测能力。</p>
+<h4 id="针对XML命名空间的变化"><a href="#针对XML命名空间的变化" class="headerlink" title="针对XML命名空间的变化"></a>针对XML命名空间的变化</h4><p><strong>Node类型的变化</strong></p>
+<p>DOM2 级中，Node类型包含下列特定于命名空间的属性。</p>
+<ul>
+<li><code>localName</code>：不带命名空间前缀的节点名称。</li>
+<li><code>namespaceURI</code>：命名空间 URI，未指定则为<code>null</code>。</li>
+<li><code>prefix</code>：命名空间前缀，未指定则为<code>null</code>。</li>
+</ul>
+<p>DOM3 级</p>
+<ul>
+<li><code>isDefaultNamespace(namespaceURI)</code>：指定的 namespaceURI 在当前的默认命名空间的情况下返回true。</li>
+<li><code>lookupNamespaceURI(prefix)</code>：返回给定 prefix 的命名空间。</li>
+<li><code>lookupPrefix(namespaceURI)</code>：返回给定 namespaceURI 的前缀。</li>
+</ul>
+<p><strong>Document 类型的变化</strong></p>
+<p>DOM2 级中与命名空间相关的方法：</p>
+<ul>
+<li><code>createElementNS(namespaceURI, tagName)</code>：使用给定的 tagName 创建一个属于命名空间 namespaceURI 的新元素。</li>
+<li><code>createAttributeNS(namespaceURI, attributeName)</code>：使用给定的 attributeName 创建一个属于命名空间 namespaceURI 的新元素。</li>
+<li><code>getElementBytagNameNS(namespaceURI, tagName)</code>：返回属于命名空间 namespaceURI 的 tagName 元素的 NodeList。</li>
+</ul>
+<a id="more"></a>
+<p><strong>Element 类型的变化</strong></p>
+<p>“DOM2级核心中”有关 Element 的变化，主要涉及操作特性。新增方法如下：</p>
+<ul>
+<li><code>getAttributeNS(namespaceURI, localName)</code>：取得属于命名空间 namespaceURI 的且名为 localName 的特性。</li>
+<li><code>getAttributeNodeNS(namespaceURI, localName)</code>：取得属于命名空间 namespaceURI 的且名为 localName 的特性节点。</li>
+<li><code>getElementsByTagNameNS(namespaceURI, localName)</code>：返回属性命名空间 namespaceURI 且名为 tagName 元素的 NodeList。</li>
+<li><code>hasAttributeNS(namespaceURI, localName)</code>：确定当前元素是够有一个名为 localName 的特性，该特性的命名空间是 namespaceURI。</li>
+<li><code>removeAttributeNS(namespaceURI, localName)</code>：删除属性命名空间 namespaceURI 且名为 localName 的特性。</li>
+<li><code>setAttributeNS(namespaceURI, qualifiedName, value)</code>：设置属于命名空间 namespaceURI 的特性节点。</li>
+<li><code>setAttributeNodeNS(attrNode)</code>：设置属于命名空间 namespaceURI 的特性节点。</li>
+</ul>
+<p><strong>NamedNodeMap 类型的变化</strong></p>
+<ul>
+<li><code>getNamedItemNS(namespaceURI, localName)</code>：取得属于命名空间 namespaceURI 且名为 localName 的项。</li>
+<li><code>removeNamedItemNS(namespaceURI, localName)</code>：移除属于命名空间 namespaceURI 且名为 localName 的项。</li>
+<li><code>setNamedItemNS(node)</code>：添加 node，这个节点已事先指定了命名空间信息。</li>
+</ul>
+<h4 id="其他方面的变化"><a href="#其他方面的变化" class="headerlink" title="其他方面的变化"></a>其他方面的变化</h4><p><strong>DocumentType 类型的变化</strong></p>
+<p>新增 3 个属性：<code>publicId</code>、<code>systemId</code> 和 <code>internalSubset</code>。</p>
+<p>前两个表示文档类型声明中的两个信息段，最后一个属性<code>internalSubset</code>用于访问包含在文档类型声明中的额外定义。</p>
+<p><strong>Document 类型的变化</strong></p>
+<ul>
+<li><code>importNode()</code>：从一个文档中取得一个节点，然后将其导入到另一个文档，使其成为文档结构的一部分。每个节点都有一个<code>ownerDocument</code>属性，表示所属文档。<code>appendChild()</code>传入的节点如果属于不同文档，会导致错误。但是在调用<code>importNode()</code>时传入不同的文档节点则会返回一个新节点，这个新节点的所有权归当前文档所有。<code>importNode()</code>方法与 Element 的<code>cloneNode()</code>方法非常相似，接受两个参数：要复制的节点和一个表示是否复制子节点的布尔值，返回原节点的副本，但能够在当前文档中使用。</li>
+<li><code>defaultView</code>：保存着一个指针，指向拥有给定文档的窗口（或框架）,IE不支持此属性，但有等价属性parentWindow。</li>
+<li><code>createDocuemntType()</code>：创建一个新的 DocumentType 节点，接受三个参数：文档类型名称、publicId、systemId。</li>
+<li><code>createDocument()</code>：创建新文档，接受三个参数：针对文档中元素的 namespaceURI、文档元素的标签名、新文档的文档类型。</li>
+<li><code>document.implementation.createHTMLDocument()</code>：只接受 title 文本作为参数，返回新HTML文档（包括<code>&lt;html&gt;</code>、<code>&lt;head&gt;</code>、<code>&lt;title&gt;</code>和<code>&lt;body&gt;</code>）。</li>
+</ul>
+<p><strong>Node类型的变化</strong></p>
+<ul>
+<li><code>isSupported()</code>：与 DOM1 级中<code>document.implementation</code>引入的<code>hasFeature()</code>方法类似。用于确定当前节点具有什么能力，两个参数：特性名和特性版本号。</li>
+<li><code>isSameNode()</code>：传入节点，与引用节点为同一个节点则返回<code>true</code>。</li>
+<li><code>isEqualNode()</code>：传入节点，与引用节点相等返回<code>true</code>。</li>
+<li><code>setUserData()</code>：将数据指定给节点。3 个参数：要设置的键，实际的数据和处理函数。</li>
+</ul>
+<p>处理函数接受 5 个参数：表操作类型的数值（1：复制；2：导入；3：删除；4：重命名）、数据键、数据值、源节点和目标节点。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</span><br><span class="line"></span><br><span class="line">div.setUserData(<span class="string">"name"</span>, <span class="string">"Nicholas"</span>, fucntion(operation, key, value, src, dest)&#123;</span><br><span class="line">    <span class="keyword">if</span>(operation == <span class="number">1</span>)&#123;</span><br><span class="line">        dest.setUserData(key, value, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> newDiv = div.cloneNode(<span class="literal">true</span>);</span><br><span class="line">alert(newDiv.getUserData(<span class="string">"name"</span>)); <span class="comment">//"Nicholas"</span></span><br></pre></td></tr></table></figure>
+<p><strong>框架的变化</strong></p>
+<p>框架和内嵌框架分别用 HTMLFrameElement 和 HTMLIFrameElement 表示，它们在 DOM2 级中都有一个新属性<code>contentDocument</code>。此属性包含一个指针，指向表示框架内容的文档对象。</p>
+<p><code>contentDocument</code>属性是 Document 类型实例，因此可以像使用其他 HTML 文档一样使用它，包括所有属性和方法。IE8 之前不支持框架中的<code>contentDocument</code> <code>属性，但支持一个叫</code> <code>contentWindow</code> `属性，返回框架的window对象。访问内嵌框架文档对象兼容代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> iframe = <span class="built_in">document</span>.getElementById(<span class="string">"myIframe"</span>);</span><br><span class="line"><span class="keyword">var</span> iframeDoc = iframe.contentDocument || iframe.contentWindow.document;</span><br></pre></td></tr></table></figure>
+<h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><h4 id="访问元素的样式"><a href="#访问元素的样式" class="headerlink" title="访问元素的样式"></a>访问元素的样式</h4><p><strong> <code>style</code>属性</strong></p>
+<p>任何支持<code>style</code>特性的 HTML 元素在 JavaScript 中都有一个对应的<code>style</code>属性。这个<code>style</code>对象是 CSSStyleDeclaration 的实例，包含着通过<code>style</code>特性指定的所有样式信息，但不包含与外部样式表或嵌入式样式表经层叠而来的样式。</p>
+<p>在<code>style</code>特性指定的任何 CSS 属性都将表现为这个<code>style</code>对象的相应属性。对于使用短划线的 CSS 属性名，必须转换成驼峰大小写形式才能通过 JavaScript 访问。<strong>其中<code>float</code>属性不可直接使用。IE 用<code>styleFloat</code>访问，其他浏览器用<code>cssFloat</code>访问。</strong></p>
+<p>如果没有为元素设置<code>style</code>特性，那<code>style</code>对象中可能会包含一些默认值，但这些值不反映元素正确的样式信息。</p>
+<p><strong>DOM 样式属性和方法</strong></p>
+<p>DOM2 级还为 style 对象定义了一些属性和方法。在提供特性值时也可修改样式。</p>
+<ul>
+<li><code>cssText</code>：访问<code>style</code>特性中的 CSS 代码。</li>
+<li><code>length</code>：应用给元素的 CSS 属性数量。</li>
+<li><code>parentRule</code>：表示 CSS 信息的 CSSRule 对象。</li>
+<li><code>getPropertyCSSValue(propertyName)</code>：返回包含给定属性值的 CSSValue 对象，含两个属性<code>cssText</code> 和 <code>cssValueType</code>。</li>
+<li><code>getProperytPriority(propertyName)</code>：如果给定的属性使用了<code>!important</code>设置，则返回“important”，否则返回空字符串。</li>
+<li><code>item(index)</code>：返回给定位置的 CSS 属性的名称。</li>
+<li><code>removeProperty(propertyName)</code>：从样式中删除给定属性。</li>
+<li><code>setProperty(propertyName, value, priority)</code>：将给定属性设置为相应的值，并加上优先权标志（“important”或者一个空字符串）。</li>
+</ul>
+<p>设置<code>length</code>属性的目的，就是将其与<code>item()</code>方法配套使用，以便迭代元素中定义的 CSS 属性。设置<code>cssText</code>是为元素应用多项变化最快捷的方式，因此可以一次性地应用所有变化。</p>
+<p><strong>计算的样式</strong></p>
+<p>“DOM2 级样式”增强了<code>document.defaultView</code>，提供了<code>getComputedStyle()</code>方法，接受两个参数：要取得计算样式的元素和一个伪元素字符串（如<code>:after</code>）。如果不需要伪元素信息，第二个参数可以为<code>null</code>，返回一个 CSSStyleDeclaration 对象（与style属性类型相同），其中包含当前元素的所有计算的样式。</p>
+<p>IE 不支持<code>getComputedStyle()</code>方法吗，但 IE 中有<code>style</code>特性的元素均有一个<code>currentStyle</code>属性（CSSStyleDeclaration的实例）包含当前元素全部计算后的样式。计算样式兼容代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myDiv = <span class="built_in">document</span>.getElementById(<span class="string">"myDiv"</span>);</span><br><span class="line"><span class="keyword">var</span> computedStyle = <span class="built_in">document</span>.defaultView.getComputedStyle(mydiv, <span class="literal">null</span>) || myDiv.currentStyle;</span><br><span class="line"></span><br><span class="line">alert(computedStyle.width);</span><br><span class="line">alert(computedStyle.height);</span><br></pre></td></tr></table></figure>
+<h4 id="操作样式表"><a href="#操作样式表" class="headerlink" title="操作样式表"></a>操作样式表</h4><p><strong>CSSStyleSheet 类型</strong></p>
+<p>CSSStyleSheet 继承自 StyleSheet，后者可以作为一个基础接口来定义非 CSS 样式表。从 StyleSheet 接口继承而来的属性如下：</p>
+<ul>
+<li><code>disabled</code>：表示样式表是否被禁用的布尔值。可读/写，设为<code>true</code>则禁用。</li>
+<li><code>href</code>：如果样式表是通过<code>&lt;link&gt;</code>包含的，则是样式表的 URL，否则是<code>null</code>。</li>
+<li><code>media</code>：当前样式表支持的所有媒体类型的集合。与所有 DOM 集合一样，有<code>length</code>属性和<code>item()</code>方法。</li>
+<li><code>ownerNode</code>：指向拥有当前样式表的节点的指针。若通过<code>@import</code>导入则属性为<code>null</code>，IE不支持此属性。</li>
+<li><code>parentStyleSheet</code>：当前样式表是通过<code>@import</code>导入的情况下，这个属性指向导入它的样式表的指针。</li>
+<li><code>title</code>：<code>ownerNode</code>中<code>title</code>属性的值。</li>
+<li><code>type</code>：表示样式表类型的字符串。对 CSS 样式表而言，这个字符串是”type/css”。</li>
+</ul>
+<p>以上属性除<code>disabled</code>外，全部只读。</p>
+<p>CSSStyleSheet 类型还支持以下属性和方法：</p>
+<ul>
+<li><code>cssRules</code>：样式表中包含的样式规则的集合。IE 不支持，但有类似的<code>rules</code>属性。</li>
+<li><code>ownerRule</code>：如果样式表是通过<code>@import</code>导入的，这个属性就是一个指针，指向表示导入的规则；否则为<code>null</code>。IE不支持这个属性。</li>
+<li><code>deleteRule(index)</code>：删除 cssRules 集合中指定位置的规则。IE 不支持，但支持<code>removeRule()</code>方法。</li>
+<li><code>insertRule(rule, index)</code>：向 cssRules 集合中指定的位置插入<code>rule</code>字符串。IE 不支持，但支持类似的<code>addRule()</code>方法。</li>
+</ul>
+<p>应用于文档的所有样式表是通过<code>document.styleSheets</code>集合来表示的。通过这个集合的<code>length</code>属性可以获取文档中样式表的数量，而通过方括号语法或<code>item()</code>方法可以访问每一个样式表。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sheet = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>, len = <span class="built_in">document</span>.styleSheets.length; i &lt; len; i++)&#123;</span><br><span class="line">    sheet = <span class="built_in">document</span>.styleSheets[i];</span><br><span class="line">    alert(sheet.href);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以直接通过<code>&lt;link&gt;</code>或<code>&lt;style&gt;</code>元素取得 CSSStyleSheet 对象。DOM 规定了一个包含 CSSStyleSheet 对象的属性，名叫<code>sheet</code>；IE 不支持，但 IE 支持类似的<code>styleSheet</code>属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getStyleSheet</span>(<span class="params">element</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> element.sheet || element.styleSheet;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//取得第一个&lt;link&gt;元素引入的样式表</span></span><br><span class="line"><span class="keyword">var</span> link = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"link"</span>)[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">var</span> sheet = getStylesheet(link);</span><br></pre></td></tr></table></figure>
+<p><strong>CSS 规则</strong></p>
+<p>CSSRule 对象表示样式表中的每一条规则，是一个供其他多种类型继承的基类型，其中最常见的就是 CSSStyleRule 类型，表示样式信息。CSSStyleRule 对象包含下列属性：</p>
+<ul>
+<li><code>cssText</code>：返回整条规则对应的文本，IE 不支持。</li>
+<li><code>parentRule</code>：如果当前规则是导入的规则，这属性引用的就是导入规则，否则这个值为<code>null</code>。IE 不支持。</li>
+<li><code>parentStyleSheet</code>：当前规则所属的样式表。IE不支持。</li>
+<li><code>selectorText</code>：返回当前规则的选择符文本。</li>
+<li><code>style</code>：一个 CSSStyleDeclaration 对象，可以通过它设置和取得规则中特定的样式值。</li>
+<li><code>type</code>：表示规则类型的常量值。对于样式规则，这个值是 1。IE 不支持。</li>
+</ul>
+<p>其中最常用的属性是<code>cssText</code>、<code>selectorText</code>和<code>style</code>。<code>cssText</code>属性与<code>style.cssText</code>属性类似但并不相同。前者包含选择符文本和围绕样式信息的花括号，后者只包含样式信息（类似于元素的<code>style.cssText</code>）。而<code>cssText</code>只读，<code>style.cssText</code>可读/写。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sheet = <span class="built_in">document</span>.styleSheets[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">var</span> rules = sheet.cssRules || sheet.rules;</span><br><span class="line"><span class="keyword">var</span> rule = rules[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">rule.style.backgroundColor = <span class="string">"red"</span>;</span><br><span class="line">alert(rule.style.backgroundColor);</span><br></pre></td></tr></table></figure>
+<p><strong>创建规则</strong></p>
+<ul>
+<li><code>insertRule()</code>：接受两个参数：规则文本和表达在哪里插入规则的索引。//IE不支持</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sheet.insertRule(<span class="string">"body&#123;background-color:silver&#125;"</span>,<span class="number">0</span>); <span class="comment">//DOM方法。</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>addRule()</code>：IE中支持。两个必选参数：选择符文本和CSS样式信息。一个可选参数：插入规则的位置。//仅IE支持</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sheet.addRule(<span class="string">"body"</span>,<span class="string">"background-color:silver"</span>,<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>跨浏览器兼容：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertRule</span>(<span class="params">sheet, selectorText, cssText, position</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(sheet.insertRule)&#123;</span><br><span class="line">        sheet.insertRule(selectorText + <span class="string">"&#123;"</span> + cssText + <span class="string">"&#125;"</span>, position);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sheet.addRule)&#123;</span><br><span class="line">        sheet.addRule(selectorText, cssText, position);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">insertRule(<span class="built_in">document</span>.styleSheets[<span class="number">0</span>], <span class="string">"body"</span>, <span class="string">"background-color:red"</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>当需要添加的规则多时，操作繁琐。建议采用动态加载样式表。</p>
+<p><strong>删除规则</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sheet.deleteRule(<span class="number">0</span>); <span class="comment">//DOM方法，IE不支持</span></span><br><span class="line">sheet.removeRule(<span class="number">0</span>); <span class="comment">//IE方法，两者都是传入要删除的规则的位置。</span></span><br></pre></td></tr></table></figure>
+<p>跨浏览器兼容：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deleteRule</span>(<span class="params">sheet, index</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(sheet.deleteRule)&#123;</span><br><span class="line">        sheet.deleteRule(index);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sheet.removeRule)&#123;</span><br><span class="line">        sheet.removeRule(index);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种做法不是实际web开发中常见做法，删除规则会影响 CSS 层叠效果，慎用。</p>
+<h4 id="元素大小"><a href="#元素大小" class="headerlink" title="元素大小"></a>元素大小</h4><p><strong>偏移量（offset dimension）</strong></p>
+<blockquote>
+<p>包括元素在屏幕上占用的所有可见的空间。元素的可见大小由其高度、宽度决定，包括所有内边距、滚动条和边框大小（注意，不包括外边距）</p>
+</blockquote>
+<ul>
+<li><code>offsetHeight</code>：元素在垂直方向上占用的空间大小，以像素计。包括元素的高度、水平滚动条高度、上下边框高度。</li>
+<li><code>offsetWidth</code>：元素在水平方向上占用的空间大小，以像素计。包括元素的宽度、垂直滚动条宽度、左右边框宽度。</li>
+<li><code>offsetLeft</code>：元素的左外边框至包含元素的左内边框之间的像素距离。</li>
+<li><code>offsetTop</code>：元素的上外边框至包含元素的上内边框之间的像素距离。</li>
+</ul>
+<p>其中，<code>offsetLeft</code>和<code>offsetTop</code>属性与包含元素有关，包含元素的引用保存在<code>offsetParent</code>属性中。<code>offsetParent</code>属性不一定与<code>parentNode</code>的值相等。</p>
+<p>这些偏移量属性是只读的，每次访问需要重新计算。若重复使用，应保存在局部变量中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getElementLeft</span>(<span class="params">element</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> actualLeft = element.offsetLeft;</span><br><span class="line">    <span class="keyword">var</span> current = element.offsetParent;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(current !== <span class="literal">null</span>)&#123;</span><br><span class="line">        actualLeft += current.offsetLeft;</span><br><span class="line">        current = current.offsetParent;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> actualLeft;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getElementTop</span>(<span class="params">element</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> actualTop = element.offsetTop;</span><br><span class="line">    <span class="keyword">var</span> current = element.offsetParent;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(current !== <span class="literal">null</span>)&#123;</span><br><span class="line">        actualTop += current.offsetTop;</span><br><span class="line">        current = current.offsetParent;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> actualTop;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>客户区大小（client dimension）</strong></p>
+<blockquote>
+<p>元素内容及其内边距所占空间的大小，滚动条占用空间不算在内。</p>
+</blockquote>
+<ul>
+<li><code>clientWidth</code>：元素内容区宽度加上左右内边距宽度。</li>
+<li><code>clientHeight</code>：元素内容区高度加上上下内边距高度。</li>
+</ul>
+<p>确定浏览器视口大小可用<code>document.documentElement</code>或<code>document.body</code>（IE7 以前）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getViewport</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">document</span>.compatMode == <span class="string">"BackCompat"</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            width: <span class="built_in">document</span>.body.clientWidth,</span><br><span class="line">            height: <span class="built_in">document</span>.body.clientheight</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            width: <span class="built_in">document</span>.documentElement.clientWidth,</span><br><span class="line">            height: <span class="built_in">document</span>.documentElement.clientHeight</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>滚动大小（scroll dimension）</strong></p>
+<blockquote>
+<p> 指包含滚动内容的元素的大小。</p>
+</blockquote>
+<ul>
+<li><code>scrollHeight</code>：在没有滚动条的情况下，元素内容的总高度。</li>
+<li><code>scrollWidth</code>：在没有滚动条的情况下，元素内容的总宽度。</li>
+<li><code>scrollLeft</code>：被隐藏在内容区域左侧的像素数。通过设置这个属性可以改变元素的滚动位置。</li>
+<li><code>scrollTop</code>：被隐藏在内容区域上方的像素数。通过设置这个属性可以改变元素的滚动位置。</li>
+</ul>
+<p>在确定文档的总高度时（包括基于视口的最小高度时），必须取得<code>scrollWidth</code>/<code>clientWidth</code>和<code>scrollHeight</code>/<code>clientHeight</code>中的最大值，保证跨浏览器。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> docHeight = Max.max(<span class="built_in">document</span>.documentElement.scrollHeight, <span class="built_in">document</span>.documentElement.clientHeight);</span><br><span class="line"><span class="keyword">var</span> docWidth = Max.max(<span class="built_in">document</span>.documentElement.scrollWidth, <span class="built_in">document</span>.docuemntElement.clientWidth);</span><br></pre></td></tr></table></figure>
+<p>注：对于运行在混杂模式下的 IE，则需要用<code>document.body</code>代替<code>document.documentElement</code>。</p>
+<p>通过<code>scrollLeft</code>和<code>scrollTop</code>属性既可以确定元素当前滚动的状态，也可以设置元素滚动位置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">scrollToTop</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (element.scrollTop != <span class="number">0</span>) &#123;</span><br><span class="line">        element.scrollTop = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>确定元素大小</strong></p>
+<p><code>getBoundingClientRect()</code>：这个方法返回一个矩形对象，含4个属性：<code>left</code>、<code>top</code>、<code>right</code>和<code>bottom</code>。这些属性给出了元素在页面中相对于视口的位置。但 IE8 认为左上角坐标为 (2,2)，其他浏览器认为是 (0,0)。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBoundingClientRect</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> scrollTop = <span class="built_in">document</span>.documentElement.scrollTop;</span><br><span class="line">    <span class="keyword">var</span> scrollLeft = <span class="built_in">document</span>.documentElement.scrollLeft;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (element.getBoundingClientRect) &#123;</span><br><span class="line">        If(<span class="keyword">typeof</span> <span class="built_in">arguments</span>.callee.offset != <span class="string">"number"</span>) &#123;</span><br><span class="line">            <span class="keyword">var</span> temp = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</span><br><span class="line">            temp.style.cssText = <span class="string">"position:absolute;left:0;top:0;"</span>;</span><br><span class="line">            <span class="built_in">document</span>.body.appendChild(temp);</span><br><span class="line">            <span class="built_in">arguments</span>.callee.offset = -temp.getBoundingClientRect().top - scrollTop;</span><br><span class="line">            <span class="built_in">document</span>.body.removeChild(temp);</span><br><span class="line">            temp = <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> rect = element.getBoundingClientRect();</span><br><span class="line">        <span class="keyword">var</span> offset = <span class="built_in">arguments</span>.callee.offset;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            left: rect.left + offset,</span><br><span class="line">            right: rect.right + offset,</span><br><span class="line">            top: rect.top + offset,</span><br><span class="line">            bottom: rect.bottom + offset</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> actualLeft = getElementLeft(element);</span><br><span class="line">        <span class="keyword">var</span> actualTop = getElementTop(element);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            left: actualLeft - scrollLeft,</span><br><span class="line">            right: actualLeft + element.offsetWidth - scrollLeft,</span><br><span class="line">            top: actualTop - scrollTop,</span><br><span class="line">            bottom: actualTop + element.offsetHeight - scrollTop</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>“DOM2 级遍历和范围”模块定义了两个用于辅助完成顺序遍历DOM结构的类型：<code>NodeIterator</code>和<code>TreeWalker</code>。这两个类型能够基于给定的起点对 DOM 结构执行深度优先（depth-first）的遍历操作。</p>
+<p>在与 DOM 兼容版本中可访问这些对象，IE 不支持遍历。检查浏览器对 DOM2 级遍历能力的支持：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> supportsTraversals = <span class="built_in">document</span>.implementation.hasFeature(<span class="string">"Traversal"</span>, <span class="string">"2.0"</span>);</span><br><span class="line"><span class="keyword">var</span> supportsNodeIterator = (<span class="keyword">typeof</span> <span class="built_in">document</span>.createNodeIterator == <span class="string">"function"</span>);</span><br><span class="line"><span class="keyword">var</span> supportsTreeWalker = (<span class="keyword">typeof</span> <span class="built_in">document</span>.createTreeWalker == <span class="string">"function"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="NodeIterator"><a href="#NodeIterator" class="headerlink" title="NodeIterator"></a>NodeIterator</h4><p>可以使用<code>document.createNodeIterator()</code>方法创建它的新实例。</p>
+<p>接受 4 个参数：</p>
+<ul>
+<li><code>root</code>：想要作为搜索起点的树中的节点。</li>
+<li><code>whatToShow</code>：表示要访问哪些节点的数字代码。</li>
+<li><code>filter</code>：是一个<code>NodeFilter</code>对象，或者一个表示应该接受还是拒绝某种特定节点的函数。</li>
+<li><code>entityReferenceExpansion</code>：布尔值，表示是否要扩展实体引用。此参数在 HTML 页面中没有用，因为其中的实体引用不能扩展。</li>
+</ul>
+<p><code>whatToShow</code>参数是一个位掩码，其值以常量形式在 NodeFilter 类型中定义。</p>
+<ul>
+<li><p><code>NodeFilter.SHOW_ALL</code>：显示所有类型的节点。</p>
+</li>
+<li><p><code>NodeFilter.SHOW_ELEMENT</code>：显示元素节点。</p>
+</li>
+<li><p><code>NodeFilter.SHOW_ATTRIBUTE</code>：显示特性节点。由于 DOM 结构原因，实际上不能使用这个值。</p>
+</li>
+<li><p><code>NodeFilter.SHOW_TEXT</code>：显示文本节点。</p>
+</li>
+<li><p><code>NodeFilter.SHOW_CDATA_SECTION</code>：显示 CDATA 节点。</p>
+</li>
+<li><p><code>NodeFilter.SHOW_ENTITY_REFERENCE</code>：显示实体引用节点。</p>
+</li>
+<li><p><code>NodeFilter.SHOW_ENTITYPE</code>：显示实体节点。</p>
+</li>
+<li><p><code>NodeFilter.SHOW_PROCESSING_INSTRUCTION</code>：显示处理指令节点。</p>
+</li>
+<li><p><code>NodeFilter.SHOW_COMMENT</code>：显示注释节点。</p>
+</li>
+<li><p><code>NodeFilter.SHOW_DOCUMENT</code>：显示文档节点。</p>
+</li>
+<li><p><code>NodeFilter.SHOW_DOCUMENT_TYPE</code>：显示文档类型节点。</p>
+</li>
+<li><p><code>NodeFilter.SHOW_DOCUMENT_FRAGMENT</code>：显示文档片段节点。</p>
+</li>
+<li><p><code>NodeFilter.SHOW_NOTATION</code>：显示符号节点。</p>
+</li>
+</ul>
+<p>除了<code>NodeFilter_SHOW_ALL</code>外，可以使用按位或操作符来组合多个选项。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> whatToShow = NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT;</span><br></pre></td></tr></table></figure>
+<p>可以通过<code>createNodeIterator()</code>用<code>filter</code>参数自定义 NodeFilter 对象或一个过滤器函数。</p>
+<p>每个 NodeFilter 对象只有一个方法，即<code>acceptNode()</code>，访问则放回<code>NodeFilter.FILTER_ACCEPT</code>，不访问则返回 <code>NodeFilter.FILTER_SKIP</code>。</p>
+<p>迭代器：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> filter = &#123;</span><br><span class="line">    acceptNode: <span class="function"><span class="keyword">function</span> (<span class="params">node</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> node.tagName.toLowerCase() == <span class="string">"p"</span> ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> iterator = <span class="built_in">document</span>.createNodeIterator(root, NodeFilter.SHOW_ELEMENT, filter, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<p><code>filter</code>参数也可以是一个与<code>acceptNode()</code>方法类似的函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> filter = <span class="function"><span class="keyword">function</span>(<span class="params">node</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> node.tagName.toLowerCase() == <span class="string">"p"</span> ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> iterator = <span class="built_in">document</span>.createNodeIterator(root, NodeFilter.SHOW_ELEMENT, filter, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<p><code>NodeIterator</code>类型主要两个方法：<code>nextNode()</code>和<code>previousNode()</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElemetnById(<span class="string">"div1"</span>);</span><br><span class="line"><span class="keyword">var</span> iterator = <span class="built_in">document</span>.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, <span class="literal">null</span>, <span class="literal">false</span>);</span><br><span class="line"><span class="keyword">var</span> node = iterator.nextNode();</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (node !== <span class="literal">null</span>) &#123;</span><br><span class="line">    alert(node.tagName);</span><br><span class="line">    node = iterator.nextNode();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="TreeWalker"><a href="#TreeWalker" class="headerlink" title="TreeWalker"></a>TreeWalker</h4><p><code>TreeWalker</code>是<code>NodeIterator</code>的一个更高级版本。除了包括<code>nextNode()</code>和<code>previousNode()</code>外，还有下列用于在不同方向上遍历 DOM 结构的方法：</p>
+<ul>
+<li><code>parentNode()</code>：遍历到当前节点的父节点。</li>
+<li><code>firstChild()</code>：遍历到当前节点的第一个子节点。</li>
+<li><code>lastChild()</code>：便历到当前节点的最后一个子节点。</li>
+<li><code>nextSibling()</code>：遍历到当前节点的下一个同辈节点。</li>
+<li><code>previousSibling()</code>：遍历到当前节点的上一个同辈节点。</li>
+</ul>
+<p>创建<code>TreeWalker</code>对象要使用<code>document.createTreeWalker()</code>方法，接受 4 个参数，与<code>document.createNodeIterator()</code>方法相同。</p>
+<p>其中第 3 个参数<code>filter</code>返回值除了可以返回<code>NodeFilter.FITER_ACCEPT</code>和<code>NodeFilter.FILTER_SKIP</code>外，还可以使用<code>NodeFILTER_REJECT</code>（作用：跳过相应的节点及该节点的整个子树）。</p>
+<p><code>TreeWalker</code>强大之处在于能够在 DOM 结构中沿任何方向移动。遍历 DOM 树，即使不定义过滤器，也可以取得所有<code>&lt;li&gt;</code>元素。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> div = <span class="built_in">document</span>.getElementById(<span class="string">"div1"</span>);</span><br><span class="line"><span class="keyword">var</span> walker = <span class="built_in">document</span>.createTreeWalker(div, NodeFilter.SHOW_ELEMENT, <span class="literal">null</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">walker.firstChild();</span><br><span class="line">walker.nextSibling();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> node = walker.firstChild();</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (node !== <span class="literal">null</span>) &#123;</span><br><span class="line">    alert(node.tagName);</span><br><span class="line">    node = walker.nextSibling();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>TreeWalker</code>类型还有一个属性，名叫<code>currentNode</code>，表示任何遍历方法在上一次遍历中返回的节点。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> node = walker.nextNode();</span><br><span class="line">alert(node === walker.currentNode);</span><br><span class="line">walker.currentNode = <span class="built_in">document</span>.body;</span><br></pre></td></tr></table></figure>
+<h3 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h3><blockquote>
+<p>通过范围（range）可以选择文档中的一个区域，而不必考虑节点的界限（选择在后台完成，对用户看不见）。在常规DOM操作中不能更有效地修改文档时，使用范围往往可以达到目的。</p>
+</blockquote>
+<h4 id="DOM中的范围"><a href="#DOM中的范围" class="headerlink" title="DOM中的范围"></a>DOM中的范围</h4><p>DOM2 级在 Document 类型中定义了<code>createRange()</code>方法。检测浏览器是否支持范围：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> supportsRange = <span class="built_in">document</span>.implementation.hasFeature(<span class="string">"Range"</span>, <span class="string">"2.0"</span>);</span><br><span class="line"><span class="keyword">var</span> alsoSupportsRange = (<span class="keyword">typeof</span> <span class="built_in">document</span>.createRange == <span class="string">"function"</span>);</span><br></pre></td></tr></table></figure>
+<p>创建DOM范围: </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> range = <span class="built_in">document</span>.createRange();</span><br></pre></td></tr></table></figure>
+<p>每个返回有一个 Range 类型的实例表示，这个实例拥有很多属性和方法，下列属性提供了当前范围在文档中的位置信息：</p>
+<ul>
+<li><code>startContainer</code>：包含范围起点的节点（即选区中第一个节点的父节点）</li>
+<li><code>startOffset</code>：范围在<code>startContainer</code>中起点的偏移量。如<code>startContainer</code>是文本节点，则<code>startOffset</code>就是范围起点之前跳过的字符数量。否则，<code>startOffset</code>就是范围中第一个子节点的索引。</li>
+<li><code>endContainer</code>：包含范围终点的节点（即选取最后一个节点的父节点）。</li>
+<li><code>endOffset</code>：范围在<code>endContainer</code>中终点的偏移量。</li>
+<li><code>commonAncestorContainer</code>：<code>startContainer</code>和<code>endContainer</code>共同的祖先节点在文档树中位置最深的那个。</li>
+</ul>
+<p><strong>用 DOM 范围实现简单选择</strong></p>
+<p>使用范围选择文档中的一部分，可以使用<code>selectNode()</code>和<code>selectNodeContents()</code>，这两个方法都接受一个参数，即一个 DOM 节点，然后用该节点中的信息来填充范围。其中，<code>selectNode()</code>方法选择整个节点，包括子节点；而<code>selectNodeContents()</code>方法则只选择节点的子节点。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"p1"</span>&gt;</span><span class="tag">&lt;<span class="name">b</span>&gt;</span>Hello<span class="tag">&lt;/<span class="name">b</span>&gt;</span> world!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> range1 = <span class="built_in">document</span>.createRange(),</span><br><span class="line">    range2 = <span class="built_in">document</span>.createRange(),</span><br><span class="line">    p1 = <span class="built_in">document</span>.getElementById(<span class="string">"p1"</span>);</span><br><span class="line">range1.selectNode(p1);                 <span class="comment">//&lt;p id="p1"&gt;&lt;b&gt;Hello&lt;/b&gt; world!&lt;/p&gt;</span></span><br><span class="line">range2.selectNodeContents(p1);         <span class="comment">//&lt;b&gt;Hello&lt;/b&gt;</span></span><br></pre></td></tr></table></figure>
+<p>调用<code>selectNode()</code>时，<code>startContainer</code>、<code>endContainer</code>和<code>commonAncestorContainer</code>都等于传入节点的父节点，也就是这个例子中的<code>document.body</code>。而<code>startOffset</code>属性等于给定节点在父节点的<code>childNodes</code>集合中的索引,<code>endOffset</code>等于<code>startOffset</code>加 1。</p>
+<p>调用<code>selectNodeContents()</code>时，<code>startContainer</code>、<code>endContainer</code>和<code>commonAncestorContainer</code>都等于传入的节点，也就是这个例子中的<code>&lt;p&gt;</code>元素。而<code>startOffset</code>属性等于 0，<code>endOffset</code>等于子节点数量。</p>
+<p><strong>更精细地控制范围</strong></p>
+<ul>
+<li><code>setStartBefore(refNode)</code>：将范围的起点设置在<code>refNode</code>之前，因此<code>refNode</code>也就是范围选区中第一个子节点。<code>startContainer</code>设置为<code>refNode.parentNode</code>，将<code>startOffset</code>属性设置为<code>refNode</code>在其父节点的<code>childNodes</code>集合中的索引。</li>
+<li><code>setStartAfter(refNode)</code>：将范围的起点设置在<code>refNode</code>之后，因此<code>refNode</code>也就不在范围内了，其下一个同辈节点才是范围选区中第一个子节点。<code>startContainer</code>设置为<code>refNode.parentNode</code>，将<code>startOffset</code>属性设置为<code>refNode</code>在其父节点的<code>childNodes</code>集合中的索引加 1。</li>
+<li><code>setEndBefore(refNode)</code>：将范围的终点设置在<code>refNode</code>之前，因此<code>refNode</code>也就不在范围内了，其上一个同辈节点才是范围选区中最后一个子节点。<code>endContainer</code>设置为<code>refNode.parentNode</code>，将<code>endOffset</code>属性设置为<code>refNode</code>在其父节点的<code>childNodes</code>集合中的索引。</li>
+<li><code>setEndAfter(refNode)</code>：将范围的终点设置在<code>refNode</code>之后，因此<code>refNode</code>就是范围选区中最后一个子节点。同时会将<code>endContainer</code>属性设置为<code>refNode.parentNode</code>，将<code>endOffset</code>属性设置为<code>refNode</code>在其父节点的<code>childNodes</code>集合中的索引加 1。</li>
+</ul>
+<p><strong>用 DOM 范围实现复杂选择</strong></p>
+<ul>
+<li><code>setStart()</code>：传入一个参照节点和一个偏移量值。参照节点是<code>startContainer</code>，而偏移量是<code>startOffset</code>。</li>
+<li><code>setEnd()</code>：传入一参照节点和一个偏移量值。参照节点是成<code>endContainer</code>，而偏移量是<code>endOffset</code>。</li>
+</ul>
+<p>可以用这两个方法模拟<code>selectNode()</code>和<code>selectNodeContents</code>。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> range1 = <span class="built_in">document</span>.createRange(),</span><br><span class="line">    range2 = <span class="built_in">document</span>.createRange(),</span><br><span class="line">    p1 = <span class="built_in">document</span>.getElementById(<span class="string">"p1"</span>),</span><br><span class="line">    p1Index = <span class="number">-1</span>,</span><br><span class="line">    i, len;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(i = <span class="number">0</span>, len = p1.parentNode.childNodes.length; i &lt; len; i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(p1.parentNode.childNodes[i] == p1)&#123;</span><br><span class="line">        p1Index = i;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">range1.setStart(p1.parentNode, p1Index);</span><br><span class="line">range1.setEnd(p1.parentNode, p1Index + <span class="number">1</span>);</span><br><span class="line">range1.setStart(p1, <span class="number">0</span>);</span><br><span class="line">range1.setEnd(p1, p1.childNodes);</span><br></pre></td></tr></table></figure>
+<p>它们更胜一筹的地方在于能够选择节点的一部分，比如选择”Hello”的”o”到”world!”的”o”：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p1 = <span class="built_in">document</span>.getElementById(<span class="string">"p1"</span>),</span><br><span class="line">    helloNode = p1.firstChild.firstChild,</span><br><span class="line">    worldNode = p1.lastChild,</span><br><span class="line">    range = <span class="built_in">document</span>.createRange();</span><br><span class="line"></span><br><span class="line">range.setStart(helloNode, <span class="number">2</span>);</span><br><span class="line">range.setEnd(worldNode, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>操作DOM范围中的内容</strong></p>
+<ul>
+<li><code>deleteContents()</code>：从文档中删除范围包含的内容。</li>
+<li><code>extractContents()</code>：从文档中删除范围包含的内容，并返回范围文档片段，可以把片段插入其他位置。</li>
+<li><code>cloneContents()</code>：创建范围对象的一个副本，然后在文档的其他东方插入该副本。</li>
+</ul>
+<p><strong>插入DOM范围中的内容</strong></p>
+<ul>
+<li><code>insertNode()</code>：向范围选区的开始处插入一个节点。</li>
+<li><code>surroundContents()</code>：环绕范围插入内容，接受一个参数，即环绕范围内容的节点。后台会执行如下步骤：<ul>
+<li>提取出范围中的内容（类似执行<code>extractContent()</code>）</li>
+<li>将给定节点插入到文档中原来范围所在的位置上。</li>
+<li>将文档片段的内容添加到给定节点中。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p1 = <span class="built_in">document</span>.getElementById(<span class="string">"p1"</span>),</span><br><span class="line">    helloNode = p1.firstChild.firstChild,</span><br><span class="line">    worldNode = p1.lastChild,</span><br><span class="line">    range = <span class="built_in">document</span>.createRange();</span><br><span class="line"></span><br><span class="line">range.selectNode(helloNode);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> span = <span class="built_in">document</span>.createElement(<span class="string">"span"</span>);</span><br><span class="line">span.style.backgroundColor = <span class="string">"yellow"</span>;</span><br><span class="line">range.surroundContents(span);</span><br><span class="line"></span><br><span class="line"><span class="comment">//&lt;p&gt;&lt;b style="background-color:yellow;"&gt;Hello&lt;/span&gt;&lt;/b&gt; world!&lt;/p&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>折叠 DOM 范围</strong></p>
+<p>所谓折叠范围，就是指范围中未选择文档的任何部分。<code>collapse()</code>方法：一个参数布尔值。<code>true</code>折叠到范围起点，<code>false</code>折叠到范围终点。可以用<code>collapsed</code>属性检查是否已经折叠。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">range.collapse(<span class="literal">true</span>);  <span class="comment">//折叠到起点</span></span><br><span class="line">alert(range.collapsed);  <span class="comment">//输出true</span></span><br></pre></td></tr></table></figure>
+<p><strong>比较 DOM 范围</strong></p>
+<p>在有多个范围的情况下，可以使用<code>compareBoundaryPoints()</code>方法来确定这些范围是否有公共的边界（起点或终点）。两个参数：表示比较方式的常量和要比较的范围。比较方式常量值：</p>
+<ul>
+<li><code>Range.START_TO_START(0)</code>：比较第一个范围和第二个范围的起点。</li>
+<li><code>Range.START_TO_END(1)</code>：比较第一个范围的起点和第二个范围的终点。</li>
+<li><code>Range.END_TO_END(2)</code>：比较第一个范围和第二个范围的终点。</li>
+<li><code>Range.END_TO_STRAT(3)</code>：比较第一个范围的终点和第二个范围的起点</li>
+</ul>
+<p>可能的返回值如下，如果第一个范围中的点位于第二范围中的点之前，返回 -1；如果两个点相等，返回 0；如果第一个范围中的点位于第二范围中的点之后，返回 1。</p>
+<p><strong>复制 DOM 范围</strong></p>
+<p>可以使用<code>cloneRange()</code>方法复制范围，这个方法会创建调用它的范围的一个副本。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> newRange = range.cloneRange();</span><br></pre></td></tr></table></figure>
+<p><strong>清理 DOM 范围</strong></p>
+<p>调用<code>detach()</code>方法，从文档分离出范围。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">range.detach();  <span class="comment">//从文档中分离</span></span><br><span class="line">range = <span class="literal">null</span>;    <span class="comment">//解除引用</span></span><br></pre></td></tr></table></figure>
+<h4 id="IE8-以及更早版本中的范围"><a href="#IE8-以及更早版本中的范围" class="headerlink" title="IE8 以及更早版本中的范围"></a>IE8 以及更早版本中的范围</h4><p>IE8 及早期版本不支持 DOM 范围。支持类似的文本范围（text range）。文本范围处理的主要是文本（不一定是 DOM 节点），通过<code>&lt;body&gt;</code>、<code>&lt;button&gt;</code>、<code>&lt;input&gt;</code>和<code>&lt;textarea&gt;</code>等元素调用<code>createTextRange()</code>方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> range = <span class="built_in">document</span>.body.createTextRange();</span><br></pre></td></tr></table></figure>
+<p>通过<code>document</code>创建的范围可以在页面中的任何地方使用。</p>
+<p><strong>用 IE 范围实现简单选择</strong></p>
+<ul>
+<li><code>findText()</code>方法：找到第一次出现的给定文本，并将范围移过来以环绕该文本，返回布尔值，表示是否找到文本。同样以下面 HTML 为例：</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"p1"</span>&gt;</span><span class="tag">&lt;<span class="name">b</span>&gt;</span>Hello<span class="tag">&lt;/<span class="name">b</span>&gt;</span> world!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> range = <span class="built_in">document</span>.body.createTextRange();</span><br><span class="line"><span class="keyword">var</span> found = range.findText(<span class="string">"Hello"</span>);</span><br><span class="line"></span><br><span class="line">alert(<span class="literal">true</span>);       <span class="comment">//true</span></span><br><span class="line">alert(range.text); <span class="comment">//"Hello"</span></span><br></pre></td></tr></table></figure>
+<p>还可以为<code>findText()</code>传入另一个参数，即一个表示向哪个方向继续搜索的数值，负值表示应该即当前位置向后搜，正值则向前搜。</p>
+<ul>
+<li><code>moveToElementText()</code>方法：类似 DOM 中<code>selectNode()</code>方法，接受一个 DOM 元素，并选择该元素的所有文本，包括 HTML 标签。范围可用<code>htmlText</code>属性取得范围所有文本，包括 HTML 标签。<code>parentElement()</code>方法与 DOM 的<code>commonAncestorContainer</code>属性类似。</li>
+</ul>
+<p><strong>使用 IE 范围实现复杂选择</strong></p>
+<p>在 IE 中创建复杂范围的方法，就是以特定的增量向四周移动范围，IE 提供了 4 个方法：<code>move()</code>、<code>moveStart()</code>、<code>moveEnd()</code>、<code>expand()</code>。都接受两个参数：移动单位和移动单位的数量。移动单位为以下一种字符串：</p>
+<ul>
+<li>“character”：逐个字符地移动。</li>
+<li>“word”：逐个单词（一系列非空格字符）地移动</li>
+<li>“sentence”：逐个句子（一系列句号、问好或感叹号结尾的字符）地移动</li>
+<li>“textedit”：移到当前范围选区的开始或结束位置。</li>
+</ul>
+<p>这四种方法的作用：</p>
+<ul>
+<li><code>moveStart()</code>：移动到范围起点；</li>
+<li><code>moveEnd()</code>：移动到范围终点。</li>
+<li><code>expand()</code>：将任何部分选择的文本全部选中。</li>
+<li><code>move()</code>：首先会折叠当前范围（起点终点相等），然后将范围移动指定的单位数量。</li>
+</ul>
+<p><strong>操作 IE 范围中的内容</strong></p>
+<p>可通过<code>text</code>属性取得范围中的内容文本。要向范围中插入 HTML 代码，要用<code>pasteHTML()</code>方法。</p>
+<p><strong>折叠 IE 范围</strong></p>
+<p><code>collapse()</code>方法：传入<code>true</code>折叠到起点，<code>false</code>折叠到终点。可以用<code>boundingWidth</code>属性是否等于 0，来检查折叠是否完毕。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">range.collapse(<span class="literal">true</span>);</span><br><span class="line"><span class="keyword">var</span> isCollapse = (range.boundingWidth == <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>比较 IE 范围</strong></p>
+<ul>
+<li><code>compareEndPoints()</code>方法：接受两个参数，比较的类型和要比较的范围。比较类型取值字符串：”StartToStart”、”StartToEnd”、”EndToEnd”和”EndToStart”。如果第一个范围的边界位于第二个范围的边界前，返回 -1；相等返回 0；在后面返回 1。</li>
+<li><code>isEqual()</code>：用于确定两个范围是否相等。</li>
+<li><code>inRange()</code>：用于确定一个范围是否包含另一个范围。</li>
+</ul>
+<p><strong>复制 IE 范围</strong></p>
+<p>使用<code>duplicate()</code>方法，复制文本范围，返回原范围的一个副本，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> newRange = range.duplicate();</span><br></pre></td></tr></table></figure>
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017/09/13/ProJavaScript-Notes-10/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          重读 JS 高程（Chapter13）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017/09/05/js-this/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">你不知道的 this</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>box-shadow小记 | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="每次使用box-shadow都感觉不是很得心应手，所以写这篇文章作为一个笔记。 浏览器支持程度 可看到只有IE8及以下不支持，兼容性比较好 基本语法1box-shadow: [inset] x-offset y-offset blur-radius spread-radius color  阴影类型：此参数可选，默认投影方式是外阴影，如取其唯一值“inset”，其投影为内阴影； 阴影水平偏移量(x">
+<meta name="keywords" content="css,css3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="box-shadow小记">
+<meta property="og:url" content="http://yoursite.com/posts/2017/03/06/box-shadow/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="每次使用box-shadow都感觉不是很得心应手，所以写这篇文章作为一个笔记。 浏览器支持程度 可看到只有IE8及以下不支持，兼容性比较好 基本语法1box-shadow: [inset] x-offset y-offset blur-radius spread-radius color  阴影类型：此参数可选，默认投影方式是外阴影，如取其唯一值“inset”，其投影为内阴影； 阴影水平偏移量(x">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/box-shadow.png">
+<meta property="og:image" content="http://yoursite.com/images/ps-shadow.png">
+<meta property="og:updated_time" content="2017-03-08T06:18:31.479Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="box-shadow小记">
+<meta name="twitter:description" content="每次使用box-shadow都感觉不是很得心应手，所以写这篇文章作为一个笔记。 浏览器支持程度 可看到只有IE8及以下不支持，兼容性比较好 基本语法1box-shadow: [inset] x-offset y-offset blur-radius spread-radius color  阴影类型：此参数可选，默认投影方式是外阴影，如取其唯一值“inset”，其投影为内阴影； 阴影水平偏移量(x">
+<meta name="twitter:image" content="http://yoursite.com/images/box-shadow.png">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-box-shadow" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      box-shadow小记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/03/06/box-shadow/" class="article-date">
+  <time datetime="2017-03-06T01:50:59.000Z" itemprop="datePublished">2017-03-06</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/css/">css</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>每次使用box-shadow都感觉不是很得心应手，所以写这篇文章作为一个笔记。</p>
+<h3 id="浏览器支持程度"><a href="#浏览器支持程度" class="headerlink" title="浏览器支持程度"></a>浏览器支持程度</h3><p><img src="/images/box-shadow.png" alt=""></p>
+<p>可看到只有IE8及以下不支持，兼容性比较好</p>
+<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">box-shadow: [inset] x-offset y-offset blur-radius spread-radius color</span><br></pre></td></tr></table></figure>
+<ul>
+<li>阴影类型：此参数可选，默认投影方式是外阴影，如取其唯一值“inset”，其投影为内阴影；</li>
+<li>阴影水平偏移量(x-offset)：其值可以是正负值。如果为正值，则阴影在对象的右边，其值为负值时，阴影在对象的左边；</li>
+<li>阴影垂直偏移量(y-offset)：其值可以是正负值。如果为正值，阴影在对象的底部，其值为负值时，阴影在对象的顶部；</li>
+<li>阴影模糊半径(blur-radius)：此参数可选，但其值只能是为正值，如果其值为 0 时，表示阴影不具有模糊效果，其值越大阴影的边缘就越模糊；</li>
+<li>阴影扩展半径(spread-radius)：此参数可选，其值可以是正负值，如果值为正，则整个阴影都延展扩大，反之值为负值时，则缩小；</li>
+<li>阴影颜色(color)：此参数可选。如不设定颜色，浏览器会取默认色，但各浏览器默认取色不一致，特别是在 webkit 内核下的 safari 和 chrome 浏览器下表现为透明色，在 Firefox/Opera 下表现为黑色（已验证），建议不要省略此参数。</li>
+</ul>
+<a id="more"></a>
+<h3 id="Photoshop投影与CSS中box-shadow的转换"><a href="#Photoshop投影与CSS中box-shadow的转换" class="headerlink" title="Photoshop投影与CSS中box-shadow的转换"></a>Photoshop投影与CSS中box-shadow的转换</h3><p><img src="/images/ps-shadow.png" alt=""></p>
+<ul>
+<li>混合模式：Photoshop提供了各式各样的混合模式，但是<strong>CSS3阴影</strong>只支持正常模式（normal）。</li>
+<li>颜色（color）：阴影颜色。对应于CSS3阴影中的 color 值。</li>
+<li>不透明度（opacity）：阴影的不透明度。对应于CSS3阴影的颜色 rgba() 中的 a 值。</li>
+<li>角度（angle）：投影的角度。</li>
+<li>距离（distance）：阴影的距离。根据角度和距离可以换算出CSS3阴影中的x-offset和y-offet。 <blockquote>
+<p>公式：x-offset(阴影水平偏移量) = distance * cos(180 - angle)<br>  　　　y-offset(阴影垂直偏移量) = distance * sin(180 - angle)</p>
+</blockquote>
+</li>
+<li>扩展（spread）：阴影的扩展大小。控制阴影实体颜色和虚化颜色的多少。 spread * size = 阴影中实体颜色的大小，剩下的就是虚化的颜色。<blockquote>
+<p>公式：spread-radius(阴影扩展半径) = spread * size。</p>
+</blockquote>
+</li>
+<li>大小（size）：阴影的大小。<blockquote>
+<p>公式：blur-radius(阴影模糊半径) = size - spread-radius(阴影扩展半径) 。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h3><p><a href="https://segmentfault.com/a/1190000005340697" target="_blank" rel="noopener">[译] box-shadow 属性</a><br><a href="https://segmentfault.com/a/1190000003952229" target="_blank" rel="noopener">[译]深入了解CSS Box Shadow</a><br><a href="https://segmentfault.com/a/1190000005094319" target="_blank" rel="noopener">CSS魔法堂：Box-Shadow 没那么简单啦:)</a><br><a href="http://www.zhangxinxu.com/css3/css3-box-shadow.php" target="_blank" rel="noopener">CSS3 box-shadow使用参考指南</a></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017/03/06/colorpicker/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          IFE项目-颜色选择器(colorPicker)实践笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017/03/01/css2.1-02/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">css权威指南总结-布局</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

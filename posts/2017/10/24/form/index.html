@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>HTML 表单 | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="form&amp;lt;form&amp;gt;标签用于创建供用户输入的 HTML 表单。 常用属性   属性 值 描述     accept-charset character_set 规定服务器可处理的表单数据字符集。   action URL 规定当提交表单时向何处发送表单数据。   enctype application，x-www-form-urlencoded，multipart，form-datat">
+<meta name="keywords" content="html,form">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML 表单">
+<meta property="og:url" content="http://yoursite.com/posts/2017/10/24/form/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="form&amp;lt;form&amp;gt;标签用于创建供用户输入的 HTML 表单。 常用属性   属性 值 描述     accept-charset character_set 规定服务器可处理的表单数据字符集。   action URL 规定当提交表单时向何处发送表单数据。   enctype application，x-www-form-urlencoded，multipart，form-datat">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-24T13:48:38.840Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTML 表单">
+<meta name="twitter:description" content="form&amp;lt;form&amp;gt;标签用于创建供用户输入的 HTML 表单。 常用属性   属性 值 描述     accept-charset character_set 规定服务器可处理的表单数据字符集。   action URL 规定当提交表单时向何处发送表单数据。   enctype application，x-www-form-urlencoded，multipart，form-datat">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-form" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTML 表单
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/10/24/form/" class="article-date">
+  <time datetime="2017-10-24T03:28:57.000Z" itemprop="datePublished">2017-10-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/html/">html</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="form"><a href="#form" class="headerlink" title="form"></a>form</h2><p><code>&lt;form&gt;</code>标签用于创建供用户输入的 HTML 表单。</p>
+<h3 id="常用属性"><a href="#常用属性" class="headerlink" title="常用属性"></a>常用属性</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>accept-charset</td>
+<td>character_set</td>
+<td>规定服务器可处理的表单数据字符集。</td>
+</tr>
+<tr>
+<td>action</td>
+<td>URL</td>
+<td>规定当提交表单时向何处发送表单数据。</td>
+</tr>
+<tr>
+<td>enctype</td>
+<td>application，x-www-form-urlencoded，multipart，form-datatext，plain</td>
+<td>规定在向服务器发送表单数据之前如何对其进行编码。（适用于 method=”post” 的情况）</td>
+</tr>
+<tr>
+<td>method</td>
+<td>get，post</td>
+<td>规定用于发送表单数据的 HTTP 方法。</td>
+</tr>
+<tr>
+<td>name</td>
+<td>text</td>
+<td>规定表单的名称。</td>
+</tr>
+<tr>
+<td>novalidate</td>
+<td>novalidate</td>
+<td>如果使用该属性，则提交表单时不进行验证。</td>
+</tr>
+<tr>
+<td>target</td>
+<td><code>_blank</code>，<code>_self</code>，<code>_parent</code>，<code>_top</code></td>
+<td>规定在何处打开 action URL。</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<h3 id="GET-和-POST-的区别"><a href="#GET-和-POST-的区别" class="headerlink" title="GET 和 POST 的区别"></a>GET 和 POST 的区别</h3><ul>
+<li>GET：从指定的资源请求数据。</li>
+<li>POST：向指定的资源提交要被处理的数据。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">GET</th>
+<th style="text-align:left"></th>
+<th>POST</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">无害</td>
+<td style="text-align:left">后退按钮/刷新</td>
+<td>数据会被重新提交（浏览器应该告知用户数据会被重新提交）。</td>
+</tr>
+<tr>
+<td style="text-align:left">可收藏为书签</td>
+<td style="text-align:left">书签</td>
+<td>不可收藏为书签</td>
+</tr>
+<tr>
+<td style="text-align:left">能被缓存</td>
+<td style="text-align:left">缓存</td>
+<td>不能缓存</td>
+</tr>
+<tr>
+<td style="text-align:left">application/x-www-form-urlencoded</td>
+<td style="text-align:left">编码类型</td>
+<td>application/x-www-form-urlencoded 或 multipart/form-data。为二进制数据使用多重编码。</td>
+</tr>
+<tr>
+<td style="text-align:left">参数保留在浏览器历史中。</td>
+<td style="text-align:left">历史</td>
+<td>参数不会保存在浏览器历史中。</td>
+</tr>
+<tr>
+<td style="text-align:left">当GET 方法发送数据时要向 URL 添加数据，URL 的长度是受限制的，最大长度是 2048 个字符。</td>
+<td style="text-align:left">数据长度限制</td>
+<td>无限制。</td>
+</tr>
+<tr>
+<td style="text-align:left">只允许 ASCII 字符。</td>
+<td style="text-align:left">数据类型限制</td>
+<td>没有限制。也允许二进制数据。</td>
+</tr>
+<tr>
+<td style="text-align:left">GET 的安全性相对较差，因为所发送的数据是 URL 的一部分，发送密码或其他敏感信息时不要使用 GET。</td>
+<td style="text-align:left">安全性</td>
+<td>POST 比 GET 更安全，因为参数不会被保存在浏览器历史或 Web 服务器日志中。</td>
+</tr>
+<tr>
+<td style="text-align:left">数据在 URL 中对所有人都是可见的。</td>
+<td style="text-align:left">可见性</td>
+<td>数据不会显示在 URL 中。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="input"><a href="#input" class="headerlink" title="input"></a>input</h2><h3 id="常用属性-1"><a href="#常用属性-1" class="headerlink" title="常用属性"></a>常用属性</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>accept</td>
+<td>mime_type</td>
+<td>规定通过文件上传来提交的文件的类型。</td>
+</tr>
+<tr>
+<td>type</td>
+<td>button / checkbox / color / date / datetime / datetime-local / email / file / hidden / image / month / number / password / radio / range / reset / search / submit / tel / text / time / url / week</td>
+<td>规定 input 元素的类型。</td>
+</tr>
+<tr>
+<td>name</td>
+<td>field name</td>
+<td>定义 input 元素的名称。</td>
+</tr>
+<tr>
+<td>value</td>
+<td>value</td>
+<td>规定 input 元素的值。</td>
+</tr>
+<tr>
+<td>checked</td>
+<td>checked</td>
+<td>规定此 input 元素首次加载时应当被选中。</td>
+</tr>
+<tr>
+<td>disabled</td>
+<td>disabled</td>
+<td>当 input 元素加载时禁用此元素。</td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td>text</td>
+<td>规定帮助用户填写输入字段的提示。</td>
+</tr>
+<tr>
+<td>readonly</td>
+<td>readonly</td>
+<td>规定输入字段为只读。</td>
+</tr>
+<tr>
+<td>required</td>
+<td>required</td>
+<td>指示输入字段的值是必需的。</td>
+</tr>
+<tr>
+<td>max</td>
+<td>number / date</td>
+<td>规定输入字段的最大值。请与 “min” 属性配合使用，来创建合法值的范围。</td>
+</tr>
+<tr>
+<td>min</td>
+<td>number / date</td>
+<td>规定输入字段的最小值。请与 “max” 属性配合使用，来创建合法值的范围。</td>
+</tr>
+<tr>
+<td>maxlength</td>
+<td>number</td>
+<td>规定输入字段中的字符的最大长度。</td>
+</tr>
+<tr>
+<td>size</td>
+<td>number_of_char</td>
+<td>定义输入字段的宽度。</td>
+</tr>
+<tr>
+<td>step</td>
+<td>number</td>
+<td>规定输入字的的合法数字间隔。</td>
+</tr>
+<tr>
+<td>multiple</td>
+<td>multiple</td>
+<td>如果使用该属性，则允许一个以上的值。</td>
+</tr>
+<tr>
+<td>pattern</td>
+<td>regexp pattern</td>
+<td>规定输入字段的值的模式或格式。例如 pattern=”[0-9]” 表示输入值必须是 0 与 9 之间的数字。</td>
+</tr>
+<tr>
+<td>width</td>
+<td>pixels / %</td>
+<td>定义 input 字段的宽度。（适用于 type=”image”）</td>
+</tr>
+<tr>
+<td>height</td>
+<td>pixels / %</td>
+<td>定义 input 字段的高度。（适用于 type=”image”）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="type-属性用途"><a href="#type-属性用途" class="headerlink" title="type 属性用途"></a>type 属性用途</h3><p>为 input 分类。</p>
+<p><strong>文本/密码输入框</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"password"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>单选/多选框</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"sex"</span> <span class="attr">value</span>=<span class="string">"man"</span> /&gt;</span> 男</span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"sex"</span> <span class="attr">value</span>=<span class="string">"woman"</span> /&gt;</span> 女</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"hobby"</span> <span class="attr">value</span>=<span class="string">"basketball"</span> /&gt;</span> 篮球</span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"hobby"</span> <span class="attr">value</span>=<span class="string">"read"</span> /&gt;</span> 阅读</span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"hobby"</span> <span class="attr">value</span>=<span class="string">"game"</span> /&gt;</span> 游戏</span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"hobby"</span> <span class="attr">value</span>=<span class="string">"programming"</span> /&gt;</span> 前端</span><br></pre></td></tr></table></figure>
+<p><strong>按钮/提交/重置</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"reset"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 图片形式的提交按钮 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"image"</span> <span class="attr">src</span>=<span class="string">"submit.gif"</span> <span class="attr">alt</span>=<span class="string">"Submit"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>隐藏字段</strong></p>
+<p>隐藏字段对于用户是不可见的。隐藏字段通常会存储一个默认值，可以用 JavaScript 修改。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"country"</span> <span class="attr">value</span>=<span class="string">"Norway"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<ol>
+<li>在表单中插入隐藏域的目的在于收集或发送信息，以利于被处理表单的程序所使用。浏览者单击发送按钮发送表单的时候，隐藏域的信息也被一起发送到服务器。</li>
+<li>有时候需要给用户传递信息，让他在提交表单时提交上来以确定用户身份，如 sessionkey。当然这些东西也能用 cookie 实现，但使用隐藏域就简单的多了．而且不会有浏览器不支持，用户禁用 cookie 的烦恼。</li>
+<li>有时候一个 form 里有多个提交按钮，可以使用隐藏域分辨到底是按那一个按钮提交的。</li>
+<li>有时候一个网页中有多个 form，多个 form 是不能同时提交的，但有时这些 form 确实相互作用，我们就可以在 form 中添加隐藏域来使它们联系起来。</li>
+</ol>
+</blockquote>
+<p><strong>文件</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>Email / URL</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"email"</span> <span class="attr">name</span>=<span class="string">"email"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"url"</span> <span class="attr">name</span>=<span class="string">"url"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>number / range</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"number"</span> <span class="attr">name</span>=<span class="string">"points"</span> <span class="attr">min</span>=<span class="string">"1"</span> <span class="attr">max</span>=<span class="string">"10"</span> <span class="attr">step</span>=<span class="string">"1"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"range"</span> <span class="attr">name</span>=<span class="string">"points"</span> <span class="attr">min</span>=<span class="string">"1"</span> <span class="attr">max</span>=<span class="string">"10"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="name-属性用途"><a href="#name-属性用途" class="headerlink" title="name 属性用途"></a>name 属性用途</h3><p>name 属性用于对提交到服务器后的表单数据进行标识，或者在客户端通过 JavaScript 引用表单数据。</p>
+<h3 id="placeholder-属性"><a href="#placeholder-属性" class="headerlink" title="placeholder 属性"></a>placeholder 属性</h3><p> 在 input 中显示帮助用户填写输入字段的提示，在输入时会消失。</p>
+<h2 id="select-option"><a href="#select-option" class="headerlink" title="select/option"></a>select/option</h2><p>下拉列表。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"car"</span> <span class="attr">mutiple</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"volvo"</span>&gt;</span>Volvo<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"saab"</span>&gt;</span>Saab<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"mercedes"</span> <span class="attr">selected</span>&gt;</span>Mercedes<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"audi"</span>&gt;</span>Audi<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="textarea"><a href="#textarea" class="headerlink" title="textarea"></a>textarea</h2><p>一般用于评论框和文章输入框。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">name</span>=<span class="string">"comment"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2018/04/02/crossDomain/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          前端跨域与解决方案
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017/10/14/html/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">HTML 总结</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

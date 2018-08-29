@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>重读 JS 高程（Chapter16-Chapter19） | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Chapter16. HTML5 脚本编程跨文档消息传送跨文档消息传送（cross-document messaging），简称 XDM，指的是在来自不同域的页面间传递消息。 XDM 的核心是postMessage()方法，除了 XDM 部分之外的其他部分也会提到这个方法名，但都是为了同一个目的：向另一个地方传递数据。对于 XDM 而言，另一个地方指的是包含在当前页面中的&amp;lt;iframe&amp;gt">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重读 JS 高程（Chapter16-Chapter19）">
+<meta property="og:url" content="http://yoursite.com/posts/2017/09/22/ProJavaScript-Notes-13/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="Chapter16. HTML5 脚本编程跨文档消息传送跨文档消息传送（cross-document messaging），简称 XDM，指的是在来自不同域的页面间传递消息。 XDM 的核心是postMessage()方法，除了 XDM 部分之外的其他部分也会提到这个方法名，但都是为了同一个目的：向另一个地方传递数据。对于 XDM 而言，另一个地方指的是包含在当前页面中的&amp;lt;iframe&amp;gt">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-09-23T16:28:01.321Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重读 JS 高程（Chapter16-Chapter19）">
+<meta name="twitter:description" content="Chapter16. HTML5 脚本编程跨文档消息传送跨文档消息传送（cross-document messaging），简称 XDM，指的是在来自不同域的页面间传递消息。 XDM 的核心是postMessage()方法，除了 XDM 部分之外的其他部分也会提到这个方法名，但都是为了同一个目的：向另一个地方传递数据。对于 XDM 而言，另一个地方指的是包含在当前页面中的&amp;lt;iframe&amp;gt">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-ProJavaScript-Notes-13" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      重读 JS 高程（Chapter16-Chapter19）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/09/22/ProJavaScript-Notes-13/" class="article-date">
+  <time datetime="2017-09-22T02:15:46.000Z" itemprop="datePublished">2017-09-22</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter16-HTML5-脚本编程"><a href="#Chapter16-HTML5-脚本编程" class="headerlink" title="Chapter16. HTML5 脚本编程"></a>Chapter16. HTML5 脚本编程</h2><h3 id="跨文档消息传送"><a href="#跨文档消息传送" class="headerlink" title="跨文档消息传送"></a>跨文档消息传送</h3><p>跨文档消息传送（cross-document messaging），简称 XDM，指的是在来自不同域的页面间传递消息。</p>
+<p>XDM 的核心是<code>postMessage()</code>方法，除了 XDM 部分之外的其他部分也会提到这个方法名，但都是为了同一个目的：向另一个地方传递数据。对于 XDM 而言，另一个地方指的是包含在当前页面中的<code>&lt;iframe&gt;</code>元素，或者由当前页面弹出的窗口。</p>
+<p><code>postMessage()</code>方法接受两个参数：一条消息和一个表示消息接收方来自哪个域的字符串。第二个参数对保障安全通信非常重要，可以防止浏览器把消息发送到不安全的地方。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> iframeWindow = <span class="built_in">document</span>.getElementById(<span class="string">"myFrame"</span>).contentWindow;  </span><br><span class="line">iframeWindow.postMessage(<span class="string">"A secret"</span>, <span class="string">"http://www.wrox.com"</span>);  <span class="comment">//发送方代码</span></span><br></pre></td></tr></table></figure>
+<p>最后一行代码尝试向内嵌框架中发送一条消息，并指定框架中的文档必须来源于<code>http://www.wrox.com</code>域。如果来源匹配，消息会传送到内嵌框架中；否则，<code>postMessage()</code>什么都不做。</p>
+<p>接收到 XDM 消息后，会触发<code>window</code>对象的<code>message</code>事件，这个事件是以异步触发的。触发<code>message</code>事件后，传递给<code>onmessage</code>处理程序的事件对象包含以下三方面重要信息：</p>
+<ul>
+<li>data：作为<code>postMessage()</code>第一个参数传入的字符串数据。</li>
+<li>origin：发送消息的文档所在的域，例如<code>http://www.wrox.com</code> 。</li>
+<li>source：发送消息的文档的<code>window</code>对象的代理。这个代理主要用于在发送上一条消息的窗口中调用<code>postMessage()</code>方法。如果发送消息的窗口来自同一个域，那这个对象就是<code>window</code>。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">"message"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  </span><br><span class="line">    <span class="keyword">if</span>(event.origin == <span class="string">"http://www.wrox.com"</span>)&#123;  </span><br><span class="line">        processMessage(event.data); <span class="comment">//处理接收的数据  </span></span><br><span class="line">        event.source.postMessage(<span class="string">"Received!"</span>, <span class="string">"http://p2p.wrox.com"</span>); <span class="comment">//可选：向来源窗口发送回执  </span></span><br><span class="line">    &#125;  </span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<p>最早<code>postMessage()</code>只能传入字符串，后来改成了允许传入任何数据结构，但并非所有浏览器都实现了这一变化，一般对传入的数据使用<code>JSON.stringify()</code>。XDM的兼容 IE8+ 和 其他主流浏览器，也支持相同域的页面间使用。</p>
+<a id="more"></a>
+<h3 id="原生拖放"><a href="#原生拖放" class="headerlink" title="原生拖放"></a>原生拖放</h3><p>从 IE4 时代起，网页中的元素就可以被拖动了，HTML5 以 IE 的实例为基础制定了拖放规范。</p>
+<h4 id="拖放事件"><a href="#拖放事件" class="headerlink" title="拖放事件"></a>拖放事件</h4><p>拖动元素过程中会依次触发下列事件：<code>dragstart</code>、<code>drag</code>、<code>dragend</code>。这三个事件的目标都是被拖动的元素。<code>drag</code>事件会在拖动过程中被持续地触发，与<code>mousemove</code>事件相似。</p>
+<p>当元素被拖动到一个有效的放置目标上时会依次触发下列事件：<code>dragenter</code>、<code>dragover</code>、<code>dragleave</code>或者<code>drop</code>。当被拖放目标在放置目标的范围内移动时会持续地触发<code>dragover</code>事件。如果元素被放到了放置目标中，则会触发<code>drop</code>事件而不是<code>dropleave</code>事件。</p>
+<h4 id="自定义放置目标"><a href="#自定义放置目标" class="headerlink" title="自定义放置目标"></a>自定义放置目标</h4><p>当元素在不允许放置的目标上会出现禁止图标，释放元素时不会触发<code>drop</code>事件。可以通过取消<code>dragenter</code>和<code>dragover</code>事件的默认行为将任何元素转变为允许放置的元素。在 Firefox 中，放置事件的默认行为是打开被拖放的目标的 URL，因此我们还需要取消<code>drop</code>事件的默认行为，阻止它打开 URL。</p>
+<h4 id="dataTransfer-对象"><a href="#dataTransfer-对象" class="headerlink" title="dataTransfer 对象"></a>dataTransfer 对象</h4><p>拖放事件的事件对象拥有<code>dataTransfer</code>属性，用于从被拖放元素向放置目标传递字符串数据。</p>
+<p><code>dataTransfer</code>对象有两个主要的方法：</p>
+<ul>
+<li><code>setData()</code>：保存数据，这个方法接受两个参数，保存的数据类型和要保存的数据字符串。</li>
+<li><code>getData()</code>：取得数据，这个方法接受一个参数，即保存的数据类型。</li>
+</ul>
+<p>数据类型允许指定各种 MIME 类型，由于要向后兼容，HTML5 也支持”text”和”URL”，不过它们会被映射为”text/plain”和”text/uri-list”。<code>dataTransfer</code>对象可以为每种 MIME 都存储一个值，不过只能在<code>drop</code>事件处理程序中处理。</p>
+<p>在拖动文本框中的文本时，浏览器会调用<code>setData()</code>方法，将拖动的文本以”text”格式保存在<code>dataTransfer</code>对象中。在拖放图片或者链接时，也会调用<code>setData()</code>方法将链接以”URL”格式保存在<code>dataTransfer</code>对象中。</p>
+<h4 id="dropEffect-和-effectAllowed"><a href="#dropEffect-和-effectAllowed" class="headerlink" title="dropEffect 和 effectAllowed"></a>dropEffect 和 effectAllowed</h4><p>利用<code>dataTransfer</code>对象不只能传输数据，还能通过它来确定被拖动的元素以及作为放置目标的元素能够接收什么操作。需要访问<code>dataTransfer</code>对象的两个属性<code>dropEffect</code>和<code>effectAllowed</code>。</p>
+<p>通过<code>dropEffect</code>属性可以知道被拖动的元素能够执行哪种放置行为。这个属性有下列的 4 个可能值。</p>
+<ul>
+<li>“none”：不能把拖动的元素放在这里。这是除文本框外所有元素的默认值。</li>
+<li>“move”：应该把拖动的元素移动到放置目标。</li>
+<li>“copy”：应该把拖动的元素复制到放置目标。</li>
+<li>“link”：表示放置目标会打开拖动的元素（拖动的元素必须是一个链接，有 URL）。</li>
+</ul>
+<p>这个属性只能改变光标样式，光标所指示的动作需要通过编程实现，这个属性必须在 <code>dropenter</code>事件处理程序中针对放置目标设置。</p>
+<p><code>dropEffect</code>属性只有搭配<code>effectAllowed</code>属性才有用。它表示允许拖动元素的哪种<code>dropEffect</code>，可能值如下：</p>
+<ul>
+<li>“uninitialized”：没有给被拖动元素设置任何放置行为</li>
+<li>“none”：被拖动元素不能有任何行为。</li>
+<li>“copy”：只允许值为”copy”的<code>dropEffect</code>。 </li>
+<li>“link”：只允许值为”link”的<code>dropEffect</code>。 </li>
+<li>“move”：只允许值为”move”的<code>dropEffect</code>。 </li>
+<li>“copyLink”：只允许值为”copy”和”link”的<code>dropEffect</code>。 </li>
+<li>“copyMove”：只允许值为”copy”和”move”的<code>dropEffect</code>。 </li>
+<li>“linkMove”：只允许值为”link”和”move”的<code>dropEffect</code>。 </li>
+<li>“all”：允许任意<code>dropEffect</code>。</li>
+</ul>
+<p>必须在<code>dragstart</code>事件中设置<code>effectAllowed</code>属性。</p>
+<h4 id="可拖动"><a href="#可拖动" class="headerlink" title="可拖动"></a>可拖动</h4><p>默认情况下图像、链接和文本是可以拖动的，其他的元素可以通过<code>draggable</code>属性设置为可拖动。IE10+ 支持。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div draggable=<span class="string">"true"</span>&gt;...&lt;<span class="regexp">/div&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="其他成员"><a href="#其他成员" class="headerlink" title="其他成员"></a>其他成员</h4><p><code>dataTransfer</code>对象还包含下列方法和属性。</p>
+<ul>
+<li><code>addElement(element)</code>：为拖动操作添加一个元素。添加这个元素只影响数据（即增加作为拖动源而相应回调的对象），不会影响拖动操作时页面元素的外观。</li>
+<li><code>clearData(format)</code>：清除以特定格式保存的数据。</li>
+<li><code>setDragImage(element, x, y)</code>：指定一幅图像，当拖动发生时，显示在光标下方。该方法接收的三个参数分别是要显示的 HTML 元素和光标在图像中的 x、y 坐标。</li>
+<li><code>types</code>：当前保存的数据类型，是一个类似数组的集合。</li>
+</ul>
+<h3 id="媒体元素"><a href="#媒体元素" class="headerlink" title="媒体元素"></a>媒体元素</h3><p>HTML5 新增了两个与媒体相关的标签，让开发人员不必依赖任何插件就能再网页中嵌入跨浏览器的音频和视频内容。这两个标签就是<code>&lt;video&gt;</code>和<code>&lt;audio&gt;</code>。使用这两个元素时，至少要在标签中包含<code>src</code>属性，指向要加载的媒体文件。还可以设置<code>width</code>和<code>height</code>属性指定视频播放器大小，而为<code>poster</code>属性指定图像 URI 可以在加载视频内容期间显示一副图像。如果标签中有<code>controls</code>属性，则意味着浏览器应该显示 UI 控件。</p>
+<p>由于并非所有浏览器都支持所有媒体格式，所以可以指定多个不同的媒体来源。为此，不用在标签中指定<code>src</code>属性，而是像下面这样显示一个或多个<code>&lt;source&gt;</code>元素。 </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--  嵌入视频--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">video</span> <span class="attr">id</span>=<span class="string">"myVideo"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">scr</span>=<span class="string">"1.webm"</span> <span class="attr">type</span>=<span class="string">"video/webm; codecs='vp8, vorbis'"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">scr</span>=<span class="string">"2.ogv"</span> <span class="attr">type</span>=<span class="string">"video/ogg; codecs='theora, vorbis'"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">scr</span>=<span class="string">"3.mpg"</span>&gt;</span></span><br><span class="line">    Video player not available.</span><br><span class="line"><span class="tag">&lt;/<span class="name">video</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--  嵌入音频 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">audio</span> <span class="attr">id</span>=<span class="string">"myAudio"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">scr</span>=<span class="string">"song1.ogg"</span> <span class="attr">type</span>=<span class="string">"audio.ogg"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">scr</span>=<span class="string">"song2.mp3"</span> <span class="attr">type</span>=<span class="string">"audio.mpeg"</span>&gt;</span></span><br><span class="line">    Audio player not available.</span><br><span class="line"><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>audioTracks</td>
+<td>返回表示可用音轨的 AudioTrackList 对象</td>
+</tr>
+<tr>
+<td>autoplay</td>
+<td>设置或返回是否在加载完成后随即播放音频/视频</td>
+</tr>
+<tr>
+<td>buffered</td>
+<td>返回表示音频/视频已缓冲部分的 TimeRanges 对象</td>
+</tr>
+<tr>
+<td>controller</td>
+<td>返回表示音频/视频当前媒体控制器的 MediaController 对象</td>
+</tr>
+<tr>
+<td>controls</td>
+<td>设置或返回音频/视频是否显示控件（比如播放/暂停等）</td>
+</tr>
+<tr>
+<td>crossOrigin</td>
+<td>设置或返回音频/视频的 CORS 设置</td>
+</tr>
+<tr>
+<td>currentSrc</td>
+<td>返回当前音频/视频的 URL</td>
+</tr>
+<tr>
+<td>currentTime</td>
+<td>设置或返回音频/视频中的当前播放位置（以秒计）</td>
+</tr>
+<tr>
+<td>defaultMuted</td>
+<td>设置或返回音频/视频默认是否静音</td>
+</tr>
+<tr>
+<td>defaultPlaybackRate</td>
+<td>设置或返回音频/视频的默认播放速度</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>返回当前音频/视频的长度（以秒计）</td>
+</tr>
+<tr>
+<td>ended</td>
+<td>返回音频/视频的播放是否已结束</td>
+</tr>
+<tr>
+<td>error</td>
+<td>返回表示音频/视频错误状态的 MediaError 对象</td>
+</tr>
+<tr>
+<td>loop</td>
+<td>设置或返回音频/视频是否应在结束时重新播放</td>
+</tr>
+<tr>
+<td>mediaGroup</td>
+<td>设置或返回音频/视频所属的组合（用于连接多个音频/视频元素）</td>
+</tr>
+<tr>
+<td>muted</td>
+<td>设置或返回音频/视频是否静音</td>
+</tr>
+<tr>
+<td>networkState</td>
+<td>返回音频/视频的当前网络状态</td>
+</tr>
+<tr>
+<td>paused</td>
+<td>设置或返回音频/视频是否暂停</td>
+</tr>
+<tr>
+<td>playbackRate</td>
+<td>设置或返回音频/视频播放的速度</td>
+</tr>
+<tr>
+<td>played</td>
+<td>返回表示音频/视频已播放部分的 TimeRanges 对象</td>
+</tr>
+<tr>
+<td>preload</td>
+<td>设置或返回音频/视频是否应该在页面加载后进行加载</td>
+</tr>
+<tr>
+<td>readyState</td>
+<td>返回音频/视频当前的就绪状态</td>
+</tr>
+<tr>
+<td>seekable</td>
+<td>返回表示音频/视频可寻址部分的 TimeRanges 对象</td>
+</tr>
+<tr>
+<td>seeking</td>
+<td>返回用户是否正在音频/视频中进行查找</td>
+</tr>
+<tr>
+<td>src</td>
+<td>设置或返回音频/视频元素的当前来源</td>
+</tr>
+<tr>
+<td>startDate</td>
+<td>返回表示当前时间偏移的 Date 对象</td>
+</tr>
+<tr>
+<td>textTracks</td>
+<td>返回表示可用文本轨道的 TextTrackList 对象</td>
+</tr>
+<tr>
+<td>videoTracks</td>
+<td>返回表示可用视频轨道的 VideoTrackList 对象</td>
+</tr>
+<tr>
+<td>volume</td>
+<td>设置或返回音频/视频的音量</td>
+</tr>
+</tbody>
+</table>
+<h4 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h4><table>
+<thead>
+<tr>
+<th>事件名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>abort</td>
+<td>在播放被终止时触发，当播放中的视频重新开始播放时会触发这个事件</td>
+</tr>
+<tr>
+<td>canplay</td>
+<td>在媒体数据已经有足够的数据（至少播放数帧）可供播放时触发。<code>readyState</code>为 2</td>
+</tr>
+<tr>
+<td>canplaythrough</td>
+<td>在媒体的<code>readyState</code>为 3 时触发，表明媒体可以在保持当前的下载速度的情况下不被中断地播放完毕。注意：手动设置<code>currentTime</code>会使得 Firefox 触发一次<code>canplaythrough</code>事件，其他浏览器或许不会如此</td>
+</tr>
+<tr>
+<td>durationchange</td>
+<td><code>duration</code>属性发生了改变。例如，在媒体已被加载足够的长度从而得知总长度时会触发这个事件</td>
+</tr>
+<tr>
+<td>emptied</td>
+<td>媒体被清空（初始化）时触发</td>
+</tr>
+<tr>
+<td>ended</td>
+<td>播放结束时触发</td>
+</tr>
+<tr>
+<td>error</td>
+<td>在发生错误时触发</td>
+</tr>
+<tr>
+<td>loadeddata</td>
+<td>媒体的第一帧已经加载完毕</td>
+</tr>
+<tr>
+<td>loadedmetadata</td>
+<td>媒体的元数据已经加载完毕，现在所有的属性包含了它们应有的有效信息</td>
+</tr>
+<tr>
+<td>loadstart</td>
+<td>在媒体开始加载时触发</td>
+</tr>
+<tr>
+<td>mozaudioavailable</td>
+<td>当音频数据缓存并交给音频层处理时</td>
+</tr>
+<tr>
+<td>pause</td>
+<td>播放暂停时触发</td>
+</tr>
+<tr>
+<td>play</td>
+<td>在媒体回放被暂停后再次开始时触发</td>
+</tr>
+<tr>
+<td>playing</td>
+<td>在媒体开始播放时触发（不论是初次播放、在暂停后恢复、或是在结束后重新开始）</td>
+</tr>
+<tr>
+<td>progress</td>
+<td>告知媒体相关部分的下载进度时周期性地触发，有关媒体当前已下载总计的信息可以在元素的<code>buffered</code>属性中获取到</td>
+</tr>
+<tr>
+<td>ratechange</td>
+<td>在播放速率变化时触发</td>
+</tr>
+<tr>
+<td>seeked</td>
+<td>在跳跃完成时触发</td>
+</tr>
+<tr>
+<td>seeking</td>
+<td>在跳跃开始时触发</td>
+</tr>
+<tr>
+<td>stalled</td>
+<td>在尝试获取媒体数据，但数据不可用时触发</td>
+</tr>
+<tr>
+<td>suspend</td>
+<td>在媒体资源加载终止时触发，这可能是因为下载已完成或因为其他原因暂停</td>
+</tr>
+<tr>
+<td>timeupdate</td>
+<td>元素的<code>currentTime</code>属性表示的时间已经改变</td>
+</tr>
+<tr>
+<td>volumechange</td>
+<td>在音频音量改变时触发（既可以是<code>volume</code>属性改变，也可以是<code>muted</code>属性改变）</td>
+</tr>
+<tr>
+<td>waiting</td>
+<td>在一个待执行的操作（如播放）因等待另一个操作（如跳跃或下载）被延迟时触发</td>
+</tr>
+</tbody>
+</table>
+<h4 id="自定义媒体播放器"><a href="#自定义媒体播放器" class="headerlink" title="自定义媒体播放器"></a>自定义媒体播放器</h4><p>使用<code>&lt;audio&gt;</code>和<code>&lt;video&gt;</code>元素的<code>play()</code>和<code>pause()</code>方法，可以手工控制媒体文件的播放。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"mediaplayer"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"video"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">video</span> <span class="attr">id</span>=<span class="string">"player"</span> <span class="attr">src</span>=<span class="string">"movie.mov"</span> <span class="attr">poster</span>=<span class="string">"mymovie.jpg"</span> <span class="attr">width</span>=<span class="string">"300"</span> <span class="attr">height</span>=<span class="string">"200"</span>&gt;</span></span><br><span class="line">            Video player not available.</span><br><span class="line">        <span class="tag">&lt;/<span class="name">video</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"controls"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"Play"</span> <span class="attr">id</span>=<span class="string">"video-btn"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"curtime"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">span</span>&gt;</span>/<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"duration"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> player = <span class="built_in">document</span>.getElementById(<span class="string">"player"</span>),</span><br><span class="line">    btn = <span class="built_in">document</span>.getElementById(<span class="string">"video-btn"</span>),</span><br><span class="line">    curtime = <span class="built_in">document</span>.getElementById(<span class="string">"curtime"</span>),</span><br><span class="line">    duration = <span class="built_in">document</span>.getElementById(<span class="string">"duration"</span>);</span><br><span class="line"></span><br><span class="line">duration.innerHTML = player.duration;            </span><br><span class="line"></span><br><span class="line">EventUtil.addHandler(btn, <span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (player.paused)&#123;</span><br><span class="line">        player.play();</span><br><span class="line">        btn.value = <span class="string">"Pause"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        player.pause();</span><br><span class="line">        btn.value = <span class="string">"Play"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    curtime.innerHTML = player.currentTime;</span><br><span class="line">&#125;, <span class="number">250</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="检测编解码器的支持情况"><a href="#检测编解码器的支持情况" class="headerlink" title="检测编解码器的支持情况"></a>检测编解码器的支持情况</h4><p>两个媒体元素都有一个<code>canPlayType()</code>方法，该方法接收一种格式/编解码字符串，返回”probably”、”maybe”或””。</p>
+<h4 id="Audio-类型"><a href="#Audio-类型" class="headerlink" title="Audio 类型"></a>Audio 类型</h4><p><code>&lt;audio&gt;</code>元素还有一个原生的 JavaScript 构造函数 Audio，可以在任何时候播放音频。</p>
+<h3 id="历史状态管理"><a href="#历史状态管理" class="headerlink" title="历史状态管理"></a>历史状态管理</h3><p>通过状态管理 API，能够在不加载新页面的情况下改变浏览器的 URL。需要使用<code>history.pushState()</code>方法，该方法接受三个参数：状态对象、新状态的标题和可选的相对 URL。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">history.pushState(&#123;<span class="attr">name</span>: <span class="string">"Nicholas"</span>&#125;, <span class="string">"Nicholas' page"</span>, <span class="string">"nicholas.html"</span>);</span><br></pre></td></tr></table></figure>
+<p>执行<code>pushState()</code>后，新的状态信息就会被加入历史状态栈，而浏览器地址栏也会变成新的相对 URL。但是浏览器不会真的向服务器发送请求，即使状态改变以后查询<code>location.href</code>，也会返回与地址栏相同地址。另外，第二参数目前还没有浏览器实现，因此完全可以只传入一个空字符串，或者一个短标题。而第一个参数则应该尽可能提供初始化页面状态所需的各种信息。</p>
+<p>按下“后退”或“前进”按钮会触发<code>window</code>的<code>popstate</code>事件，该事件对象有一个<code>state</code>属性，这个属性包含着当初以第一个参数传递给<code>pushState()</code>的状态对象。</p>
+<p>更新当前状态，可以调用<code>replaceState()</code>，传入参数与<code>pushState()</code>的前两个参数相同。调用这个方法不会再历史状态栈中创建新状态，只会重写当前状态。</p>
+<h2 id="Chapter17-错误处理与调试"><a href="#Chapter17-错误处理与调试" class="headerlink" title="Chapter17. 错误处理与调试"></a>Chapter17. 错误处理与调试</h2><h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><p>错误处理在程序设计中的重要性是毋庸置疑的，任何有影响力的web应用程序都需要一套完善的错误处理机制。</p>
+<h4 id="try-catch语句"><a href="#try-catch语句" class="headerlink" title="try-catch语句"></a>try-catch语句</h4><p>try-catch 语句是 JavaScript 处理异常的一种标准方式，try 块中的任何代码发生了错误，就会立即退出代码执行过程，然后接着执行 catch 块，catch 块会接收到一个包含错误信息的对象，一般用该对象的<code>message</code>属性获取错误信息。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 可能会导致错误的代码</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (error)&#123;</span><br><span class="line">    <span class="comment">// 处理错误</span></span><br><span class="line">    alert(erorr.message);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>finally 子句</strong></p>
+<p>finally 子句一经使用，其代码无论如何都会被执行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">&#125;<span class="keyword">catch</span>(err)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">    <span class="comment">// finally子句无论如何都会执行</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>错误类型</strong></p>
+<p>JavaScript 有 7 种错误类型，其中，Error 是基类型，其他错误都继承自该类型。</p>
+<ul>
+<li>Error</li>
+<li>EvalError</li>
+<li>RangeError</li>
+<li>ReferenceError</li>
+<li>SyntaxError</li>
+<li>TypeError</li>
+<li>URIError</li>
+</ul>
+<h4 id="抛出错误"><a href="#抛出错误" class="headerlink" title="抛出错误"></a>抛出错误</h4><p>使用<code>throw</code>语句，可以抛出上述的错误，也可以抛出自定义的错误；在遇到<code>throw</code>操作符时，代码会立刻停止执行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 抛出常规错误</span></span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">SyntaxError</span>(<span class="string">"I don't like your syntax"</span>);</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">"What type of variable do you take me for?"</span>);</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">RangeError</span>(<span class="string">"Sorry, you just dont have the range"</span>);</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">EvalError</span>(<span class="string">"That't doesn't evaluate."</span>);</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">URIError</span>(<span class="string">"Uri, is that you?"</span>);</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">ReferenceError</span>(<span class="string">"You didn‘t cite your references properly."</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抛出自定义错误</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">CustomError</span>(<span class="params">message</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">"CustomError"</span>;</span><br><span class="line">    <span class="keyword">this</span>.message = message;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">CustomError.prototype = <span class="keyword">new</span> <span class="built_in">Error</span>();</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> CustomError(<span class="string">"My message"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="错误（error）事件"><a href="#错误（error）事件" class="headerlink" title="错误（error）事件"></a>错误（error）事件</h4><p>任何没有通过 try-catch 处理的错误都会触发<code>window</code>对象的<code>error</code>事件。任何 Web 浏览器中，<code>onerror</code>事件处理程序都不会创建<code>event</code>对象，但可以接受三个参数：错误消息、错误所在的 URL 和行号。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onerror = <span class="function"><span class="keyword">function</span>(<span class="params">message, url, line</span>)</span>&#123;</span><br><span class="line">    alert(message);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//阻止浏览器报告错误的默认行为</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>图像也支持<code>error</code>事件，只要图像的<code>src</code>特性的 URL 不能反悔可以被识别的图像格式，就会触发<code>error</code>事件。此时的<code>erorr</code>事件遵循 DOM 格式，会返回一个以图像为目标的<code>event</code>对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> image = <span class="keyword">new</span> Image();</span><br><span class="line"></span><br><span class="line">EventUtil.addHandler(image, <span class="string">"load"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">"Image loaded!"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">EventUtil.addHandler(image, <span class="string">"error"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">"Image not loaded!"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">image.src = <span class="string">"smilex.gif"</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="常见的错误类型"><a href="#常见的错误类型" class="headerlink" title="常见的错误类型"></a>常见的错误类型</h4><p>一般来说，需要关注三种错误：</p>
+<ul>
+<li>类型转换错误</li>
+<li>数据类型错误</li>
+<li>通信错误</li>
+</ul>
+<p><strong>类型转换错误</strong></p>
+<p>为避免类型转换错误，建议使用全等操作符：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="number">5</span> == <span class="string">"5"</span>);<span class="comment">//true</span></span><br><span class="line">alert(<span class="number">5</span> === <span class="string">"5"</span>);<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<p>流控制语句也很容易出错。像 if 之类的语句，在确定下一步操作之前，会自动把任何值转化成布尔值：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">concat</span>(<span class="params">str1, str2, str3</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = str1 + str2;</span><br><span class="line">    <span class="keyword">if</span>(str3)&#123; <span class="comment">//当str3是大于0的数字，不是string类型时，也会执行</span></span><br><span class="line">        resutl += str3;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确的写法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">concat</span>(<span class="params">str1, str2, str3</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = str1 + str2;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> str3 == <span class="string">"string"</span>)&#123; </span><br><span class="line">        resutl += str3;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>数据类型错误</strong></p>
+<p>在将变量传递个函数时，对变量进行类型进行检测，可以避免类型错误：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不安全的函数，任何非字符串都会导致错误</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getQueryString</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> pos = url.indexOf(<span class="string">"?"</span>);</span><br><span class="line">    <span class="keyword">if</span> (pos &gt; <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> url.substring(pos + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 安全的函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getQueryString</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> url == <span class="string">"string"</span>) &#123;<span class="comment">//通过检查类型确保安全</span></span><br><span class="line">        <span class="keyword">var</span> pos = url.indexOf(<span class="string">"?"</span>);</span><br><span class="line">        <span class="keyword">if</span> (pos &gt; <span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> url.substring(pos + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在确切知道应该传入什么类型的情况下，应该使用<code>instanceof</code>来检测类型：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不安全的函数，任何非数组类型都会导致错误</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverseSort</span>(<span class="params">values</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(values)&#123;</span><br><span class="line">        values.sort();</span><br><span class="line">        valuse.reverse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不安全的函数，任何非数组类型都会导致错误</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverseSort</span>(<span class="params">values</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(values != <span class="literal">null</span>)&#123;</span><br><span class="line">        values.sort();</span><br><span class="line">        valuse.reverse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不安全的函数，不能只针对某个特性进行检测</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverseSort</span>(<span class="params">values</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> values.sort == <span class="string">"function"</span>)&#123;</span><br><span class="line">        values.sort();</span><br><span class="line">        valuse.reverse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 安全，非数组将被忽略</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverseSort</span>(<span class="params">values</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(values <span class="keyword">instanceof</span> <span class="built_in">Array</span>)&#123;</span><br><span class="line">        values.sort();</span><br><span class="line">        valuse.reverse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>通信错误</strong></p>
+<p>常见的数据通信错误是把数据发给服务器之前，没有使用<code>encodeURIComponent()</code>对数据进行编码，可以定义一个处理查询字符串的函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addQueryStringArg</span>(<span class="params">url, name ,value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(url.indexOf(<span class="string">"?"</span>) == <span class="number">-1</span>)&#123;</span><br><span class="line">        url += <span class="string">"?"</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        url += <span class="string">"&amp;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    url += <span class="built_in">encodeURIComponent</span>(name) + <span class="string">"="</span> +<span class="built_in">encodeURIComponent</span>(value);</span><br><span class="line">    <span class="keyword">return</span> url;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> url = <span class="string">"http://www.baidu.com"</span>;</span><br><span class="line"><span class="keyword">var</span> newUrl = addQueryStringArg(url, <span class="string">"redir"</span>, <span class="string">"http://wwww.someotherdomain.com?a=b&amp;b=c"</span>);</span><br><span class="line">alert(newUrl);</span><br></pre></td></tr></table></figure>
+<h4 id="区分致命错误与非致命错误"><a href="#区分致命错误与非致命错误" class="headerlink" title="区分致命错误与非致命错误"></a>区分致命错误与非致命错误</h4><p>非致命错误（这类错误没有必要对用户给出提示）：</p>
+<ul>
+<li>不影响用户的主要任务</li>
+<li>只影响页面的一部分</li>
+<li>可以恢复</li>
+<li>重复相同操作可以消除错误</li>
+</ul>
+<p>致命错误（这类错误应该立即给用户发送消息）：</p>
+<ul>
+<li>应用程序根本无法运行</li>
+<li>错误明显影响到了用户的主要操作</li>
+<li>会导致其他连带错误</li>
+</ul>
+<h3 id="调试技术"><a href="#调试技术" class="headerlink" title="调试技术"></a>调试技术</h3><h4 id="将消息记录到控制台"><a href="#将消息记录到控制台" class="headerlink" title="将消息记录到控制台"></a>将消息记录到控制台</h4><p>可以使用<code>console</code>对象向 JavaScript 控制台写入消息来调试，这个对象具有下列方法：</p>
+<ul>
+<li><code>error(message)</code>：将错误消息记录到控制台</li>
+<li><code>info(message)</code>：将信息性消息记录到控制台</li>
+<li><code>log(message)</code>：将一般消息记录到控制台</li>
+<li><code>warn(message)</code>：将警告消息记录到控制台</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">num1, num2</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Enter sum(), arguements are "</span> + num1 + <span class="string">", "</span> +num2 );</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Before calculation"</span>);</span><br><span class="line">    <span class="keyword">var</span> result = num1 + num2;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"After calculaation"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Exiting sum()"</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="将消息记录在当前页面"><a href="#将消息记录在当前页面" class="headerlink" title="将消息记录在当前页面"></a>将消息记录在当前页面</h4><p>在页面开辟一小块信息，用于显示错误信息：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">log</span>(<span class="params">message</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="built_in">console</span> = <span class="built_in">document</span>.getElementById(<span class="string">"debugInfo"</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">console</span> == <span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="built_in">console</span> = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</span><br><span class="line">        <span class="built_in">console</span>.id = <span class="string">"debugInfo"</span>;</span><br><span class="line">        <span class="built_in">console</span>.style.background = <span class="string">"#dedede"</span>;</span><br><span class="line">        <span class="built_in">console</span>.style.border = <span class="string">"1px solid silver"</span>;</span><br><span class="line">        <span class="built_in">console</span>.style.padding = <span class="string">"5px"</span>;</span><br><span class="line">        <span class="built_in">console</span>.style.width = <span class="string">"400px"</span>;</span><br><span class="line">        <span class="built_in">console</span>.style.position = <span class="string">"absolute"</span>;</span><br><span class="line">        <span class="built_in">console</span>.style.right = <span class="string">"0px"</span>;</span><br><span class="line">        <span class="built_in">console</span>.style.top = <span class="string">"0px"</span>;</span><br><span class="line">        <span class="built_in">document</span>.body.appendChild(<span class="built_in">console</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.innerHTML += <span class="string">"&lt;p&gt;"</span> + message + <span class="string">"&lt;/p&gt;"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="抛出错误-1"><a href="#抛出错误-1" class="headerlink" title="抛出错误"></a>抛出错误</h4><p>如果错误消息很具体，基本可以把它当做错误来源的依据，那么可以直接抛出错误：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">divide</span>(<span class="params">num1, num2</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> num1 != <span class="string">"number"</span> || <span class="keyword">typeof</span> num2 != <span class="string">"number"</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"devide (): both arguments must be number."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> num1/num2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以自定义一个<code>assert</code>语句：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//assert接受两个参数，一个是求值结果应该为true的条件，一个是条件为false时需要抛出的错误</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">assert</span>(<span class="params">condition , message</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!condition)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">divide</span>(<span class="params">num1, num2</span>)</span>&#123;</span><br><span class="line">    assert(<span class="keyword">typeof</span> num1 == <span class="string">"number"</span> &amp;&amp; <span class="keyword">typeof</span> num2 == <span class="string">"number"</span>, <span class="string">"devide (): both arguments must be number."</span>);</span><br><span class="line">    <span class="keyword">return</span> num1/num2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="常见的-IE-的错误"><a href="#常见的-IE-的错误" class="headerlink" title="常见的 IE 的错误"></a>常见的 IE 的错误</h3><p>IE 是最难调试 JavaScript 错误的浏览器，以下介绍一些错误：</p>
+<h4 id="操作中止"><a href="#操作中止" class="headerlink" title="操作中止"></a>操作中止</h4><p>对于 IE8 之前的版本，在修改尚未加载完的页面时，会发生操作中止错误。</p>
+<h4 id="无效字符"><a href="#无效字符" class="headerlink" title="无效字符"></a>无效字符</h4><p>无效字符是 JavaScript 中没有定义的字符，例如直接从 word 中赋值文本到编辑器里，然后又在 IE 中运行，则可能会遇到无效字符的错误。</p>
+<h4 id="未找到成员"><a href="#未找到成员" class="headerlink" title="未找到成员"></a>未找到成员</h4><p>IE 中的所有 DOM 对象都是以 COM 对象实现的，这会导致一些与垃圾收集相关的非常奇怪的行为。IE 中的未找到的成员错误，就是由于垃圾收集例程配合错误所直接导致的。</p>
+<p>具体来说，如果在对象被销毁之后，又给该对象赋值，就会导致未找到成员错误。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> event = <span class="built_in">window</span>.event;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">        event.returnValuee = <span class="literal">false</span>;  <span class="comment">// 未找到成员错误</span></span><br><span class="line">    &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="未知运行时错误"><a href="#未知运行时错误" class="headerlink" title="未知运行时错误"></a>未知运行时错误</h4><p>当使用<code>innerHTML</code>或者<code>outerHTML</code>以下列方式指定 HTML 时，就会发生未知运行时错误：</p>
+<ul>
+<li>把块级元素插入到行内元素</li>
+<li>访问表格的任意部分的任意属性</li>
+</ul>
+<h4 id="语法错误"><a href="#语法错误" class="headerlink" title="语法错误"></a>语法错误</h4><p>如果引用外部的 JavaScript 文件，而该文件最终没有返回 JavaScript 代码，IE 会抛出语法错误。</p>
+<h4 id="系统无法找到指定资源"><a href="#系统无法找到指定资源" class="headerlink" title="系统无法找到指定资源"></a>系统无法找到指定资源</h4><p>当 URL 的长度超过 IE 对 URL 的最长不能超过 2083 个字符的限制时，就会发生这个错误。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createLongUrl</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> s = <span class="string">"?"</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">2500</span>; i++)&#123;</span><br><span class="line">        s += <span class="string">"a"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> url + s;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> x = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">x.open(<span class="string">"get"</span>, createLongUrl(<span class="string">"http://www.baidu.com/"</span>), <span class="literal">true</span>);</span><br><span class="line">x.send(<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="Chapter18-JavaScript-与-XML"><a href="#Chapter18-JavaScript-与-XML" class="headerlink" title="Chapter18. JavaScript 与 XML"></a>Chapter18. JavaScript 与 XML</h2><h2 id="Chapter19-E4X"><a href="#Chapter19-E4X" class="headerlink" title="Chapter19. E4X"></a>Chapter19. E4X</h2><p>这两章是 XML 相关，目前前端用这个的不多，基本都用JSON，先跳过。</p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017/09/23/ProJavaScript-Notes-14/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          重读 JS 高程（Chapter20、Chapter21）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017/09/20/ProJavaScript-Notes-12/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">重读 JS 高程（Chapter15）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

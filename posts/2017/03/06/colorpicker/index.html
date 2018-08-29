@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>IFE项目-颜色选择器(colorPicker)实践笔记 | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="大概用了三天时间完成了这个颜色选择器的项目，之前并没有做过类似的东西，所以时间大多消耗在了搜索上，我把实现思路记录下来，欢迎讨论交流。 不同颜色格式之间的转换颜色选择器要求支持HSL，RGB，还有十六进制颜色三种格式，看到题目要求，我第一反应就是photoshop的拾色器，因为切图经常要用。在仔细观察了photoshop的拾色器之后，发现它是基于hsb颜色的（做完发现其实也可以调到rgb等其他模式">
+<meta name="keywords" content="javascript,IFE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IFE项目-颜色选择器(colorPicker)实践笔记">
+<meta property="og:url" content="http://yoursite.com/posts/2017/03/06/colorpicker/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="大概用了三天时间完成了这个颜色选择器的项目，之前并没有做过类似的东西，所以时间大多消耗在了搜索上，我把实现思路记录下来，欢迎讨论交流。 不同颜色格式之间的转换颜色选择器要求支持HSL，RGB，还有十六进制颜色三种格式，看到题目要求，我第一反应就是photoshop的拾色器，因为切图经常要用。在仔细观察了photoshop的拾色器之后，发现它是基于hsb颜色的（做完发现其实也可以调到rgb等其他模式">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/color-picker.png">
+<meta property="og:image" content="http://yoursite.com/images/hsb-hsl.png">
+<meta property="og:image" content="http://yoursite.com/images/colorpicker_overlay.png">
+<meta property="og:updated_time" content="2017-03-08T07:12:46.676Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IFE项目-颜色选择器(colorPicker)实践笔记">
+<meta name="twitter:description" content="大概用了三天时间完成了这个颜色选择器的项目，之前并没有做过类似的东西，所以时间大多消耗在了搜索上，我把实现思路记录下来，欢迎讨论交流。 不同颜色格式之间的转换颜色选择器要求支持HSL，RGB，还有十六进制颜色三种格式，看到题目要求，我第一反应就是photoshop的拾色器，因为切图经常要用。在仔细观察了photoshop的拾色器之后，发现它是基于hsb颜色的（做完发现其实也可以调到rgb等其他模式">
+<meta name="twitter:image" content="http://yoursite.com/images/color-picker.png">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-colorpicker" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      IFE项目-颜色选择器(colorPicker)实践笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/03/06/colorpicker/" class="article-date">
+  <time datetime="2017-03-06T03:19:54.000Z" itemprop="datePublished">2017-03-06</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>大概用了三天时间完成了这个颜色选择器的项目，之前并没有做过类似的东西，所以时间大多消耗在了搜索上，我把实现思路记录下来，欢迎讨论交流。</p>
+<h3 id="不同颜色格式之间的转换"><a href="#不同颜色格式之间的转换" class="headerlink" title="不同颜色格式之间的转换"></a>不同颜色格式之间的转换</h3><p>颜色选择器要求支持HSL，RGB，还有十六进制颜色三种格式，看到题目要求，我第一反应就是photoshop的拾色器，因为切图经常要用。在仔细观察了photoshop的拾色器之后，发现它是基于hsb颜色的（做完发现其实也可以调到rgb等其他模式），由于只了解rgb和十六进制颜色，然后我开始搜集hsl和hsb的相关资料，最终查到了两篇文章作为参考：</p>
+<ul>
+<li><a href="http://www.zhangxinxu.com/wordpress/2010/03/javascript-hex-rgb-hsl-color-convert/" target="_blank" rel="noopener">javascript HEX十六进制与RGB, HSL颜色的相互转换</a></li>
+<li><a href="http://www.cnblogs.com/benymor/p/6415653.html" target="_blank" rel="noopener">Color.js 增强你对颜色的控制</a></li>
+</ul>
+<p>rgb转十六进制比较简单，复杂的地方在于hsl，hsb与rgb之间的相互转换。rgb与hsl转换参考第一篇文章，有详细的公式代码；rgb转hsb参考第二篇文章，里面介绍了一个插件插件，可以直接读源码获取公式。其实第二篇文章的插件可以直接用，但是我还是没忍住造轮子，自己写了一个颜色转换的模块，准备以后慢慢完善，想参考的可以点这里<a href="https://github.com/dtcz/ifetask_2017/blob/master/BusinessPlatform/colorpick/dist/js/color.js" target="_blank" rel="noopener">color.js</a>，我抽时间加上详细的注释。</p>
+<h3 id="UI界面"><a href="#UI界面" class="headerlink" title="UI界面"></a>UI界面</h3><p>颜色转换的问题解决了，接下来需要实现下面的UI界面：</p>
+<p><img src="/images/color-picker.png" alt="拾色器"></p>
+<p>中间那一栏渐变色比较简单，使用canvas的createLinearGradient和addColorStop实现，颜色取值为hsl([0-360], 100%, 50%)，代码如下：</p>
+<a id="more"></a>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createColorSelector</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> selector = <span class="built_in">document</span>.querySelector(<span class="string">'.colorselector-bg'</span>);</span><br><span class="line">    <span class="keyword">var</span> selectorCtx = selector.getContext(<span class="string">'2d'</span>);</span><br><span class="line">    selectorCtx.beginPath();</span><br><span class="line">    <span class="keyword">var</span> selectorGrd = selectorCtx.createLinearGradient(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, selector.height);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">361</span>; i++) &#123;</span><br><span class="line">        selectorGrd.addColorStop(i/<span class="number">360</span>, <span class="string">'hsl('</span> + (<span class="number">360</span> - i) + <span class="string">', 100%, 50%)'</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    selectorCtx.fillStyle = selectorGrd;</span><br><span class="line">    selectorCtx.fillRect(<span class="number">0</span>, <span class="number">0</span>, selector.width, selector.height);</span><br><span class="line">    selectorCtx.closePath();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不过左边的颜色选择面板我毫无思路，用canvas做了尝试也没出现想要的效果，在一番搜索后，我在Stack Overflow找到了这篇回答<a href="http://stackoverflow.com/questions/3423214/convert-hsb-hsv-color-to-hsl" target="_blank" rel="noopener">Convert HSB/HSV color to HSL</a>，里面有一张图让我豁然开朗。</p>
+<p><img src="/images/hsb-hsl.png" alt="HSL&amp;HSB"></p>
+<p>然后我找了一张透明图片</p>
+<p><img src="/images/colorpicker_overlay.png" alt=""></p>
+<p><strong>把这张图片盖在颜色值为<span style="color: #f00;">红色</span>的背景上，就可以出现PS拾色器上的效果。</strong></p>
+<div style="background-color: #f00; height: 150px; width: 150px;"></div>
+
+<p>然后只需要要修改背景色就可以达到当渐变带上的滑块滑动时，颜色选择面板变化。大家可以试一试，如果有什么别的方法也可以推荐给我。</p>
+<h3 id="拖动部分"><a href="#拖动部分" class="headerlink" title="拖动部分"></a>拖动部分</h3><p>拖动属于一个常规的功能，之前做过类似的，主要利用mousedown,mousemove,mouseup的配合，难度不大，我做了简单封装。贴出核心部分代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> drag = <span class="function"><span class="keyword">function</span> (<span class="params">options</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> defaults = &#123;</span><br><span class="line">        target: <span class="string">'.drag'</span>,            <span class="comment">//拖动目标</span></span><br><span class="line">        parent: <span class="string">'.drag-area'</span>,   <span class="comment">//拖动目标所在区域</span></span><br><span class="line">        horizontal: <span class="literal">true</span>,                <span class="comment">//在水平方向拖动</span></span><br><span class="line">        vertical: <span class="literal">true</span>,                <span class="comment">//在垂直方向拖动</span></span><br><span class="line">        callback: <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> settings = extendObject(defaults, options),</span><br><span class="line">        target = <span class="built_in">document</span>.querySelector(settings.target),</span><br><span class="line">        parent = <span class="built_in">document</span>.querySelector(settings.parent),</span><br><span class="line">        callback = settings.callback,</span><br><span class="line">        horizontal = settings.horizontal,</span><br><span class="line">        vertical = settings.vertical,</span><br><span class="line">        parentWidth = parent.clientWidth,</span><br><span class="line">        parentHeight = parent.clientHeight,</span><br><span class="line">        parentLeft = parent.offsetLeft,</span><br><span class="line">        parentTop = parent.offsetTop,</span><br><span class="line">        targetWidth = target.offsetWidth,</span><br><span class="line">        targetHeight = target.offsetHeight,</span><br><span class="line">        dragStart, dragMove, dragEnd;</span><br><span class="line">    dragStart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        EventUtil.on(<span class="built_in">document</span>, <span class="string">'mousemove'</span>, dragMove);</span><br><span class="line">    &#125;</span><br><span class="line">    dragMove = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">        event = event ? event : <span class="built_in">window</span>.event;</span><br><span class="line">        <span class="keyword">var</span> x = <span class="number">0</span>, y = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(horizontal)&#123;</span><br><span class="line">            x = <span class="built_in">Math</span>.min(<span class="built_in">Math</span>.max(event.clientX - parentLeft- targetWidth/<span class="number">2</span>, -targetWidth/<span class="number">2</span>), parentWidth - targetWidth/<span class="number">2</span>),</span><br><span class="line">            target.style.left = x + <span class="string">'px'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(vertical)&#123;</span><br><span class="line">            y = <span class="built_in">Math</span>.min(<span class="built_in">Math</span>.max(event.clientY - parentTop - targetHeight/<span class="number">2</span>, -targetHeight/<span class="number">2</span>), parentHeight - targetHeight/<span class="number">2</span>);</span><br><span class="line">            target.style.top = y + <span class="string">'px'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(callback)&#123;</span><br><span class="line">            callback.call(<span class="keyword">this</span>, &#123;</span><br><span class="line">                x: x + targetWidth/<span class="number">2</span>,</span><br><span class="line">                y: y + targetHeight/<span class="number">2</span>,</span><br><span class="line">                w: parentWidth,</span><br><span class="line">                h: parentHeight</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    dragEnd = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        EventUtil.remove(<span class="built_in">document</span>, <span class="string">'mousemove'</span>, dragMove);</span><br><span class="line">    &#125;</span><br><span class="line">    EventUtil.on(target, <span class="string">'mousedown'</span>, dragStart);</span><br><span class="line">    EventUtil.on(<span class="built_in">document</span>, <span class="string">'mouseup'</span>, dragEnd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="整合"><a href="#整合" class="headerlink" title="整合"></a>整合</h3><p>按照题目要求，利用上面已经写好的三部分，一条条实现相应功能即可。这一部分逻辑上并不难，但想写的简洁的话，比较考验写代码的水平，我写的不是很令我自己满意，有不少重复代码，我之后会找时间优化一下。<br>最终地址：<a href="https://dtcz.github.io/ifetask_2017/BusinessPlatform/colorpick/dist/index.html" target="_blank" rel="noopener">demo</a></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>搜索引擎还是很有帮助的，尤其本项目要处理HSB，HSL这种不常用的颜色;</li>
+<li>原生js想写熟练还是不容易的，代码想写得简洁有很多东西需要学习和实践的;</li>
+</ul>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017/07/28/ProJavaScript-Notes-01/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          重读 JS 高程（Chapter01、Chapter02）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017/03/06/box-shadow/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">box-shadow小记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

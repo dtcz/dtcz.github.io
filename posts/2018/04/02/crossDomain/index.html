@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>前端跨域与解决方案 | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="跨域的概念广义的跨域指的是一个域下的文档或者脚本试图去请求另一个域下的资源。包括：  资源跳转：&amp;lt;a&amp;gt;，重定向，表单提交 嵌入标签：&amp;lt;script&amp;gt;，&amp;lt;img&amp;gt;，&amp;lt;iframe&amp;gt;，&amp;lt;link&amp;gt; ，&amp;lt;video&amp;gt;，&amp;lt;audio&amp;gt;等标签，以及@font-face引入的字体文件。 js 请求：AJAX  但一般情况下讨论">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端跨域与解决方案">
+<meta property="og:url" content="http://yoursite.com/posts/2018/04/02/crossDomain/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="跨域的概念广义的跨域指的是一个域下的文档或者脚本试图去请求另一个域下的资源。包括：  资源跳转：&amp;lt;a&amp;gt;，重定向，表单提交 嵌入标签：&amp;lt;script&amp;gt;，&amp;lt;img&amp;gt;，&amp;lt;iframe&amp;gt;，&amp;lt;link&amp;gt; ，&amp;lt;video&amp;gt;，&amp;lt;audio&amp;gt;等标签，以及@font-face引入的字体文件。 js 请求：AJAX  但一般情况下讨论">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-08T06:20:49.204Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端跨域与解决方案">
+<meta name="twitter:description" content="跨域的概念广义的跨域指的是一个域下的文档或者脚本试图去请求另一个域下的资源。包括：  资源跳转：&amp;lt;a&amp;gt;，重定向，表单提交 嵌入标签：&amp;lt;script&amp;gt;，&amp;lt;img&amp;gt;，&amp;lt;iframe&amp;gt;，&amp;lt;link&amp;gt; ，&amp;lt;video&amp;gt;，&amp;lt;audio&amp;gt;等标签，以及@font-face引入的字体文件。 js 请求：AJAX  但一般情况下讨论">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-crossDomain" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      前端跨域与解决方案
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2018/04/02/crossDomain/" class="article-date">
+  <time datetime="2018-04-02T12:18:30.000Z" itemprop="datePublished">2018-04-02</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="跨域的概念"><a href="#跨域的概念" class="headerlink" title="跨域的概念"></a>跨域的概念</h3><p>广义的跨域指的是一个域下的文档或者脚本试图去请求另一个域下的资源。包括：</p>
+<ol>
+<li>资源跳转：<code>&lt;a&gt;</code>，重定向，表单提交</li>
+<li>嵌入标签：<code>&lt;script&gt;</code>，<code>&lt;img&gt;</code>，<code>&lt;iframe&gt;</code>，<code>&lt;link&gt;</code> ，<code>&lt;video&gt;</code>，<code>&lt;audio&gt;</code>等标签，以及<code>@font-face</code>引入的字体文件。</li>
+<li>js 请求：AJAX</li>
+</ol>
+<p>但一般情况下讨论的跨域是狭义的，本质上是受浏览器同源策略限制的一类请求场景</p>
+<blockquote>
+<p>同源策略：同源是指两个页面协议，域名和端口相同，不同源的页面之间是不能互相读取对方资源的。同源策略限制 Cookie，LocalStorage 等的读取，以及 AJAX。</p>
+</blockquote>
+<p>需要注意的是，如果是协议和端口造成的跨域问题，前端是无能为力的。</p>
+<a id="more"></a>
+<h3 id="跨域解决方案"><a href="#跨域解决方案" class="headerlink" title="跨域解决方案"></a>跨域解决方案</h3><h4 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h4><p>HTML 页面中可以通过某些标签从不同域名下加载静态资源，比如<code>&lt;img&gt;</code>以及<code>&lt;script&gt;</code>。基于此原理，我们可以通过动态创建<code>&lt;script&gt;</code>，再请求一个带参网址实现跨域通信。</p>
+<p>前端代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">script.type = <span class="string">'text/javascript'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 传参并指定callback=为onBack</span></span><br><span class="line">script.src = <span class="string">'http://www.domain.com:8080/login?user=test&amp;callback=onBack'</span>;</span><br><span class="line"><span class="built_in">document</span>.head.appendChild(script);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 回调执行函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onBack</span>(<span class="params">res</span>) </span>&#123;</span><br><span class="line">    alert(<span class="built_in">JSON</span>.stringify(res));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>服务器后端返回如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onBack(&#123;<span class="string">"status"</span>: <span class="literal">true</span>, <span class="string">"user"</span>: <span class="string">"test"</span>&#125;) <span class="comment">//执行函数onBack</span></span><br></pre></td></tr></table></figure>
+<p>node.js：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> querystring = <span class="built_in">require</span>(<span class="string">'querystring'</span>);</span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"><span class="keyword">var</span> server = http.createServer();</span><br><span class="line"></span><br><span class="line">server.on(<span class="string">'request'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> params = qs.parse(req.url.split(<span class="string">'?'</span>)[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">var</span> fn = params.callback;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// jsonp返回设置</span></span><br><span class="line">    res.writeHead(<span class="number">200</span>, &#123; <span class="string">'Content-Type'</span>: <span class="string">'text/javascript'</span> &#125;);</span><br><span class="line">    res.write(fn + <span class="string">'('</span> + <span class="built_in">JSON</span>.stringify(params) + <span class="string">')'</span>);</span><br><span class="line"></span><br><span class="line">    res.end();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.listen(<span class="string">'8080'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'Server is running at port 8080...'</span>);</span><br></pre></td></tr></table></figure>
+<p>JSONP 的缺点是只能实现 GET 一种请求。</p>
+<h4 id="跨域资源共享（Cross-origin-resource-sharing-CORS）"><a href="#跨域资源共享（Cross-origin-resource-sharing-CORS）" class="headerlink" title="跨域资源共享（Cross-origin resource sharing, CORS）"></a>跨域资源共享（Cross-origin resource sharing, CORS）</h4><p>普通跨域请求只需在服务器端设置 Acess-Control-Allow-Origin，如果需要携带 cookie，就需要在前端设置<code>xhr.withCredentials = true</code>。</p>
+<p>示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest(); <span class="comment">// IE8/9需用window.XDomainRequest兼容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 前端设置是否带cookie</span></span><br><span class="line">xhr.withCredentials = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">xhr.open(<span class="string">'post'</span>, <span class="string">'http://www.domain.com:8080/test'</span>, <span class="literal">true</span>);</span><br><span class="line">xhr.setRequestHeader(<span class="string">'Content-Type'</span>, <span class="string">'application/x-www-form-urlencoded'</span>);</span><br><span class="line">xhr.send(<span class="string">'user=admin'</span>);</span><br><span class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (xhr.readyState == <span class="number">4</span> &amp;&amp; xhr.status == <span class="number">200</span>) &#123;</span><br><span class="line">        alert(xhr.responseText);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>node.js：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"><span class="keyword">var</span> server = http.createServer();</span><br><span class="line"><span class="keyword">var</span> qs = <span class="built_in">require</span>(<span class="string">'querystring'</span>);</span><br><span class="line"></span><br><span class="line">server.on(<span class="string">'request'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> postData = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 数据块接收中</span></span><br><span class="line">    req.addListener(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">chunk</span>) </span>&#123;</span><br><span class="line">        postData += chunk;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 数据接收完毕</span></span><br><span class="line">    req.addListener(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        postData = qs.parse(postData);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 跨域后台设置</span></span><br><span class="line">        res.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">            <span class="string">'Access-Control-Allow-Credentials'</span>: <span class="string">'true'</span>,     <span class="comment">// 后端允许发送Cookie</span></span><br><span class="line">            <span class="string">'Access-Control-Allow-Origin'</span>: <span class="string">'http://www.domain1.com'</span>,</span><br><span class="line">            <span class="string">'Set-Cookie'</span>: <span class="string">'l=a123456;Path=/;Domain=www.domain2.com;HttpOnly'</span> </span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        res.write(<span class="built_in">JSON</span>.stringify(postData));</span><br><span class="line">        res.end();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.listen(<span class="string">'8080'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'Server is running at port 8080...'</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="postMessage跨域"><a href="#postMessage跨域" class="headerlink" title="postMessage跨域"></a>postMessage跨域</h4><p>postMessage 是 HTML5 的新 API，是可以操作的 window 属性之一，它可用于解决以下方面的问题：</p>
+<ol>
+<li>页面和其打开新窗口的数据传递</li>
+<li>多窗口之间的消息传递</li>
+<li>页面与嵌套 iframe 的消息传递</li>
+</ol>
+<blockquote>
+<p>postMessage(message, targetOrigin) 接受两个参数，message 表示传递的数据，targetOrigin 指 协议+主机+端口号，也可以设置为”*”，表示可以传递给任意窗口，如果要指定和当前窗口同源的话设置为”/“。</p>
+</blockquote>
+<p>a.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"iframe"</span> <span class="attr">src</span>=<span class="string">"http://www.domain2.com/b.html"</span> <span class="attr">style</span>=<span class="string">"display:none;"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">       </span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> iframe = <span class="built_in">document</span>.getElementById(<span class="string">'iframe'</span>);</span></span><br><span class="line"><span class="javascript">iframe.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> data = &#123;</span></span><br><span class="line"><span class="javascript">        name: <span class="string">'aym'</span></span></span><br><span class="line"><span class="undefined">    &#125;;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 向domain2传送跨域数据</span></span></span><br><span class="line"><span class="javascript">    iframe.contentWindow.postMessage(<span class="built_in">JSON</span>.stringify(data), <span class="string">'http://www.domain2.com'</span>);</span></span><br><span class="line"><span class="undefined">&#125;;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// 接受domain2返回数据</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    alert(<span class="string">'data from domain2 ---&gt; '</span> + e.data);</span></span><br><span class="line"><span class="javascript">&#125;, <span class="literal">false</span>);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>b.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// 接收domain1的数据</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    alert(<span class="string">'data from domain1 ---&gt; '</span> + e.data);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> data = <span class="built_in">JSON</span>.parse(e.data);</span></span><br><span class="line"><span class="javascript">    <span class="keyword">if</span> (data) &#123;</span></span><br><span class="line"><span class="undefined">        data.number = 16;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">        <span class="comment">// 处理后再发回domain1</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">window</span>.parent.postMessage(<span class="built_in">JSON</span>.stringify(data), <span class="string">'http://www.domain1.com'</span>);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">&#125;, <span class="literal">false</span>);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/posts/2017/10/24/form/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">HTML 表单</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

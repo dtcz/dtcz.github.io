@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>HTML 总结 | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="HTML、XML、XHTML 之间的区别与联系 HTML(HyperText Markup Language)，即超文本标记语言。超文本就是指页面内可以包含图片、链接，甚至音乐、程序等非文字元素。超级文本标记语言就是为网页创建和其它能在网页浏览器中看到的信息而设计的一种标记语言。 XML(Extentsible Markup Language)，即可扩展标记语言，是 SGML（标准通用标记语言）的">
+<meta name="keywords" content="html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML 总结">
+<meta property="og:url" content="http://yoursite.com/posts/2017/10/14/html/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="HTML、XML、XHTML 之间的区别与联系 HTML(HyperText Markup Language)，即超文本标记语言。超文本就是指页面内可以包含图片、链接，甚至音乐、程序等非文字元素。超级文本标记语言就是为网页创建和其它能在网页浏览器中看到的信息而设计的一种标记语言。 XML(Extentsible Markup Language)，即可扩展标记语言，是 SGML（标准通用标记语言）的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-24T13:48:07.251Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTML 总结">
+<meta name="twitter:description" content="HTML、XML、XHTML 之间的区别与联系 HTML(HyperText Markup Language)，即超文本标记语言。超文本就是指页面内可以包含图片、链接，甚至音乐、程序等非文字元素。超级文本标记语言就是为网页创建和其它能在网页浏览器中看到的信息而设计的一种标记语言。 XML(Extentsible Markup Language)，即可扩展标记语言，是 SGML（标准通用标记语言）的">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-html" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTML 总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/10/14/html/" class="article-date">
+  <time datetime="2017-10-14T15:10:11.000Z" itemprop="datePublished">2017-10-14</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/html/">html</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="HTML、XML、XHTML-之间的区别与联系"><a href="#HTML、XML、XHTML-之间的区别与联系" class="headerlink" title="HTML、XML、XHTML 之间的区别与联系"></a>HTML、XML、XHTML 之间的区别与联系</h2><ul>
+<li>HTML(HyperText Markup Language)，即超文本标记语言。超文本就是指页面内可以包含图片、链接，甚至音乐、程序等非文字元素。超级文本标记语言就是为网页创建和其它能在网页浏览器中看到的信息而设计的一种标记语言。</li>
+<li>XML(Extentsible Markup Language)，即可扩展标记语言，是 SGML（标准通用标记语言）的子集，是一种用于标记电子文件使其具有结构性的标记语言。XML 被设计用来传输和存储数据，其焦点是数据的内容，而 HTML 被设计用来显示数据，其焦点是数据的外观。也可以说，XML 是独立于软件和硬件的信息传输工具。</li>
+<li>XHTML(Extensible HyperText Markup Language)，即可扩展超文本标记语言。XHTML 是更严格更纯净的 HTML 版本，是作为一种 XML 应用被重新定义的 HTML。HTML 语法要求比较松散，这样对网页编写者来说，比较方便，但对于机器来说，语法松散导致很难处理。传统计算机还能兼容松散语法，但对于许多其他设备，比如手机，难度就比较大。因此产生了由 DTD 定义规则，语法要求更加严格的 XHTML。</li>
+</ul>
+<a id="more"></a>
+<h2 id="文档声明"><a href="#文档声明" class="headerlink" title="文档声明"></a>文档声明</h2><p>文档模式一共有 3 种，也就是说有 3 种文档类型声明。</p>
+<ul>
+<li><p>怪异模式（也可以是混杂模式，兼容模式）</p>
+<p>IE6-IE9 的是 IE5.5 的文档模式，IE10+ 和 Chrome 等浏览器是 W3C 规范的怪异模式。</p>
+</li>
+<li><p>标准模式（非怪异模式）</p>
+<p>W3C 标准的文档模式，但各浏览器的实现阶段不尽相同。如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- HTML 4.01 严格型 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;</span></span><br><span class="line">d</span><br><span class="line"><span class="comment">&lt;!-- XHTML 1.0 严格型 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- HTML 5 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>准标准模式（有限怪异模式）</p>
+<p>由于该模式离 W3C 标准仍然有一段距离，因此被称作准标准模式（或有限怪异模式）。IE6、7 的标准模式实际上就是准标准模式，而 IE8+ 才有实质上的标准模式。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- HTML 4.01 过渡型 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"</span></span><br><span class="line"><span class="meta">"http://www.w3.org/TR/html4/loose.dtd"&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- HTML 4.01 框架集型 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"</span></span><br><span class="line"><span class="meta">"http://www.w3.org/TR/html4/frameset.dtd"&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- XHTML 1.0 过渡型 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"</span></span><br><span class="line"><span class="meta">"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- XHTML 1.0 框架集型 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"</span></span><br><span class="line"><span class="meta">"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>现代浏览器一般使用<code>&lt;!doctype html&gt;</code>即可。</p>
+<h2 id="严格-怪异模式的不同点"><a href="#严格-怪异模式的不同点" class="headerlink" title="严格/怪异模式的不同点"></a>严格/怪异模式的不同点</h2><ol>
+<li>在 w3c 标准中，如果设置一个元素的宽度和高度，指的是元素内容的宽度和高度，而在 IE5.5 及以下的浏览器及其他版本的怪异模式下，IE 的宽度和高度还包含了 padding 和 border。</li>
+<li>在标准模式下，给 span 等行内元素设置 width 和 height 都不会生效，而在怪异模式下，则会生效。</li>
+<li>在标准模式下，一个元素的高度是由其包含的内容来决定的，如果父元素没有设置高度，子元素设置一个百分比的高度是无效的。</li>
+<li>用<code>margin: 0 auto</code>设置水平居中在 IE 下会失效，可以使用户用<code>text-align</code>属性解决。</li>
+<li>怪异模式下设置图片的 padding 会失效。</li>
+<li>怪异模式下 table 中的字体属性不能继承上层的设置。</li>
+<li>怪异模式下<code>white-space:pre</code>会失效。</li>
+</ol>
+<h2 id="浏览器乱码的原因与解决方法"><a href="#浏览器乱码的原因与解决方法" class="headerlink" title="浏览器乱码的原因与解决方法"></a>浏览器乱码的原因与解决方法</h2><p>HTML 文件从写入到显示的流程：</p>
+<ol>
+<li>用编辑器编写 HTML 文件</li>
+<li>保存 HTML 文件</li>
+<li>用浏览器打开 HTML 文件</li>
+<li>HTML 文件在浏览器显示</li>
+</ol>
+<p>乱码产生的根源就在与第 2 步和第 4 步。</p>
+<p>第 2 步保存文件时，会使用编辑器默认的编码方式进行保存。一般默认的编码方式是 utf-8。第 4 步浏览器打开网页时，它并不知道你的这个文件是使用什么编码方式，于是自作主张使用了默认解码方式。比如文件保存为 GBK 格式，在浏览器打开时却默认使用 ISO-8859 的解码方式，导致编码和解码不匹配，产生乱码。</p>
+<p>解决方法：在文件保存时要清楚是用哪种编码方式保存的。如果你的文件是保存为 utf-8 格式，那么一定要在 HTML 的 <code>&lt;head&gt;</code>里添加<code>&lt;meta charset=&quot;utf-8&quot;&gt;</code>，这句话的意思是告诉浏览器在打开这个页面的时候不要去猜了，直接用 utf-8 去解码。 同理，如果你的文件保存为 GBK 格式，一定在文件里添加<code>&lt;meta charset=&quot;gbk&quot;&gt;</code>。</p>
+<p>总结：乱码产生的根本原因是你保存的编码格式和浏览器解析时的解码格式不匹配导致的。乱码一般是英文以外的字符才会出现。因为 utf-8、GBK 对英文都是采用 1 个字节的编码方式，并且使用了相同的码字，所以不会乱码</p>
+<h2 id="常见浏览器及其内核"><a href="#常见浏览器及其内核" class="headerlink" title="常见浏览器及其内核"></a>常见浏览器及其内核</h2><ul>
+<li>Trident 内核：IE、傲游、世界之窗、360。</li>
+<li>Gecko 内核：Firefox、Netscape 6 至 9。</li>
+<li>Presto 内核：曾经的 Opera，现在 Opera 使用 Blink 内核。</li>
+<li>Webkit 内核：Safari，曾经的 Chrome 等。</li>
+<li>Blink 内核：Chrome （基于 Webkit，是 Google 与 Opera 共同开发的）。</li>
+</ul>
+<p>另外，微信、QQ 中的浏览器是 X5 Blink 内核。</p>
+<h2 id="常见的-meta-标签"><a href="#常见的-meta-标签" class="headerlink" title="常见的 meta 标签"></a>常见的 meta 标签</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"renderer"</span> <span class="attr">content</span>=<span class="string">"webkit|ie-comp|ie-stand"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1, shrink-to-fit=no"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 在指定方向上锁定屏幕（锁定横/竖屏） --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"x5-orientation"</span> <span class="attr">content</span>=<span class="string">"landscape/portrait"</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 全屏显示此页面 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"x5-fullscreen"</span> <span class="attr">content</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 页面将以“应用模式”显示（全屏等）--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"x5-page-mode"</span> <span class="attr">content</span>=<span class="string">"app"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 对外部资源加载的限制（允许控制从哪里加载资源） --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Security-Policy"</span> <span class="attr">content</span>=<span class="string">"default-src 'self'"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Web 应用的名称（仅当网站被用作为一个应用时才使用）--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"application-name"</span> <span class="attr">content</span>=<span class="string">"应用名称"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 针对页面的简短描述（限制 150 字符）--&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 在*某些*情况下，该描述是被用作搜索结果展示片段的一部分 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"description"</span> <span class="attr">content</span>=<span class="string">"一个页面描述"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 控制搜索引擎的抓取和索引行为 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"robots"</span> <span class="attr">content</span>=<span class="string">"index,follow"</span>&gt;</span><span class="comment">&lt;!-- 所有搜索引擎 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"googlebot"</span> <span class="attr">content</span>=<span class="string">"index,follow"</span>&gt;</span><span class="comment">&lt;!-- 仅对 Google 有效 --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 告诉 Google 不显示网站链接的搜索框 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"google"</span> <span class="attr">content</span>=<span class="string">"nositelinkssearchbox"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 告诉 Google 不提供此页面的翻译 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"google"</span> <span class="attr">content</span>=<span class="string">"notranslate"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 验证 Google 搜索控制台的所有权 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"google-site-verification"</span> <span class="attr">content</span>=<span class="string">"verification_token"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 用来命名软件或用于构建网页（如 - WordPress、Dreamweaver）--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"generator"</span> <span class="attr">content</span>=<span class="string">"program"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 关于你的网站主题的简短描述 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"subject"</span> <span class="attr">content</span>=<span class="string">"你的网站主题"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 基于网站内容给出一般的年龄分级 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"rating"</span> <span class="attr">content</span>=<span class="string">"General"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 允许控制 referrer 信息如何传递 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"referrer"</span> <span class="attr">content</span>=<span class="string">"no-referrer"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 禁用自动检测和格式化可能的电话号码 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"format-detection"</span> <span class="attr">content</span>=<span class="string">"telephone=no"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 通过设置为 “off” 完全退出 DNS 预取 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"x-dns-prefetch-control"</span> <span class="attr">content</span>=<span class="string">"off"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 在客户端存储 cookie，web 浏览器的客户端识别 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"set-cookie"</span> <span class="attr">content</span>=<span class="string">"name=value; expires=date; path=url"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="内容，样式，行为分离原则"><a href="#内容，样式，行为分离原则" class="headerlink" title="内容，样式，行为分离原则"></a>内容，样式，行为分离原则</h2><p>写 HTML 的时候先不管样式，重点放在 HTML 的结构和语义化上，让 HTML 能体现页面结构或者内容。之后再去写样式。HTML 内不允许出现属性样式，尽量不要出现行内样式。</p>
+<p>写 JS 的时候，尽量不要用 JS 去直接操作 HTML 的样式，而是通过给元素添加删除 class 来控制样式变化。</p>
+<h2 id="理解-HTML-语义化"><a href="#理解-HTML-语义化" class="headerlink" title="理解 HTML 语义化"></a>理解 HTML 语义化</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>根据内容的结构化（内容语义化），选择合适的标签（代码语义化）便于开发者阅读和写出更优雅的代码的同时让浏览器的爬虫和机器很好地解析。</p>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
+<li>为了在没有 CSS 的情况下，页面也能呈现出很好地内容结构、代码结构:为了裸奔时好看；</li>
+<li>用户体验：例如title、alt用于解释名词或解释图片信息、label标签的活用；</li>
+<li>有利于 SEO 和搜索引擎建立良好沟通，有助于爬虫抓取更多的有效信息，爬虫依赖于标签来确定上下文和各个关键字的权重；</li>
+<li>方便其他设备解析（如屏幕阅读器、盲人阅读器、移动设备）以意义的方式来渲染网页；</li>
+<li>便于团队开发和维护，语义化更具可读性，是下一步吧网页的重要动向，遵循W3C标准的团队都遵循这个标准，可以减少差异化。</li>
+</ul>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>尽可能少的使用无语义的标签 div 和 span；</li>
+<li>在语义不明显时，既可以使用 div 或者 p 时，尽量用 p，因为 p 在默认情况下有上下间距，对兼容特殊终端有利；</li>
+<li>不要使用纯样式标签，如：b、font、u 等，改用 CSS 设置。</li>
+<li>需要强调的文本，可以包含在 strong 或者 em 标签中（浏览器预设样式，能用 CSS 指定就不用他们），strong 默认样式是加粗（不要用 b），em 是斜体（不用 i ）；</li>
+<li>使用表格时，标题要用 caption，表头用 thead，主体部分用 tbody 包围，尾部用 tfoot 包围。表头和一般单元格要区分开，表头用 th，单元格用 td；</li>
+<li>表单域要用 fieldset 标签包起来，并用 legend 标签说明表单的用途；</li>
+<li>每个 input 标签对应的说明文本都需要使用 label 标签，并且通过为 input 设置 id 属性，在 label 标签中设置 for=ID 来让说明文本和相对应的 input 关联起来。</li>
+</ul>
+<h2 id="常见-HTML-标签及应用场景"><a href="#常见-HTML-标签及应用场景" class="headerlink" title="常见 HTML 标签及应用场景"></a>常见 HTML 标签及应用场景</h2><p>html, body, head 用于 HTML 文件，表示文件的头部与内容部分</p>
+<p>div 用于组合其他 HTML 元素，本身无实在意义，常用于页面的布局</p>
+<p>span 用于行内内容的格式化</p>
+<p>h1~h6 用于标题内容</p>
+<p>p 用于段落内容</p>
+<p>strong, em 用于强调内容</p>
+<p>ul, li, ol, dl, dt, dd 用于带有列表内容的，比如导航栏的下拉菜单，多视频的缩略图</p>
+<p>form, input, select, textarea 用于涉及到表单的内容</p>
+<p>table 用于涉及到表格的内容</p>
+<p>img 用于插入图片</p>
+<p>article, nav, aside, section, header, footer, hgroup, address 等 HTML5 新标签</p>
+<p>语义化相关标签：</p>
+<ul>
+<li>a（anchor）： 用于定义超链接，有打开链接，发送邮件，段落跳转等功能。</li>
+<li>em(emphasis)：em 是句意强调，加与不加会引起语义变化，也可以理解为局部强调，用在语句某个单词上来改变句子的侧重。</li>
+<li>strong：strong 表示重要，strong 的强调是一种随意无顺序的，看见某文时，立刻就凸显出来的关键词句。</li>
+<li>b（bold）：b 元素原本就是加粗，现在表示“文体突出”文字，通俗将是用来在文本中高亮显示某个或者几个字符，旨在引起用户的特别注意，无强调作用。譬如文档概要中的关键字，评论中的产品名，以及分类名。</li>
+<li>i（italic）：i 元素原本只是倾斜，现在描述为在普通文章中突出不同意见或语气或其他的一段文本，就像剧本里的话外音（外语、译音），或也可以用做排版的斜体文字。</li>
+<li>code：定义计算机代码文本。</li>
+<li>q（quote）：用于定义一段引用的内容（短内容）</li>
+<li>cite：用于定义引用内容出自书籍或杂志等的标题，不允许其他信息，如作者，日期等。</li>
+<li>u（underline）：定义下划线文本</li>
+<li>abbr（abbreviation）：定义一个缩写文本，建议在 abbr 的 title 属性中描述缩写的全称</li>
+<li>dfn（defining instance）：用于定义一个术语</li>
+<li>var：定义计算机代码中的变量</li>
+<li>samp（sample）：由程序输出的示例文本</li>
+<li>kbd（keyboard）：定义由键盘输入的文本</li>
+<li>wbr（word break）：定义换行的时机</li>
+<li>span：没有任何语义</li>
+<li>br：定义一个换行符</li>
+<li>blockquote：标记一段长引文。标记短引文（行内引文），应采用 q 元素</li>
+<li>pre：pre 元素可定义预格式化的文本。被包围在 pre 元素中的文本通常会保留空格和换行符。而文本也会呈现为等宽字体。pre 标签的一个常见应用就是用来表示源代码。他跟 code 的关系好比 blockquote 和 q 的关系。</li>
+</ul>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017/10/24/form/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          HTML 表单
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017/10/11/network/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">从 URL 输入到页面显示到底发生了什么？</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

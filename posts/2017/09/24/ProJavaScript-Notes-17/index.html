@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>重读 JS 高程（Chapter24、Chapter25） | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Chapter24. 最佳实践可维护性什么是可维护的代码 可理解性 直观性 可适应性 可扩展性 可调试性  代码约定一种让代码变得可维护的简单途径是形成一套 JavaScript 代码的书写约定。 可读性  缩进，常见为 4 个空格。 注释，需要进行注释的地方有： 函数和方法 大段代码 复杂的算法 Hack">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重读 JS 高程（Chapter24、Chapter25）">
+<meta property="og:url" content="http://yoursite.com/posts/2017/09/24/ProJavaScript-Notes-17/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="Chapter24. 最佳实践可维护性什么是可维护的代码 可理解性 直观性 可适应性 可扩展性 可调试性  代码约定一种让代码变得可维护的简单途径是形成一套 JavaScript 代码的书写约定。 可读性  缩进，常见为 4 个空格。 注释，需要进行注释的地方有： 函数和方法 大段代码 复杂的算法 Hack">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-11T12:42:57.743Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重读 JS 高程（Chapter24、Chapter25）">
+<meta name="twitter:description" content="Chapter24. 最佳实践可维护性什么是可维护的代码 可理解性 直观性 可适应性 可扩展性 可调试性  代码约定一种让代码变得可维护的简单途径是形成一套 JavaScript 代码的书写约定。 可读性  缩进，常见为 4 个空格。 注释，需要进行注释的地方有： 函数和方法 大段代码 复杂的算法 Hack">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-ProJavaScript-Notes-17" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      重读 JS 高程（Chapter24、Chapter25）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/09/24/ProJavaScript-Notes-17/" class="article-date">
+  <time datetime="2017-09-24T15:15:30.000Z" itemprop="datePublished">2017-09-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter24-最佳实践"><a href="#Chapter24-最佳实践" class="headerlink" title="Chapter24. 最佳实践"></a>Chapter24. 最佳实践</h2><h3 id="可维护性"><a href="#可维护性" class="headerlink" title="可维护性"></a>可维护性</h3><h4 id="什么是可维护的代码"><a href="#什么是可维护的代码" class="headerlink" title="什么是可维护的代码"></a>什么是可维护的代码</h4><ul>
+<li>可理解性</li>
+<li>直观性</li>
+<li>可适应性</li>
+<li>可扩展性</li>
+<li>可调试性</li>
+</ul>
+<h4 id="代码约定"><a href="#代码约定" class="headerlink" title="代码约定"></a>代码约定</h4><p>一种让代码变得可维护的简单途径是形成一套 JavaScript 代码的书写约定。</p>
+<p><strong>可读性</strong></p>
+<ul>
+<li>缩进，常见为 4 个空格。</li>
+<li>注释，需要进行注释的地方有：<ul>
+<li>函数和方法</li>
+<li>大段代码</li>
+<li>复杂的算法</li>
+<li>Hack</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<p><strong>变量和函数命名</strong></p>
+<ul>
+<li>变量应为名词</li>
+<li>函数名应以动词开始，返回布尔值类型的函数一般以 is 开头</li>
+<li>变量和函数都应该使用合乎逻辑的名字，不要担心长度。</li>
+</ul>
+<p><strong>变量类型透明</strong></p>
+<ul>
+<li>变量初始化</li>
+<li>匈牙利标记法，如 bFound(布尔值)、iCount(整数)等</li>
+<li>用类型注释，如<code>var found /* Boolean */ = false;</code></li>
+</ul>
+<h4 id="松散耦合"><a href="#松散耦合" class="headerlink" title="松散耦合"></a>松散耦合</h4><ul>
+<li>解耦 HTML/JavaScript，尽量不使用内联<code>&lt;script&gt;</code>或者用 HTML 属性分配事件处理程序，尽量不用 JavaScript 直接创建大量 HTML 内容。</li>
+<li>解耦 CSS/JavaScript，避免直接操作元素的<code>style</code>属性，最好使用修改<code>className</code>的方式。</li>
+<li>解耦应用逻辑/事件处理程序。</li>
+</ul>
+<h4 id="编程实践"><a href="#编程实践" class="headerlink" title="编程实践"></a>编程实践</h4><p><strong>尊重对象所有权</strong></p>
+<p>如果你不负责维护某个对象、它的对象或者它的方法，那么你就不能对他们进行修改。</p>
+<ul>
+<li>不要为实例或原型添加属性；</li>
+<li>不要为实例或原型添加方法；</li>
+<li>不要重定义已存在的方法。</li>
+</ul>
+<p>最佳的方法是永远不修改不是由你所有的对象，可以通过以下方式为对象创建新的功能：</p>
+<ul>
+<li>创建包含所需功能的新对象，并用它与相关对象进行交互。</li>
+<li>创建自定义类型，继承需要进行修改的类型。然后为自定义类添加额外功能。</li>
+</ul>
+<p><strong>避免全局变量</strong></p>
+<p>使用命名空间，如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建全局对象。</span></span><br><span class="line"><span class="keyword">var</span> Wrox = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//为Professional JavaScript创建命名空间</span></span><br><span class="line">Wrox.ProJS = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//将书中用到的对象附加上去</span></span><br><span class="line">Wrox.ProJS.EventUtil = &#123;&#125;;</span><br><span class="line">Wrox.ProJS.CookieUtil = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>避免与 null 进行比较</strong></p>
+<ul>
+<li>如果值为一个引用类型，使用<code>instanceof</code>操作符检查其构造函数；</li>
+<li>如果值为一个基本类型，使用<code>typeof</code>检查其类型</li>
+<li>如果是希望对象包含某个特定的方法名，则使用<code>typeof</code>操作符确保指定名字的方法存在于对象上。</li>
+<li>代码中的<code>null</code>比较少，就容易确定代码的目的，并消除不必要的错误。</li>
+</ul>
+<p><strong>使用常量</strong></p>
+<p>关键在于将数据和使用它的逻辑进行分离，要注意的值的类型如下：</p>
+<ul>
+<li>重复值：多处用到的值。</li>
+<li>用户界面字符串：任何用于显示给用户的字符串，都应该被抽取出来以方便国际化。</li>
+<li>URLs：在 Web 应用中，资源位置很容易变更，推荐使用一个公用的地方存放所有的 URL。</li>
+<li>任意可能会更改的值。</li>
+</ul>
+<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><h4 id="注意作用域"><a href="#注意作用域" class="headerlink" title="注意作用域"></a>注意作用域</h4><p>随着作用域链中的作用域数量的增加，访问当前作用域意外的变量的时间也在增加。访问全局变量的速度比访问局部变量慢啊，因为要遍历作用域链。</p>
+<p><strong>避免全局查找</strong></p>
+<p>全局查找的开销比直接使用局部变量的开销要大，要在函数中多把全局变量存储为局部变量。</p>
+<p><strong>避免 with 语句</strong></p>
+<p><code>with</code>语句会创建自己的作用域，会增加作用域链长度，会导致执行代码速度变慢。</p>
+<h4 id="选择正确方法"><a href="#选择正确方法" class="headerlink" title="选择正确方法"></a>选择正确方法</h4><p><strong>避免不必要的属性查找</strong></p>
+<p>尽可能多地使用局部变量将属性查找替换为值查找。</p>
+<p><strong>优化循环</strong></p>
+<ul>
+<li>减值迭代，从最大值开始迭代。</li>
+<li>简化终止条件，每次循环过程都会计算终止条件，所以必须保证它尽可能快。</li>
+<li>简化循环体</li>
+<li>使用后测试循环</li>
+</ul>
+<p><strong>展开循环</strong></p>
+<ul>
+<li>当循环的次数是确定的，消除循环并使用多次函数调用往往更快。</li>
+<li>循环次数不一定，使用 Duff 装置处理循环。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> iterations = <span class="built_in">Math</span>.floor(values.length/<span class="number">8</span>);</span><br><span class="line"><span class="keyword">var</span> leftover = values.length%<span class="number">8</span>;</span><br><span class="line"><span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(leftover &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="keyword">do</span>&#123;</span><br><span class="line">        process(values[i++]);</span><br><span class="line">    &#125;<span class="keyword">while</span>(--leftover &gt; <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    process(values[i++]);</span><br><span class="line">    process(values[i++]);</span><br><span class="line">    process(values[i++]);</span><br><span class="line">    process(values[i++]);</span><br><span class="line">    process(values[i++]);</span><br><span class="line">    process(values[i++]);</span><br><span class="line">    process(values[i++]);</span><br><span class="line">    process(values[i++]);</span><br><span class="line">&#125;<span class="keyword">while</span>(--iterations &gt; <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>避免双重解释</strong></p>
+<p>当 JavaScript 代码想解析 JavaScript 的时候就会存在双重解释惩罚。这种情况要尽量避免出现。</p>
+<p><strong>性能的其他注意事项</strong></p>
+<ul>
+<li>原生方法较快</li>
+<li>switch语句较快</li>
+<li>位运算符较快</li>
+</ul>
+<h4 id="最小化语句数"><a href="#最小化语句数" class="headerlink" title="最小化语句数"></a>最小化语句数</h4><p>完成多个操作的单个语句要比完成单个操作的多个语句快。</p>
+<ul>
+<li>多个变量声明变成使用逗号分隔的一句变量声明。</li>
+<li>插入迭代值</li>
+<li>使用数组和对象字面量</li>
+</ul>
+<h4 id="优化-DOM-交互"><a href="#优化-DOM-交互" class="headerlink" title="优化 DOM 交互"></a>优化 DOM 交互</h4><ul>
+<li>最小化现场更新，使用<code>document.createDocumentFragment()</code>更新节点。</li>
+<li>使用<code>innerHTML</code>，使用它要比 DOM 方法快。</li>
+<li>使用事件代理，可以避免为每个节点都绑定事件处理程序</li>
+<li>注意 HTMLCollection，访问它都会在文档进行查询，开销很小，需要减少它的访问次数。发生以下情况会返回 HTMLCollection 对象：<ul>
+<li><code>getElementsByTagName()</code>；</li>
+<li>获取元素的<code>childNodes</code>属性；</li>
+<li>获取元素的<code>attributes</code>属性；</li>
+<li>访问了特殊的集合，<code>document.forms</code>、<code>document.images</code>等。</li>
+</ul>
+</li>
+</ul>
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><h4 id="构建过程"><a href="#构建过程" class="headerlink" title="构建过程"></a>构建过程</h4><p>前端的代码不应该原封不动的放在浏览器中，理由如下：</p>
+<ul>
+<li>知识产权问题</li>
+<li>文件大小</li>
+<li>代码组织</li>
+</ul>
+<p>可以用 Ant 构建。</p>
+<h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><p>主要使用 JSLint，现在要使用 ESLint。</p>
+<h4 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h4><ul>
+<li>文件压缩，一般会删除额外的空白和注释，缩短变量名。</li>
+<li>HTTP 压缩，一般由浏览器进行。</li>
+</ul>
+<h2 id="Chapter25-新兴的-API"><a href="#Chapter25-新兴的-API" class="headerlink" title="Chapter25. 新兴的 API"></a>Chapter25. 新兴的 API</h2><h3 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h3><h4 id="早期动画循环"><a href="#早期动画循环" class="headerlink" title="早期动画循环"></a>早期动画循环</h4><p>使用<code>setInterval()</code>方法控制所有动画，不过定时器并不能保证动画按时执行。</p>
+<p>平滑动画的最佳循环间隔是 1000ms/60，即 17ms。</p>
+<h4 id="循环间隔的问题"><a href="#循环间隔的问题" class="headerlink" title="循环间隔的问题"></a>循环间隔的问题</h4><p>浏览器的计时精度并不是到毫秒级的，也会对动画实际效果有影响。</p>
+<h4 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame()"></a>requestAnimationFrame()</h4><p>使用如下方式保证<code>requestAnimationFrame()</code>的兼容性。这个方法用于告诉浏览器某些 JavaScript 代码要执行动画。解决了浏览器不知道 JavaScript 动画什么时候开始、不知道最佳循环间隔和不知道代码什么时候执行的问题。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.requestAnimFrame = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span>  <span class="built_in">window</span>.requestAnimationFrame     ||</span><br><span class="line">        <span class="built_in">window</span>.webkitRequestAnimationFrame ||</span><br><span class="line">        <span class="built_in">window</span>.mozRequestAnimationFrame    ||</span><br><span class="line">        <span class="built_in">window</span>.msRequestAnimationFrame     ||</span><br><span class="line">        <span class="built_in">window</span>.oRequestAnimationFrame      ||</span><br><span class="line">        <span class="function"><span class="keyword">function</span>(<span class="params"> callback </span>)</span>&#123;</span><br><span class="line">            <span class="built_in">window</span>.setTimeout(callback, <span class="number">1000</span>/<span class="number">60</span>);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line">  </span><br><span class="line"><span class="built_in">window</span>.cancelAnimFrame = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">window</span>.cancelAnimationFrame     ||</span><br><span class="line">        <span class="built_in">window</span>.cancelRequestAnimationFrame ||</span><br><span class="line">        <span class="built_in">window</span>.webkitCancelAnimationFrame  ||  </span><br><span class="line">        <span class="built_in">window</span>.mozCancelAnimationFrame     ||  </span><br><span class="line">        <span class="built_in">window</span>.msCancelAnimationFrame      ||  </span><br><span class="line">        <span class="built_in">window</span>.oCancelAnimationFrame       ||  </span><br><span class="line">        <span class="built_in">window</span>.clearTimeout;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<h3 id="Page-Visibility-API"><a href="#Page-Visibility-API" class="headerlink" title="Page Visibility API"></a>Page Visibility API</h3><p>该 API 是为了让开发人员知道页面是否对用户可见而推出的。这个 API 本身非常简单，由以下几部分组成：</p>
+<ul>
+<li><code>document.hidden</code>：表示页面是否隐藏，包括在后台标签页中或者浏览器最小化。</li>
+<li><code>document.visibilityState</code>：表示下列 4 个可能的状态值。<ul>
+<li>页面在后台标签页或浏览器最小化</li>
+<li>页面在前台标签页中。</li>
+<li>实际的页面已经隐藏，但用户可以看到页面的预览。</li>
+<li>页面在屏幕外执行预渲染处理。</li>
+</ul>
+</li>
+<li><code>visibilitychange</code>事件：当文档从可见变为不可见或从不可见变为可见时，触发该事件。</li>
+</ul>
+<h3 id="Geolocation-API"><a href="#Geolocation-API" class="headerlink" title="Geolocation API"></a>Geolocation API</h3><p>地理定位的实现是<code>navigator.geoloaction</code> 对象，这个对象包含 3 个方法。</p>
+<p>第一个方法是<code>getCurrentPosition()</code>，调用这个方法就会触发请求用户共享地理定位信息的对话框。这个方法接收 3 个参数：成功回调函数、可选的失败回调函数和可选的选项对象。</p>
+<p>其中，成功回调函数会接受到一个 Position 对象参数，有两个属性<code>coords</code>和<code>timestamp</code>。</p>
+<p><code>coords</code>可能包含如下信息：</p>
+<ul>
+<li><code>latitude</code>：以十进制数表示的纬度。</li>
+<li><code>longtitude</code>：以十进制数表示的经度。</li>
+<li><code>accuracy</code>：经纬度坐标精度，以米为单位。</li>
+<li><code>altitude</code>：以米为单位的还不高度，如果没有相关数据则为<code>null</code>。</li>
+<li><code>alitudeAccracy</code>：海拔高度的精度，以米为单位。</li>
+<li><code>heading</code>：指南针的方向，0 度表示正北，值为 NaN 表示没有检测到数据。</li>
+<li><code>speed</code>：速度，即每秒移动多少米，没有则为<code>null</code>。</li>
+</ul>
+<p>第二个参数即失败回调函数，在被调用的时候也会接收到一个参数，这个参数包含两个属性：<code>message</code>和<code>code</code>。</p>
+<p>第三个参数是一个配置选项对象，用于设定信息的类型。可以设置的选项有三个：</p>
+<ul>
+<li><code>enableHighAccuracy</code>：表示必须尽可能使用最准确的位置信息。</li>
+<li><code>timeout</code>：表示等待位置欣欣的最长时间。ma</li>
+<li><code>maximumAge</code>表示上一次取得的坐标信息的有效时间。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">navigator.geolocation.getCurrentPosition(<span class="function"><span class="keyword">function</span> (<span class="params">position</span>)</span>&#123;</span><br><span class="line">    drawMapCenteredAt(position.coords.latitude, position.coords.longtitude);</span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">error</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Error code: "</span> + error.code);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Error message: "</span> + error.message);</span><br><span class="line">&#125;, &#123;</span><br><span class="line">    enableHighAccuracy: <span class="literal">true</span>,</span><br><span class="line">    timeout: <span class="number">5000</span>,</span><br><span class="line">    maximumAge: <span class="number">25000</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>如果希望跟踪用户的位置，可以用<code>watchPosition()</code>方法，参数与<code>getCurrentPostion()</code>相同。调用该方法会返回一个数值标识符，可以用于传入<code>clearWatch()</code>方法取消监控操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> watchId - navigator.geolocation.watchPosition(<span class="function"><span class="keyword">function</span> (<span class="params">position</span>)</span>&#123;</span><br><span class="line">    drawMapCenteredAt(position.coords.latitude, position.coords.longtitude);</span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">error</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Error code: "</span> + error.code);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Error message: "</span> + error.message);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">clearWatch(watchId);</span><br></pre></td></tr></table></figure>
+<h3 id="File-API"><a href="#File-API" class="headerlink" title="File API"></a>File API</h3><p>File API 在表单中的文件传入字段的基础上，又添加了一些直接访问文件信息的接口。HTML5 在 DOM 中为文件输入元素添加了一个<code>files</code>集合。每个  File 对象都有下列属性：</p>
+<ul>
+<li><code>name</code>：本地文件系统中的文件名</li>
+<li><code>size</code>：文件的字节大小。</li>
+<li><code>type</code>：字符串，文件的 MIME 类型。</li>
+<li><code>lastModifiedData</code>：字符串，文件上一次被修改的时间。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> filesList = <span class="built_in">document</span>.getElementById(<span class="string">"files-list"</span>);</span><br><span class="line"></span><br><span class="line">EventUtil.addHandler(filesList, <span class="string">"change"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> info = <span class="string">""</span>,</span><br><span class="line">        output = <span class="built_in">document</span>.getElementById(<span class="string">"output"</span>),</span><br><span class="line">        files = EventUtil.getTarget(event).files,</span><br><span class="line">        i = <span class="number">0</span>,</span><br><span class="line">        len = files.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (i &lt; len)&#123;</span><br><span class="line">        info += files[i].name + <span class="string">" ("</span> + files[i].type + <span class="string">", "</span> + files[i].size + <span class="string">" bytes)&lt;br&gt;"</span>;</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    output.innerHTML = info;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="FileReader-类型"><a href="#FileReader-类型" class="headerlink" title="FileReader 类型"></a>FileReader 类型</h4><p>通过 FileReader 类型可以读取文件中数据，是一种异步文件读取机制，可以想象成 XMLHttpRequest。提供以下几个方法：</p>
+<ul>
+<li><code>readAsText(file, encoding)</code>：以纯文本形式读取文件，将读取到的文本保存在<code>result</code>属性中。第二个参数用于指定编码类型（可选的）。</li>
+<li><code>readAsDataURL(file)</code>：读取文件并将文件以数据 URI 的形式保存在<code>result</code>属性中。</li>
+<li><code>readAsBinaryString(file)</code>：读取文件并将一个字符串保存在<code>result</code>属性中，字符串中的每个字符表示一字节。</li>
+<li><code>readAsArrayBuffer(file)</code>：读取文件并将一个包含文件内容的 ArrayBuffer 保存在<code>result</code>属性中。</li>
+</ul>
+<p>由于读取过程是异步的，因此 FileReader 也提供了几个事件，比较实用的是<code>progress</code>、<code>error</code>、<code>load</code>这三个事件。下面是使用上述三个事件的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> filesList = <span class="built_in">document</span>.getElementById(<span class="string">"files-list"</span>);</span><br><span class="line">EventUtil.addHandler(filesList, <span class="string">"change"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> info = <span class="string">""</span>,</span><br><span class="line">        output = <span class="built_in">document</span>.getElementById(<span class="string">"output"</span>),</span><br><span class="line">        progress = <span class="built_in">document</span>.getElementById(<span class="string">"progress"</span>),</span><br><span class="line">        files = EventUtil.getTarget(event).files,</span><br><span class="line">        type = <span class="string">"default"</span>,</span><br><span class="line">        reader = <span class="keyword">new</span> FileReader();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="regexp">/image/</span>.test(files[<span class="number">0</span>].type))&#123;</span><br><span class="line">        reader.readAsDataURL(files[<span class="number">0</span>]);</span><br><span class="line">        type = <span class="string">"image"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        reader.readAsText(files[<span class="number">0</span>]);</span><br><span class="line">        type = <span class="string">"text"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    reader.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        output.innerHTML = <span class="string">"Could not read file, error code is "</span> + reader.error.code;</span><br><span class="line">    &#125;;</span><br><span class="line">    reader.onprogress = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (event.lengthComputable)&#123;</span><br><span class="line">            progress.innerHTML = event.loaded + <span class="string">"/"</span> + event.total;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> html = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span>(type)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">"image"</span>:</span><br><span class="line">                html = <span class="string">"&lt;img src=\""</span> + reader.result + <span class="string">"\"&gt;"</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">"text"</span>:</span><br><span class="line">                html = reader.result;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        output.innerHTML = html;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>要中断读取过程，可以调用<code>abort()</code>方法，会触发<code>abort</code>事件。在触发<code>load</code>、<code>error</code>或<code>abort</code>事件后，会触发<code>loadend</code>事件。</p>
+<h4 id="读取部分内容"><a href="#读取部分内容" class="headerlink" title="读取部分内容"></a>读取部分内容</h4><p>File 对象还支持一个<code>slice()</code>方法，该方法接受两个参数：起始字节和要读取的字节数。会返回一个 Blob 实例，Blob 是 File 类型的父类型。下面是一个通用函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blobSlice</span>(<span class="params">blob, startByte, length</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (blob.slice)&#123;</span><br><span class="line">        <span class="keyword">return</span> blob.slice(startByte, length);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (blob.webkitSlice)&#123;</span><br><span class="line">        <span class="keyword">return</span> blob.webkitSlice(startByte, length);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (blob.mozSlice)&#123;</span><br><span class="line">        <span class="keyword">return</span> blob.mozSlice(startByte, length);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Blob 类型有一个<code>size</code>属性和<code>type</code>属性。下例只读取文件的 32B 内容。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> filesList = <span class="built_in">document</span>.getElementById(<span class="string">"files-list"</span>);</span><br><span class="line">EventUtil.addHandler(filesList, <span class="string">"change"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> info = <span class="string">""</span>,</span><br><span class="line">        output = <span class="built_in">document</span>.getElementById(<span class="string">"output"</span>),</span><br><span class="line">        progress = <span class="built_in">document</span>.getElementById(<span class="string">"progress"</span>),</span><br><span class="line">        files = EventUtil.getTarget(event).files,</span><br><span class="line">        reader = <span class="keyword">new</span> FileReader(),</span><br><span class="line">        blob = blobSlice(files[<span class="number">0</span>], <span class="number">0</span>, <span class="number">32</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (blob)&#123;</span><br><span class="line">        reader.readAsText(blob);</span><br><span class="line"></span><br><span class="line">        reader.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            output.innerHTML = <span class="string">"Could not read file, error code is "</span> + reader.error.code;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            output.innerHTML = reader.result;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        alert(<span class="string">"Your browser doesn't support slice()."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="对象-URL"><a href="#对象-URL" class="headerlink" title="对象 URL"></a>对象 URL</h4><p>也称为 blob URL，指的是引用保存在 File 或 Blob 数据中的 URL。使用它的好处是可以不必把文件内容读取到 JavaScript 中而直接使用文件内容。创建 URL 对象，可以使用<code>window.URL.createObjectURL()</code>方法，并传入 File 或 Blob 对象。通用函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createObjectURL</span>(<span class="params">blob</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.URL)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">window</span>.URL.createObjectURL(blob);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">window</span>.webkitURL)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">window</span>.webkitURL.createObjectURL(blob);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该函数的返回值是一个字符串，指向一块内存地址。因为这个字符串是 URL，所以在 DOM 中也能使用。如下，可以显示图像文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">EventUtil.addHandler(filesList, <span class="string">"change"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> info = <span class="string">""</span>,</span><br><span class="line">        output = <span class="built_in">document</span>.getElementById(<span class="string">"output"</span>),</span><br><span class="line">        progress = <span class="built_in">document</span>.getElementById(<span class="string">"progress"</span>),</span><br><span class="line">        files = EventUtil.getTarget(event).files,</span><br><span class="line">        reader = <span class="keyword">new</span> FileReader(),</span><br><span class="line">        url = createObjectURL(files[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (url)&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="regexp">/image/</span>.test(files[<span class="number">0</span>].type))&#123;</span><br><span class="line">            output.innerHTML = <span class="string">"&lt;img src=\""</span> + url + <span class="string">"\"&gt;"</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            output.innerHTML = <span class="string">"Not an image."</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        output.innerHTML = <span class="string">"Your browser doesn't support object URLs."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>直接把对象 URL 放在<code>&lt;img&gt;</code>标签中，省去了在 JavaScript 中读数据的麻烦。<code>&lt;img&gt;</code>会找到相应内存地址，直接读取数据并将图像显示在页面中。</p>
+<p>如果不需要相应数据，可以用<code>window.URL.revokeObjectURL()</code>释放内存。</p>
+<h4 id="读取拖放的文件"><a href="#读取拖放的文件" class="headerlink" title="读取拖放的文件"></a>读取拖放的文件</h4><p>通过<code>drop</code>的<code>event</code>对象的<code>event.dataTransfer.files</code>属性，可以读取被放置的文件。代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> droptarget = <span class="built_in">document</span>.getElementById(<span class="string">"droptarget"</span>);</span><br><span class="line">            </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleEvent</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> info = <span class="string">""</span>,</span><br><span class="line">        output = <span class="built_in">document</span>.getElementById(<span class="string">"output"</span>),</span><br><span class="line">        files, i, len;            </span><br><span class="line"></span><br><span class="line">    EventUtil.preventDefault(event);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (event.type == <span class="string">"drop"</span>)&#123;</span><br><span class="line">        files = event.dataTransfer.files;</span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">        len = files.length;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (i &lt; len)&#123;</span><br><span class="line">            info += files[i].name + <span class="string">" ("</span> + files[i].type + <span class="string">", "</span> + files[i].size + <span class="string">" bytes)&lt;br&gt;"</span>;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        output.innerHTML = info;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EventUtil.addHandler(droptarget, <span class="string">"dragenter"</span>, handleEvent);</span><br><span class="line">EventUtil.addHandler(droptarget, <span class="string">"dragover"</span>, handleEvent);</span><br><span class="line">EventUtil.addHandler(droptarget, <span class="string">"drop"</span>, handleEvent);</span><br></pre></td></tr></table></figure>
+<h4 id="使用-XHR-上传文件"><a href="#使用-XHR-上传文件" class="headerlink" title="使用 XHR 上传文件"></a>使用 XHR 上传文件</h4><p>先创建 FormData 对象，通过它调用<code>append()</code>方法并传入相应 File 对象作为参数，然后再把 FormData 对象传递给 XHR 的<code>send()</code>方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> droptarget = <span class="built_in">document</span>.getElementById(<span class="string">"droptarget"</span>);</span><br><span class="line">            </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleEvent</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> info = <span class="string">""</span>,</span><br><span class="line">        output = <span class="built_in">document</span>.getElementById(<span class="string">"output"</span>),</span><br><span class="line">        data, xhr,</span><br><span class="line">        files, i, len;            </span><br><span class="line"></span><br><span class="line">    EventUtil.preventDefault(event);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (event.type == <span class="string">"drop"</span>)&#123;</span><br><span class="line">        data = <span class="keyword">new</span> FormData();</span><br><span class="line">        files = event.dataTransfer.files;</span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">        len = files.length;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (i &lt; len)&#123;</span><br><span class="line">            data.append(<span class="string">"file"</span> + i, files[i]);</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">        xhr.open(<span class="string">"post"</span>, <span class="string">"FileAPIExample06Upload.php"</span>, <span class="literal">true</span>);</span><br><span class="line">        xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (xhr.readyState == <span class="number">4</span>)&#123;</span><br><span class="line">                alert(xhr.responseText);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        xhr.send(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EventUtil.addHandler(droptarget, <span class="string">"dragenter"</span>, handleEvent);</span><br><span class="line">EventUtil.addHandler(droptarget, <span class="string">"dragover"</span>, handleEvent);</span><br><span class="line">EventUtil.addHandler(droptarget, <span class="string">"drop"</span>, handleEvent);</span><br></pre></td></tr></table></figure>
+<h3 id="Web-计时"><a href="#Web-计时" class="headerlink" title="Web 计时"></a>Web 计时</h3><p>核心是<code>window.performance</code>对象。页面的所有度量信息，都包含在这个对象里面。Web Timing 规范一开始就为<code>performance</code>对象定义了两个属性：</p>
+<ul>
+<li><code>redirectCount</code>：页面加载前的重定向次数。</li>
+<li><code>type</code>：数值常量，表示刚刚发生的导航类型。<ul>
+<li>performance.navigation.TYPE_NAVIGATE（0）：页面第一次加载。</li>
+<li>performance.navigation.TYPE_RELOAD（1）：页面重载过。</li>
+<li>performance.navigation.TYPE_BACK_FORWARD（2）：页面是通过“后退”或“前进”按钮打开的。</li>
+</ul>
+</li>
+</ul>
+<p>另外，<code>performance.timing</code>属性也是一个对象，但这个对象的属性都是时间戳，不同事件会产生不同的值。如下:</p>
+<ul>
+<li>navigationStart</li>
+<li>unloadEventStart</li>
+<li>unloadEventEnd</li>
+<li>redirectStart</li>
+<li>redirectEnd</li>
+<li>fetchStart</li>
+<li>domainLookupStart</li>
+<li>domainLookupEnd</li>
+<li>connectStart</li>
+<li>connectEnd</li>
+<li>secureConnectStart</li>
+<li>requestStart</li>
+<li>responseStart</li>
+<li>responseEnd</li>
+<li>domLoading</li>
+<li>domInteractive</li>
+<li>domContentLoadedEventStart</li>
+<li>domContentLoadedEventEnd</li>
+<li>domComplete</li>
+<li>loadEventStart</li>
+<li>loadEventEnd</li>
+</ul>
+<h3 id="Web-Workers"><a href="#Web-Workers" class="headerlink" title="Web Workers"></a>Web Workers</h3><p>Web Workers 规范通过让 JavaScript 在后台运行解决了单线程的缺点，不会影响用户体验。</p>
+<h4 id="使用-Worker"><a href="#使用-Worker" class="headerlink" title="使用 Worker"></a>使用 Worker</h4><p>实例化 Worker 对象并传入要执行的 JavaScript 文件名就可以创建一个新的 Web Worker。如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> worker = <span class="keyword">new</span> Worker(<span class="string">"stufftodo.js"</span>);</span><br></pre></td></tr></table></figure>
+<p>这行代码会导致浏览器下载<code>stufftodo.js</code>，但只有 Worker 接收到消息才会实际执行文件中的代码。要给 Worker 传递消息，可以使用<code>postMessage()</code>方法。与 XDM 不同的是，在所有支持的浏览器中，<code>postMessage()</code>都能接收对象参数。</p>
+<p>然后通过<code>message</code>和<code>error</code>事件与页面通信。来自 Worker 的数据保存在<code>event.data</code>中。任何时候，只要调用<code>terminate()</code>方法就可以停止 Worker 的工作。而且，Worker 中的代码会立即停止执行，后续过程都不会再发生。</p>
+<h4 id="Worker-全局作用域"><a href="#Worker-全局作用域" class="headerlink" title="Worker 全局作用域"></a>Worker 全局作用域</h4><p>Web Worker 中的全局对象是<code>worker</code>对象本身。也就是说，在这个特殊的全局作用域中，<code>this</code>和<code>self</code>引用的都是<code>worker</code>对象。为便于处理数据，Web Worker 本身也是一个最小化的运行环境。</p>
+<ul>
+<li>最小化的<code>navigator</code>对象，包括<code>onLine</code>、<code>appName</code>、<code>appVersion</code>、<code>userAgent</code>和<code>platform</code>属性；</li>
+<li>只读的<code>location</code>对象；</li>
+<li>定时器方法；</li>
+<li>XMLHttpRequest 构造函数。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Web Worker内部代码</span></span><br><span class="line">self.onmessage = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> data = event.data;</span><br><span class="line">    data.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a - b;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    self.postMessage(data);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 页面中</span></span><br><span class="line"><span class="keyword">var</span> data = [<span class="number">23</span>,<span class="number">4</span>,<span class="number">7</span>,<span class="number">9</span>,<span class="number">2</span>,<span class="number">14</span>,<span class="number">6</span>,<span class="number">651</span>,<span class="number">87</span>,<span class="number">41</span>,<span class="number">7798</span>,<span class="number">24</span>],</span><br><span class="line">    worker = <span class="keyword">new</span> Worker(<span class="string">"WebWorkerExample01.js"</span>);</span><br><span class="line"></span><br><span class="line">worker.onmessage = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    alert(event.data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">worker.postMessage(data);</span><br></pre></td></tr></table></figure>
+<p>在 Worker 内部，调用<code>close()</code>方法也可以停止工作。</p>
+<h4 id="包含其他脚本"><a href="#包含其他脚本" class="headerlink" title="包含其他脚本"></a>包含其他脚本</h4><p>既然无法在 Worker 中动态创建新的<code>&lt;script&gt;</code>元素，但可以调用<code>importScripts()</code>方法。这个方法接受一个或多个指向 JavaScript 文件的 URL。每个加载过程都是异步进行的，因此所有脚本加载并执行之后，<code>importScripts()</code>才会执行。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">importScripts(<span class="string">"file1.js"</span>, <span class="string">"file2.js"</span>)</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017/10/11/network/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          从 URL 输入到页面显示到底发生了什么？
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017/09/24/ProJavaScript-Notes-16/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">重读 JS 高程（Chapter23）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

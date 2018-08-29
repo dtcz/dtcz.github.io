@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>重读 JS 高程（Chapter23） | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Chapter23. 离线应用与客户端存储支持离线 Web 应用开发是 HTML5 的另一个重点。所谓离线 Web 应用，就是在设备不能上网的情况下仍然可以运行的应用。 离线检测开发离线应用首先要检测设备的状态，根据设备在线或者离线进行接下来的操作。HTML5 为我们提供了两种判断设备在线状态的方式：  navigator.onLine属性：属性值为true表示设备能上网，值为false表示设备离">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重读 JS 高程（Chapter23）">
+<meta property="og:url" content="http://yoursite.com/posts/2017/09/24/ProJavaScript-Notes-16/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="Chapter23. 离线应用与客户端存储支持离线 Web 应用开发是 HTML5 的另一个重点。所谓离线 Web 应用，就是在设备不能上网的情况下仍然可以运行的应用。 离线检测开发离线应用首先要检测设备的状态，根据设备在线或者离线进行接下来的操作。HTML5 为我们提供了两种判断设备在线状态的方式：  navigator.onLine属性：属性值为true表示设备能上网，值为false表示设备离">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-09-24T17:12:42.292Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重读 JS 高程（Chapter23）">
+<meta name="twitter:description" content="Chapter23. 离线应用与客户端存储支持离线 Web 应用开发是 HTML5 的另一个重点。所谓离线 Web 应用，就是在设备不能上网的情况下仍然可以运行的应用。 离线检测开发离线应用首先要检测设备的状态，根据设备在线或者离线进行接下来的操作。HTML5 为我们提供了两种判断设备在线状态的方式：  navigator.onLine属性：属性值为true表示设备能上网，值为false表示设备离">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-ProJavaScript-Notes-16" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      重读 JS 高程（Chapter23）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/09/24/ProJavaScript-Notes-16/" class="article-date">
+  <time datetime="2017-09-24T05:18:42.000Z" itemprop="datePublished">2017-09-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter23-离线应用与客户端存储"><a href="#Chapter23-离线应用与客户端存储" class="headerlink" title="Chapter23. 离线应用与客户端存储"></a>Chapter23. 离线应用与客户端存储</h2><p>支持离线 Web 应用开发是 HTML5 的另一个重点。所谓离线 Web 应用，就是在设备不能上网的情况下仍然可以运行的应用。</p>
+<h3 id="离线检测"><a href="#离线检测" class="headerlink" title="离线检测"></a>离线检测</h3><p>开发离线应用首先要检测设备的状态，根据设备在线或者离线进行接下来的操作。HTML5 为我们提供了两种判断设备在线状态的方式：</p>
+<ul>
+<li><code>navigator.onLine</code>属性：属性值为<code>true</code>表示设备能上网，值为<code>false</code>表示设备离线。</li>
+<li><code>online</code>/<code>offline</code>事件：当网络从离线变为在线或者从在线变为离线时，分别触发这两个事件。这两个事件在<code>window</code>对象上触发。</li>
+</ul>
+<p>为了检测应用是否离线，我们可以通过navigator.onLine判断设备的初始状态，同时通过online/offline事件来确定网络的连接状态是否变化。online/offline事件首先在body上触发，随后会沿着document.body, document, window的顺序冒泡，所以我们可以对它们进行监听获得设备的状态变化。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(navigator.onLine)&#123;</span><br><span class="line">    <span class="comment">//正常工作</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//执行离线事件处理程序</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'online'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="comment">//进行离线缓存</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'offline'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="comment">//使用离线缓存</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="应用缓存"><a href="#应用缓存" class="headerlink" title="应用缓存"></a>应用缓存</h3><p>HTML5 的应用缓存（application cache），或者简称为 appcache，是专门为开发离线 Web 应用而设计的。Appcache 就是从浏览器的缓存中分出来的一块缓存区。要想在这个缓存中保存数据，可以使用一个描述文件（manifest file），列出要下载和缓存的资源。下面是一个简单的描述文件示例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CACHE MANIFEST</span><br><span class="line">#Comment</span><br><span class="line"></span><br><span class="line">index.html</span><br><span class="line">common.css</span><br><span class="line"></span><br><span class="line">NETWORK:</span><br><span class="line">*.html</span><br><span class="line"></span><br><span class="line">CACHE:</span><br><span class="line">login.html</span><br><span class="line"></span><br><span class="line">FALLBACK:</span><br><span class="line">*.html offline.html</span><br><span class="line">/project /offline/project</span><br></pre></td></tr></table></figure>
+<p>描述文件的基本格式如下：</p>
+<ul>
+<li>CACHE MANIFEST书写在第一行，而且必不可少；</li>
+<li># 开头代表注释；</li>
+<li>CACHE 标识符：这是条目的默认部分。系统会在首次下载此标头下列出的文件（或紧跟在<code>CACHE MANIFEST</code> 后的文件）后显式缓存这些文件；</li>
+<li>NETWORK 标识符：代表“白名单”，它表示的是无论在线离线都需要联网访问的文件；</li>
+<li>FALLBACK 标识符：此部分是可选的，用于指定无法访问资源时的后备网页。其中第一个 URI 代表资源，第二个代表后备网页。两个 URI 必须相关，并且必须与清单文件同源。可使用通配符。</li>
+</ul>
+<p>在声明好描述文件的后，需要将描述文件与页面关联起来。在文档的 <code>html</code> 标记中添加 manifest 属性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;html manifest=<span class="string">'/offline.manifest'</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>浏览器除了在第一次访问 Web 应用时缓存资源外，只有在以下三种情况才会对缓存进行更新：</p>
+<ol>
+<li>浏览器缓存被删除</li>
+<li><code>manifest</code>描述文件本身发生变化</li>
+<li>应用缓存通过编程方式进行更新</li>
+</ol>
+<p>而 cache manifest 中的资源文件发生变化并不会触发更新，所以在对资源进行更改后，需要向描述文件中加入时间戳或版本号。</p>
+<p>要以编程方式对缓存进行更新，需要用到缓存对象<code>window.applicationCache</code>。可以使用它的属性<code>window.applicationCache</code>来判断缓存状态，全部状态如下：</p>
+<ul>
+<li>0：无缓存，即没有与页面相关的应用缓存。</li>
+<li>1：闲置，应用缓存未更新。</li>
+<li>2：检查中，正在下载描述文件并检查更新。</li>
+<li>3：下载中，即应用换攒正在描述文件中的指定资源。</li>
+<li>4：更新完成，即应用缓存已经更新了资源，而所有资源都已经下载完毕，可以应用<code>swapCache()</code>应用更新的缓存。</li>
+<li>5：废弃，即描述文件不存在，不能获取应用缓存</li>
+</ul>
+<p>与之相同的还有缓存事件：</p>
+<ul>
+<li>checking：在浏览器在为应用缓存查找更新时触发</li>
+<li>error：查找错误时触发</li>
+<li>noupdate：检查后发现描述文件无变化时触发</li>
+<li>downloading：开始下载应用缓存资源时触发</li>
+<li>progress：在下载应用缓存资源时不断的触发</li>
+<li>updateready：应用缓存已经更新完毕，此时可以手动触发<code>swapCache()</code>应用更新的缓存</li>
+<li>cached：在应用缓存完整可用时触发</li>
+</ul>
+<p>一般来讲，这些事件会随着页面加载按上述顺序依次触发。不过，通过调用<code>update()</code>方法也可以手工干预，让应用缓存为检查更新而触发上述事件。在调用<code>update()</code>后，若触发<code>catched</code>事件，说明应用缓存已经准备就绪，不会发生其他操作；若触发<code>updateready</code>事件，就调用<code>swapCache()</code>实现对浏览器缓存的更新。</p>
+<h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><p>HTTP Cookie，通常叫做 cookie，最初是在客户端用于存储会话信息的。该标准要求服务器对任意 HTTP 请求发送 Set-Cookie HTTP 头作为响应的一部分，其中包含会话信息。这种服务器响应的头可能如下：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-type</span>: text/html</span><br><span class="line"><span class="attribute">Set-Cookie</span>: name=value</span><br><span class="line"><span class="attribute">Other-header</span>: other-header-value</span><br></pre></td></tr></table></figure>
+<p>这个 HTTP 响应设置以<code>name</code>为名称、以<code>value</code>为值的一个 cookie，名称和值在传送时都必须是 URL 编码的。浏览器会存储这样的会话信息，并在之后通过未每个请求头添加 Cookie HTTP 头将信息发送回服务器。如下所示：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/index.html</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Cookie</span>: name=value</span><br><span class="line"><span class="attribute">Other-header</span>: other-header-value</span><br></pre></td></tr></table></figure>
+<p>发送回服务器的额外信息可以用于唯一验证客服来自于发送的哪个请求。</p>
+<p><strong>限制</strong></p>
+<p>cookie 性质上是绑定在特定的域名下的。当设定了一个 cookie 后，再给创建它的域名发送请求时，都会包含这个 cookie。这个限制确保了储存在 cookie 中的信息只能让批准的接受者访问，而无法被其他域访问。</p>
+<p>每个域的 cookie 总数是有限的，cookie 长度也有限制，一般为 4KB。</p>
+<p><strong>cookie 的构成</strong></p>
+<p>cookie 由浏览器保存的一下几块信息构成：</p>
+<ul>
+<li>名称：一个唯一确定 cookie 的名称。必须经过 URL 编码，不区分大小写。</li>
+<li>值：储存在 cookie 中的字符串，值必须被 URL 编码。</li>
+<li>域：cookie 对于哪个域是有效的。所有向该域发送的请求中都会包含这个 cookie 信息。</li>
+<li>路径：指定域中的路径才能向服务器发送 cookie。</li>
+<li>失效时间：表示该 cookie 何时被删除的时间戳。默认情况下，浏览器会在回话关闭时将所有 cookie 删除，不过也可以自定义删除时间。</li>
+<li>安全标志：指定后，cookie 只有在使用 SSL 连接的时候才发送到服务器。</li>
+</ul>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-type</span>: text/html</span><br><span class="line"><span class="attribute">Set-Cookie</span>: name=value; expires=Mon, 22-Jan-0707:10:24 GMT; domain=.wrox.com; path=/; secure</span><br><span class="line"><span class="attribute">Other-header</span>: other-header-value</span><br></pre></td></tr></table></figure>
+<p>注意，域、路径、失效时间和 secure 标志都是服务器给浏览器的提示，以指定何时应该发送 cookie。这些参数并不会作为发送到服务器的 cookie 信息的一部分，只有名值对才会被发送。</p>
+<p><strong>JavaScript 中的 cookie</strong></p>
+<p>我们可以使用 BOM 提供的接口<code>document.cookie</code>来设置 Cookie，上述参数中只有 name/value 是必选项，只要<code>name</code>没有重复，cookie 赋值是不会覆盖已有信息的。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie = <span class="built_in">encodeURIComponent</span>(<span class="string">'name'</span>) + <span class="string">'='</span> + <span class="built_in">encodeURIComponent</span>(<span class="string">'Nicholas'</span>);</span><br></pre></td></tr></table></figure>
+<p>下面封装实现了对 Cookie 值的增删和查询，可以把这种常用操作加入到自己的库里：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> CookieUtil = &#123;</span><br><span class="line">    get: <span class="function"><span class="keyword">function</span> (<span class="params">name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> cookieName = <span class="built_in">encodeURIComponent</span>(name) + <span class="string">"="</span>,</span><br><span class="line">            cookieStart = <span class="built_in">document</span>.cookie.indexOf(cookieName),</span><br><span class="line">            cookieValue = <span class="literal">null</span>,</span><br><span class="line">            cookieEnd;</span><br><span class="line">      </span><br><span class="line">        <span class="keyword">if</span> (cookieStart &gt; <span class="number">-1</span>)&#123;</span><br><span class="line">            cookieEnd = <span class="built_in">document</span>.cookie.indexOf(<span class="string">";"</span>, cookieStart);</span><br><span class="line">            <span class="keyword">if</span> (cookieEnd == <span class="number">-1</span>)&#123;</span><br><span class="line">                cookieEnd = <span class="built_in">document</span>.cookie.length;</span><br><span class="line">            &#125;</span><br><span class="line">            cookieValue = <span class="built_in">decodeURIComponent</span>(<span class="built_in">document</span>.cookie.substring(cookieStart + cookieName.length, cookieEnd));</span><br><span class="line">        &#125; </span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> cookieValue;</span><br><span class="line">    &#125;,</span><br><span class="line">    set: <span class="function"><span class="keyword">function</span> (<span class="params">name, value, expires, path, domain, secure</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> cookieText = <span class="built_in">encodeURIComponent</span>(name) + <span class="string">"="</span> + <span class="built_in">encodeURIComponent</span>(value);</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (expires <span class="keyword">instanceof</span> <span class="built_in">Date</span>) &#123;</span><br><span class="line">            cookieText += <span class="string">"; expires="</span> + expires.toGMTString();</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (path) &#123;</span><br><span class="line">            cookieText += <span class="string">"; path="</span> + path;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (domain) &#123;</span><br><span class="line">            cookieText += <span class="string">"; domain="</span> + domain;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (secure) &#123;</span><br><span class="line">            cookieText += <span class="string">"; secure"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="built_in">document</span>.cookie = cookieText;</span><br><span class="line">    &#125;,</span><br><span class="line">    unset: <span class="function"><span class="keyword">function</span> (<span class="params">name, path, domain, secure</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.set(name, <span class="string">""</span>, <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">0</span>), path, domain, secure);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>子 cookie</strong></p>
+<p>为了绕开浏览器单域名下的 cookie 数限制，可以使用子 cookie 的概念。格式如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name=name1=value1&amp;name2=value2&amp;name3=value3&amp;name4=value4&amp;name5=value5</span><br></pre></td></tr></table></figure>
+<p>子 cookie 一般也以查询字符串的格式进行格式化。下面是封装好的 SubCookieUtil 库：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> SubCookieUtil = &#123;  </span><br><span class="line">    get: <span class="function"><span class="keyword">function</span> (<span class="params">name, subName</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> subCookies = <span class="keyword">this</span>.getAll(name);</span><br><span class="line">        <span class="keyword">if</span> (subCookies)&#123;</span><br><span class="line">            <span class="keyword">return</span> subCookies[subName];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    getAll: <span class="function"><span class="keyword">function</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> cookieName = <span class="built_in">encodeURIComponent</span>(name) + <span class="string">"="</span>,</span><br><span class="line">            cookieStart = <span class="built_in">document</span>.cookie.indexOf(cookieName),</span><br><span class="line">            cookieValue = <span class="literal">null</span>,</span><br><span class="line">            cookieEnd,</span><br><span class="line">            subCookies,</span><br><span class="line">            i,len,</span><br><span class="line">            parts,</span><br><span class="line">            result = &#123;&#125;;</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">if</span> (cookieStart &gt; <span class="number">-1</span>)&#123;</span><br><span class="line">            cookieEnd = <span class="built_in">document</span>.cookie.indexOf(<span class="string">";"</span>, cookieStart)</span><br><span class="line">            <span class="keyword">if</span> (cookieEnd == <span class="number">-1</span>)&#123;</span><br><span class="line">                cookieEnd = <span class="built_in">document</span>.cookie.length;</span><br><span class="line">            &#125;</span><br><span class="line">            cookieValue = <span class="built_in">document</span>.cookie.substring(cookieStart + cookieName.length, cookieEnd);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (cookieValue.length &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                subCookies = cookieValue.split(<span class="string">"&amp;"</span>);</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">for</span> (i=<span class="number">0</span>, len=subCookies.length; i &lt; len; i++)&#123;</span><br><span class="line">                    parts = subCookies[i].split(<span class="string">"="</span>);</span><br><span class="line">                    result[<span class="built_in">decodeURIComponent</span>(parts[<span class="number">0</span>])] = <span class="built_in">decodeURIComponent</span>(parts[<span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">    </span><br><span class="line">                <span class="keyword">return</span> result;</span><br><span class="line">            &#125;  </span><br><span class="line">        &#125; </span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;,   </span><br><span class="line">    set: <span class="function"><span class="keyword">function</span> (<span class="params">name, subName, value, expires, path, domain, secure</span>) </span>&#123;    </span><br><span class="line">        <span class="keyword">var</span> subcookies = <span class="keyword">this</span>.getAll(name) || &#123;&#125;;</span><br><span class="line">        subcookies[subName] = value;</span><br><span class="line">        <span class="keyword">this</span>.setAll(name, subcookies, expires, path, domain, secure);</span><br><span class="line">    &#125;,    </span><br><span class="line">    setAll: <span class="function"><span class="keyword">function</span>(<span class="params">name, subcookies, expires, path, domain, secure</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> cookieText = <span class="built_in">encodeURIComponent</span>(name) + <span class="string">"="</span>,</span><br><span class="line">            subcookieParts = <span class="keyword">new</span> <span class="built_in">Array</span>(),</span><br><span class="line">            subName;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (subName <span class="keyword">in</span> subcookies)&#123;</span><br><span class="line">            <span class="keyword">if</span> (subName.length &gt; <span class="number">0</span> &amp;&amp; subcookies.hasOwnProperty(subName))&#123;</span><br><span class="line">                subcookieParts.push(<span class="built_in">encodeURIComponent</span>(subName) + <span class="string">"="</span> + <span class="built_in">encodeURIComponent</span>(subcookies[subName]));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (subcookieParts.length &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            cookieText += subcookieParts.join(<span class="string">"&amp;"</span>);</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">if</span> (expires <span class="keyword">instanceof</span> <span class="built_in">Date</span>) &#123;</span><br><span class="line">                cookieText += <span class="string">"; expires="</span> + expires.toGMTString();</span><br><span class="line">            &#125;</span><br><span class="line">        </span><br><span class="line">            <span class="keyword">if</span> (path) &#123;</span><br><span class="line">                cookieText += <span class="string">"; path="</span> + path;</span><br><span class="line">            &#125;</span><br><span class="line">        </span><br><span class="line">            <span class="keyword">if</span> (domain) &#123;</span><br><span class="line">                cookieText += <span class="string">"; domain="</span> + domain;</span><br><span class="line">            &#125;</span><br><span class="line">        </span><br><span class="line">            <span class="keyword">if</span> (secure) &#123;</span><br><span class="line">                cookieText += <span class="string">"; secure"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cookieText += <span class="string">"; expires="</span> + (<span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">0</span>)).toGMTString();</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="built_in">document</span>.cookie = cookieText;        </span><br><span class="line">    </span><br><span class="line">    &#125;,    </span><br><span class="line">    unset: <span class="function"><span class="keyword">function</span> (<span class="params">name, subName, path, domain, secure</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> subcookies = <span class="keyword">this</span>.getAll(name);</span><br><span class="line">        <span class="keyword">if</span> (subcookies)&#123;</span><br><span class="line">            <span class="keyword">delete</span> subcookies[subName];</span><br><span class="line">            <span class="keyword">this</span>.setAll(name, subcookies, <span class="literal">null</span>, path, domain, secure);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,    </span><br><span class="line">    unsetAll: <span class="function"><span class="keyword">function</span>(<span class="params">name, path, domain, secure</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.setAll(name, <span class="literal">null</span>, <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">0</span>), path, domain, secure);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>关于 cookie 的思考</strong></p>
+<p>还有一类 cookie 被称为“HTTPOnly cookie”,它只能从服务器端读取，不能通过 JavaScript 获取。</p>
+<p>由于所有的 cookie 都会由浏览器作为请求头发送，所以在 cookie 中存储大量信息会影响到特定域的请求性能。 cookie 信息越大，完成对服务器请求的时间也就越长。尽管浏览器对 cookie 进行了大小限制，不过最好还是尽可能在 cookie 中少存储信息，以避免影响性能。</p>
+<h4 id="IE-用户数据"><a href="#IE-用户数据" class="headerlink" title="IE 用户数据"></a>IE 用户数据</h4><p>IE 中可以采用如下方式使用持久化数据：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"behavior:url(#default#userData)"</span> <span class="attr">id</span>=<span class="string">"dataStore"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>一旦该元素使用了 userData 行为，就可以使用<code>setAttribute()</code>和<code>removeAttribute()</code>增删数据。用<code>save()</code>方法指定数据空间。下一次页面载入时，可以使用<code>load()</code>指定同样的数据空间名称来加载数据。</p>
+<h4 id="Web-存储机制"><a href="#Web-存储机制" class="headerlink" title="Web 存储机制"></a>Web 存储机制</h4><p>主要为了提供在 cookie 之外存储会话数据的途径和存储</p>
+<p><strong>Storage 类型</strong></p>
+<p>Storage 类型提供最大的存储空间来存储名值对。Storage 实例有如下方法：</p>
+<ul>
+<li><code>clear()</code>：删除所有值。</li>
+<li><code>getItem(name)</code>：根据指定的名字<code>name</code>获取对应的值。</li>
+<li><code>key(index)</code>：获得<code>index</code>位置处的值的名字。</li>
+<li><code>removeItem(name)</code>：删除由<code>name</code>指定的名值对。</li>
+<li><code>setItem(name, value)</code>：为指定的<code>name</code>设置一个对应的值。</li>
+</ul>
+<p><strong>sessionStorage 对象</strong></p>
+<p>该对象存储特定于某个会话的数据，也就是该数据只保持到浏览器关闭。这个对象就像会话 cookie，也在浏览器关闭后消失。存储在 sessionStorage 中的数据可以跨越页面刷新而存在，同时如果浏览器支持，浏览器崩溃后依然可用。</p>
+<p><strong>globalStorage 对象</strong></p>
+<p>Firefox2 实现的对象，已经被<code>localStorage</code>替代了。</p>
+<p><strong>localStorage 对象</strong></p>
+<p>该对象可以跨越会话存储数据，但是不能跨域。数据保留到通过 JavaScript 删除或者是用户清除浏览器缓存。</p>
+<p><strong>storage 事件</strong></p>
+<p>对 Storage 对象进行任何修改，都会触发该事件，其<code>event</code>对象有如下属性：</p>
+<ul>
+<li><code>domain</code>：发生变化的存储空间的域名</li>
+<li><code>key</code>：设置或者删除的键名。</li>
+<li><code>newValue</code>：如果是设置值，则是新值；如果是删除键，则是<code>null</code>。</li>
+<li><code>oldValue</code>：键被更改之前的值。</li>
+</ul>
+<h4 id="IndexedDB"><a href="#IndexedDB" class="headerlink" title="IndexedDB"></a>IndexedDB</h4><p>IndexedDB 的思想是创建一套 API 方便保存和读取 JavaScript 对象，同时还支持查询及搜索。操作都是异步的，需要注册 onerror 或 onsuccess 事件处理程序，确保可以适当处理结果。使用方式如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> indexedDB = <span class="built_in">window</span>.indexedDB || <span class="built_in">window</span>.msIndexedDB || <span class="built_in">window</span>.mozIndexedDB || <span class="built_in">window</span>.webkitIndexedDB;</span><br></pre></td></tr></table></figure>
+<p><strong>数据库</strong></p>
+<p>IndexedDB 最大的特色是使用对象保存数据，而不是用表来保存数据。</p>
+<p>把要打开的数据库名传给<code>indexDB.open()</code>，有该数据库就打开，没有就先创建再打开。该方法会返回一个 IDBRequest 对象，可以用<code>onerror</code>和<code>onsuccess</code>获取信息。如果成功，<code>event.target.result</code>中将有一个数据库实例对象；如果出错，<code>event.target.errorCode</code>将保存一个错误码。</p>
+<p>可以调用<code>setVersion()</code>方法设置数据库版本号。</p>
+<p><strong>对象存储空间</strong></p>
+<p>使用如下代码可以创建对象存储空间：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> users = [</span><br><span class="line">      &#123;</span><br><span class="line">          username: <span class="string">"007"</span>,</span><br><span class="line">          firstName: <span class="string">"James"</span>,</span><br><span class="line">          lastName: <span class="string">"Bond"</span>,</span><br><span class="line">          password: <span class="string">"foo"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          username: <span class="string">"ace"</span>,</span><br><span class="line">          firstName: <span class="string">"John"</span>,</span><br><span class="line">          lastName: <span class="string">"Smith"</span>,</span><br><span class="line">          password: <span class="string">"bar"</span></span><br><span class="line">      &#125;                </span><br><span class="line">  ];</span><br><span class="line">database.createObjectStore(<span class="string">"users"</span>, &#123; <span class="attr">keyPath</span>: <span class="string">"username"</span> &#125;); <span class="comment">//keyPath的值用作存储空间的键使用</span></span><br></pre></td></tr></table></figure>
+<p>全部代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> indexedDB = <span class="built_in">window</span>.indexedDB || <span class="built_in">window</span>.msIndexedDB || <span class="built_in">window</span>.mozIndexedDB || <span class="built_in">window</span>.webkitIndexedDB,</span><br><span class="line">    request,</span><br><span class="line">    store,</span><br><span class="line">    database,</span><br><span class="line">    users = [</span><br><span class="line">        &#123;</span><br><span class="line">            username: <span class="string">"007"</span>,</span><br><span class="line">            firstName: <span class="string">"James"</span>,</span><br><span class="line">            lastName: <span class="string">"Bond"</span>,</span><br><span class="line">            password: <span class="string">"foo"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            username: <span class="string">"ace"</span>,</span><br><span class="line">            firstName: <span class="string">"John"</span>,</span><br><span class="line">            lastName: <span class="string">"Smith"</span>,</span><br><span class="line">            password: <span class="string">"bar"</span></span><br><span class="line">        &#125;                </span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">request = indexedDB.open(<span class="string">"example"</span>);</span><br><span class="line">request.onerror = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">"Something bad happened while trying to open: "</span> + event.target.errorCode);</span><br><span class="line">&#125;;</span><br><span class="line">request.onsuccess = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    database = event.target.result;</span><br><span class="line">    initializeDatabase();</span><br><span class="line">&#125;;    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initializeDatabase</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (database.version != <span class="string">"1.0"</span>)&#123;</span><br><span class="line">        request = database.setVersion(<span class="string">"1.0"</span>);</span><br><span class="line">        request.onerror = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">            alert(<span class="string">"Something bad happened while trying to set version: "</span> + event.target.errorCode);</span><br><span class="line">        &#125;;</span><br><span class="line">        request.onsuccess = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">            store = database.createObjectStore(<span class="string">"users"</span>, &#123; <span class="attr">keyPath</span>: <span class="string">"username"</span> &#125;);</span><br><span class="line">            <span class="keyword">var</span> i = <span class="number">0</span>,</span><br><span class="line">                len = users.length;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span>(i &lt; len)&#123;</span><br><span class="line">                store.add(users[i++]);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            alert(<span class="string">"Database initialized for first time. Database name: "</span> + database.name + <span class="string">", Version: "</span> + database.version);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        alert(<span class="string">"Database already initialized. Database name: "</span> + database.name + <span class="string">", Version: "</span> + database.version);</span><br><span class="line">        request = database.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>).get(<span class="string">"007"</span>);</span><br><span class="line">        request.onsuccess = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">            alert(event.target.result.firstName);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>事务</strong></p>
+<p>在数据库上，调用<code>transaction()</code>方法可以创建事务。只要想读取或修改数据，都要通过事务来组织所有操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> transaction = db.transaction(<span class="string">"users"</span>);</span><br></pre></td></tr></table></figure>
+<p>这样只加载 users 存储空间的数据，以便通过事务进行访问。这些事务默认都是以只读方式访问数据，要修改访问方式，必须在创建事务时传入第二个参数，这个参数表示访问模式，用 IDBTransaction 接口定义的如下常量表示：</p>
+<ul>
+<li>READ_ONLY(0)：表示只读</li>
+<li>READ_WRITE(1)： 表示读写</li>
+<li>VERSION_CHANGE(2)： 表示改变</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> transaction = db.transaction(<span class="string">"users"</span>, IDBTransaction.READ_WRITE);</span><br></pre></td></tr></table></figure>
+<p>取得了事务的索引以后，就可以使用<code>objectStore()</code>并传入存储空间名称，就可以访问特定存储空间。然后就可以使用<code>add()</code>、<code>put()</code>、<code>get()</code>和<code>delete()</code>方法，还可以用<code>clear()</code>清空对象。</p>
+<p>一个事务可以完成任何多个请求，所以事务本身也有处理程序，<code>onerror</code>和<code>oncomplete</code>。</p>
+<p><strong>游标查询</strong></p>
+<p>在需要检测多个对象的情况下需要在事务内部创建游标。游标是指向结果集的指针，与传统数据库不同，游标不提前收集结果，会先指向结果中的第一项，接到查询下一项的指令时，才指向下一项。</p>
+<p>在对象存储空间上调用<code>openCursor()</code>方法可以创建游标，返回请求对象，因此必须为该对象指定<code>onsuccess</code>和<code>onerror</code>事件处理程序。</p>
+<p>在<code>onsuccess</code>中，可以通过<code>event.target.result</code>，取得存储空间中的下一个对象。在结果集中有下一项时，这个属性中保存一个 IDBCursor 实例，没有下一项时，这个属性值为<code>null</code>。<code>IDBCurosor</code>的实例有以下几个属性：</p>
+<ul>
+<li><code>direction</code>：数值，表示游标移动的方向。默认值为 IDBCursor.NEXT(0)，表示下一项。还有 IDBCursor.NEXT_NO_DUPLICATE(1)表示下一个不重复的项，IDBCursor.PREV(2) 表示前一项，而 IDBCursor.PREV_NO_DUPLICATE 表示前一个不重复的项。</li>
+<li><code>key</code>：对象的键。</li>
+<li><code>value</code>：实际的对象。</li>
+<li><code>primaryKey</code>：游标使用的键。</li>
+</ul>
+<p>调用<code>update()</code>方法可以用指定的对象更新当前游标的<code>value</code>。调用<code>delete()</code>方法，就会删除相应记录。</p>
+<p>默认情况下，每个游标只发起一次请求，要想发起另一次请求，必须调用下面的一个方法：</p>
+<ul>
+<li><code>continue(key)</code>：移动到结果集中的下一项。</li>
+<li><code>advance(count)</code>：向前移动<code>count</code>指定的项数。</li>
+</ul>
+<p><strong>键范围</strong></p>
+<p>由 IDBKeyRange 的实例表示。有四种定义键范围的方式：</p>
+<ul>
+<li><code>only()</code>：传入想要取得的对象的键，<code>IDBKeyRange.only(&quot;007&quot;)</code>。</li>
+<li><code>lowerBound()</code>：指定结果集的下界，表示游标开始的位置，<code>IDBKeyRange.lowerBound(&quot;007&quot;)</code>。不想包含”007”，可以传入第二个参数<code>true</code>。</li>
+<li><code>upperBound()</code>：指定结果集上界，也就是游标值不能超越哪个键，<code>IDBKeyRange.upperBound(&quot;007&quot;)</code>。不想包含”007”，可以传入第二个参数<code>true</code>。</li>
+<li><code>bound()</code>：同时指定上下界。接受 4 个参数：表示下界的键、表示上界的键、可选的表示是否跳过下界的布尔值和可选的表示是否跳过上界的布尔值。</li>
+</ul>
+<p>定义范围后，把它传给<code>openCursor()</code>方法，就能得到一个符合相应约束条件的游标。</p>
+<p><strong>设定游标方向</strong></p>
+<p><code>openCursor()</code>可接受两个参数。第一个参数就是刚刚看到的 IDBKeyRange 的实例，第二是表示方向的数值常量。可传入IDBCursor.NEXT，表示下一项。还有 IDBCursor.NEXT_NO_DUPLICATE表示下一个不重复的项，IDBCursor.PREV 表示前一项，而 IDBCursor.PREV_NO_DUPLICATE 表示前一个不重复的项。</p>
+<p><strong>索引</strong></p>
+<p>用于为一个对象的存储空间指定多个键。创建索引先要引用对象存储空间，然后调用<code>createIndex()</code>方法。如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store = db.transaction(<span class="string">"users"</span>).objectStore(<span class="string">"users"</span>),</span><br><span class="line">    index = store.createIndex(<span class="string">"username"</span>, <span class="string">"username"</span>, &#123;<span class="attr">unique</span>: <span class="literal">false</span>&#125;);</span><br></pre></td></tr></table></figure>
+<p><code>createIndex()</code>的第一个参数是索引名字，第二个参数是索引的属性的名字，第三个参数是一个包含<code>unique</code>属性的选项对象。返回值是 IDBIndex 的实例，可以通过<code>index()</code>方法取得已存在的实例。</p>
+<p>索引和对象存储空间很相似，调用<code>openCursor()</code>方法也可以创建新的游标，不过会将索引键保存在<code>event.result.key</code>中。</p>
+<p>另外，可以创建一个特殊的只返回每条记录主键的游标，即<code>openKeyCursor()</code>方法，这种情况下，<code>event.result.key</code>仍然保存着索引键，而<code>event.result.value</code>中保存的是主键，而不是整个对象。</p>
+<p>通过索引键取得主键可以使用<code>getKey()</code>方法，也会创建一个新的请求。</p>
+<p>任何时候通过 IDBIndex 对象的下列属性都可以取得有关索引的相关信息。</p>
+<ul>
+<li><code>name</code>：索引的名字</li>
+<li><code>keyPath</code>：传入<code>createIndex()</code>中的属性路径</li>
+<li><code>objectStore</code>：索引的对象存储空间。</li>
+<li><code>unique</code>：表示索引键是否唯一的布尔值。</li>
+</ul>
+<p>删除索引可以使用<code>deleteIndex()</code>方法，传入索引名字即可。</p>
+<p><strong>并发问题</strong></p>
+<p>只有浏览器仅有一个标签页使用数据库的情况下，调用<code>setVersion()</code>才能完成操作。这样可以避免两个标签页同时操作一个数据库引发的并发问题。方式是使用<code>onversionchange</code>事件处理程序，在每次更新时，关闭数据库，保证更新完成。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> request, database;</span><br><span class="line"></span><br><span class="line">request = indexedDB.open(<span class="string">"admin"</span>);</span><br><span class="line">request.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>)</span>&#123;</span><br><span class="line">    database = event.target.result;</span><br><span class="line">    database.onversionchange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">        database.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>指定<code>onblocked</code>事件处理程序也很重要，在你想要更新数据库的版本但另一个标签页已经打开数据库的情况下，就会触发这个事件处理程序。此时，最好先通知用户关闭其他标签页，然后再重新调用<code>setVersion()</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> request = database.setVersion(<span class="string">"2.0"</span>);</span><br><span class="line">request.onblocked = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">"Please close all other tabs and try again"</span>);</span><br><span class="line">&#125;</span><br><span class="line">request.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>限制</strong></p>
+<p>只能由同源页面操作，不能跨域共享信息；每个来源的数据库占用的磁盘空间有限制。</p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017/09/24/ProJavaScript-Notes-17/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          重读 JS 高程（Chapter24、Chapter25）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017/09/24/ProJavaScript-Notes-15/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">重读 JS 高程（Chapter22）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

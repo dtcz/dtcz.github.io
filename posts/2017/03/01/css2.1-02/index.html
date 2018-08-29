@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>css权威指南总结-布局 | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="盒模型核心属性：display用于规定元素生成的框（盒）的类型，影响显示方式。 1display: none | inline | block | inline-block | list-item | run-in | table | inline-table | table-row-group | table-header-group | table-footer-group | table-r">
+<meta name="keywords" content="css,css2.1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css权威指南总结-布局">
+<meta property="og:url" content="http://yoursite.com/posts/2017/03/01/css2.1-02/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="盒模型核心属性：display用于规定元素生成的框（盒）的类型，影响显示方式。 1display: none | inline | block | inline-block | list-item | run-in | table | inline-table | table-row-group | table-header-group | table-footer-group | table-r">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-03-20T06:44:59.324Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="css权威指南总结-布局">
+<meta name="twitter:description" content="盒模型核心属性：display用于规定元素生成的框（盒）的类型，影响显示方式。 1display: none | inline | block | inline-block | list-item | run-in | table | inline-table | table-row-group | table-header-group | table-footer-group | table-r">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-css2.1-02" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      css权威指南总结-布局
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/03/01/css2.1-02/" class="article-date">
+  <time datetime="2017-03-01T03:25:57.000Z" itemprop="datePublished">2017-03-01</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/css/">css</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h3><h4 id="核心属性：display"><a href="#核心属性：display" class="headerlink" title="核心属性：display"></a>核心属性：display</h4><p>用于规定元素生成的框（盒）的类型，影响显示方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">display: none | inline | block | inline-block | list-item | run-in | table | inline-table | table-row-group | table-header-group | table-footer-group | table-row | table-colume-group | table-column | table-cell | table-caption | inherit;</span><br></pre></td></tr></table></figure>
+<p>日常开发常见的是<code>none</code>,<code>inline</code>,<code>block</code>,<code>inline-block</code>,<code>list-item</code>。和<code>table</code>相关的值用的比较少，这是因为表格布局已经被抛弃了，但是在某些场景下也会使用，比如元素居中用表格布局很轻易就能实现。</p>
+<h4 id="normal-flow-正常流、普通流、文档流"><a href="#normal-flow-正常流、普通流、文档流" class="headerlink" title="normal flow(正常流、普通流、文档流)"></a>normal flow(正常流、普通流、文档流)</h4><blockquote>
+<p><strong>定义：</strong>normal flow是指西方语言的文本从左向右、从上到下显示，这也是我们熟悉的传统HTML文档的文本布局（在非西方语言中，流的方向可能不同）。大多数元素都在正常流中，要让一个元素不在正常流中，唯一的办法就是使之成为<strong>浮动或者定位元素</strong>。</p>
+</blockquote>
+<h4 id="正常流中的包含块"><a href="#正常流中的包含块" class="headerlink" title="正常流中的包含块"></a>正常流中的包含块</h4><blockquote>
+<p><strong>定义：</strong>每个元素都相对于其包含块摆放，包含块就是一个元素的“布局上下文”。CSS2.1定义了一系列规则来确定元素的包含块。这里先介绍部分规则：对于正常流中的一个元素，包含块由最近的块级祖先框、表单元格或行内块祖先框的内容边界构成。</p>
+</blockquote>
+<h4 id="块级元素-block"><a href="#块级元素-block" class="headerlink" title="块级元素(block)"></a>块级元素(<code>block</code>)</h4><blockquote>
+<p><strong>定义：</strong>是指段落，标题或<code>div</code>(division)之类的元素。这些元素在<strong>正常流</strong>中时，会在<strong>其框之前和之后</strong>生成<strong>“换行”</strong>，所以<strong>处于正常流中的块级元素垂直摆放</strong>。通过声明<code>display: block</code>，可以让元素生成块级框。</p>
+</blockquote>
+<a id="more"></a>
+<p>块级元素特性：</p>
+<ol>
+<li><p>水平格式化与垂直格式化</p>
+<p> 水平格式化的7大属性是：<code>margin-left</code>、<code>border-left</code>、<code>padding-left</code>、<code>width</code>、<code>padding-right</code>、<code>border-right</code>、<code>margin-right</code>。这7个属性的和就是块级框所占据的水平宽度。水平格式化的复杂性在于<code>width</code>影响的是内容区的宽度，而不是整个可见的元素框。</p>
+<p> 这7个属性中只有<code>margin-left</code>，<code>width</code>，<code>margin-right</code>可以设置为<code>auto</code>，其余属性必须是特定的数值；只有<code>margin-left</code>，<code>margin-right</code>可以被设置为负值。</p>
+<p> 垂直格式化同样有7大属性，与水平格式化对应。但是垂直格式化有着自己一系列有意思的行为。<strong>一个元素的默认高度是由其内容的高度决定的。</strong>如果元素内容的高度大于元素框的高度，其表现将取决于<code>overflow</code>属性。</p>
+</li>
+<li><p>水平格式化中<code>auto</code>的使用</p>
+<p> 1、如果3个属性都设置为非<code>auto</code>，这在CSS中被称作过分受限(overconstrained)，此时<strong><code>margin-right</code>的实际值会被强制为<code>auto</code>值</strong>。</p>
+<p> 2、如果设置<code>width</code>, <code>margin-left</code>或<code>margin-right</code>的某一个值为<code>auto</code>，而余下两个属性设置为特定值，那么设置<code>auto</code>的那个属性会自动的确定所需的值。一个典型的例子就是为块级元素设置固定宽度和<code>margin: 0 auto</code>时，块级元素会水平居中。</p>
+<p> 3、如果<code>width</code>为<code>auto</code>，设置为<code>auto</code>的外边距会<strong>置 0</strong>。</p>
+</li>
+<li><p>垂直格式化中<code>auto</code>的使用</p>
+<p> 如果块级正常流元素的高度设置为<code>auto</code>，而且只有块级子元素，其默认高度将是从最高块级子元素的<strong>外边框</strong>边界到最低块级子元素的<strong>外边框</strong>边界的距离。因此，子元素的外边距会“超出”包含这些子元素的元素。不过，如果块级正常流元素<strong>有内边距或者边框</strong>，其高度则是从其最高子元素的<strong>上外边距</strong>到其最低子元素的<strong>下外边距</strong>。</p>
+</li>
+<li><p>水平格式化与垂直格式化中的负外边距</p>
+<p> 负外边距的出现是为了符合元素的 7 项水平（垂直）属性总和，不能大于包含块<code>width</code>(<code>height</code>)的规定。这样的规则让元素可以在视觉上脱离包含块，赋予CSS极大的灵活性。</p>
+</li>
+<li><p><strong>垂直</strong>外边距的合并</p>
+<p> 垂直相邻元素中外边距较小的会被较大的合并。这种合并行为只用于垂直方向的外边距。</p>
+</li>
+</ol>
+<h4 id="行内元素-inline"><a href="#行内元素-inline" class="headerlink" title="行内元素(inline)"></a>行内元素(<code>inline</code>)</h4><blockquote>
+<p><strong>定义：</strong>是指<code>strong</code>, <code>span</code>, <code>a</code>, <code>img</code>之类的元素。这些元素不会在之前或之后产生<strong>“行分隔符”</strong>。<strong>它们是块级元素而的后代。</strong>通过声明<code>display: inline</code>，可以让元素生成一个行内框。</p>
+</blockquote>
+<p>下面是一些基本概念：</p>
+<p>匿名文本：</p>
+<blockquote>
+<p>是指所有未包含在行内元素中的字符串。因此，在标记<code>&lt;p&gt;I&#39;m &lt;em&gt;so&lt;/em&gt; happy!&lt;/p&gt;</code>中，序列<code>I&#39;m</code>和<code>happy!</code>都是匿名文本。值得一提的是，空格也是匿名文本的一部分，因为空格与其他字符一样都是正常的字符。</p>
+</blockquote>
+<p>em框：</p>
+<blockquote>
+<p>em框在字体中定义，也称字符框。实际的字形可能比其em框更高或更矮。在CSS中，font-size值确定了各个em框的高度。</p>
+</blockquote>
+<p>内容区：</p>
+<blockquote>
+<p>在非替换元素中，内容区可能有两种，CSS2.1规范允许用户代理选择其中任意一种。内容区可以是元素中各字符的em框串在一起构成的框，也可以是由元素中字符字形描述的框。一般采用em框定义。在替换元素中，内容区就是元素的固有高度再加上可能有的外边距、边框或内边距。</p>
+</blockquote>
+<p>行间距：</p>
+<blockquote>
+<p>指<code>font-size</code>和<code>line-height</code>值之差。这个差实际上要分为两半，分别应用到内容区的顶部和底部。行间距只用于非替换元素。</p>
+</blockquote>
+<p>行内框：</p>
+<blockquote>
+<p>这个框通过向内容区增加行间距来描述。对于非替换元素，元素行内框的高度刚好等于<code>line-height</code>的值。对于替换元素，元素行内框的高度则恰好等于内容区的高度，因为行间距不应用到替换元素。</p>
+</blockquote>
+<p>行框：</p>
+<blockquote>
+<p>这是包含该行中出现的行内框的最高点和最低点的最小框。换句话说，行框的上边界要位于最高行内框的上边界，而行框的底边要放在最低行内框的下边界。</p>
+</blockquote>
+<p>CSS还提供了一组行为和有用的概念：</p>
+<ul>
+<li>内容区类似与一个块级元素的内容框。</li>
+<li>行内元素的背景应用于内容区及所有内边距。</li>
+<li>行内元素的边框要保卫内童趣及所有内边距和边框。</li>
+<li>非替换元素的内边距、边框和外边距对行内元素或其生成的框没有垂直效果；也就是说，它们不会影响元素行内框的高度（也不会影响包含该元素的行框的高度）。</li>
+<li>替换元素的外边距和边框趋势会影响该元素行内框的高度，相应地，也可能影响包含该元素的行框的高度。</li>
+<li>行内框在行中根据<code>vertical-align</code>属性垂直对齐。</li>
+</ul>
+<p>根据以上规则，我们可以逐步构造一个行框。</p>
+<ol>
+<li><p>先确定<strong>行内框的高度</strong>。得到各行内非替换元素及不属于后代行内元素的所有文本<code>font-size</code>值和<code>line-height</code>值，再将<code>line-height</code>减去<code>font-size</code>，这就得到了框的行间距。这个行间距除以2，将其一般分别应用到em框的顶部和底部。再得到各替换元素的<code>height</code>,<code>margin-top/margin-bottom</code>,<code>padding-top/padding-bottom</code>,<code>border-top-width/border-bottom-width</code>，把它们加到一起。</p>
+</li>
+<li><p>对于各内容区，确定它在整行基线的上方和下方分别超出多少。这里需要知道各元素及匿名文本各部分的基线的位置，还要知道该行本身基线的位置；然后把它们对齐。另外，对于替换元素，要将其底边放在整行的基线上。</p>
+</li>
+<li><p>对于指定了<code>vertical-align</code>值的元素，确定其垂直偏移量。由此可知该元素的行内框要向上或向下移动多远，并改变元素在基线上方或下方超出的距离。</p>
+</li>
+<li><p>既然已经知道了所有行内框会放在哪里，再来计算最后的行框高度。为此，只需将基线与最高行内框顶端之间的距离加上基线与最低行内框底端之间的距离。 </p>
+</li>
+</ol>
+<h4 id="行内块元素-inline-block"><a href="#行内块元素-inline-block" class="headerlink" title="行内块元素(inline-block)"></a>行内块元素(<code>inline-block</code>)</h4><blockquote>
+<p><strong>定义：</strong>行内块元素是块级元素和行内元素的混合产物。</p>
+</blockquote>
+<p><strong>可以通过块级元素，行内元素和行内块元素的区别来理解行内块元素</strong></p>
+<ul>
+<li><code>block</code>, <code>list-item</code>:<ul>
+<li>不设置宽度时，宽度撑满一行</li>
+<li>独占一行</li>
+<li>支持宽高</li>
+</ul>
+</li>
+<li><code>inline</code>:<ul>
+<li>内容撑开宽度</li>
+<li>非独占一行</li>
+<li>不支持宽高</li>
+<li>代码换行被解析成空格</li>
+</ul>
+</li>
+<li><code>inline-block</code>:<ul>
+<li>不设置宽度时，内容撑开宽度</li>
+<li>非独占一行</li>
+<li>支持宽高</li>
+<li>代码换行被解析成空格</li>
+</ul>
+</li>
+</ul>
+<h3 id="浮动-float"><a href="#浮动-float" class="headerlink" title="浮动(float)"></a>浮动(float)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float: left | right | none | inherit</span><br></pre></td></tr></table></figure>
+<p>浮动的出现是为了让图片能浮动，从而允许其他内容（比如文本）环绕该图片，后来被广泛应用作为布局方法。</p>
+<h4 id="浮动元素的特点"><a href="#浮动元素的特点" class="headerlink" title="浮动元素的特点"></a>浮动元素的特点</h4><ul>
+<li><p>一个元素浮动时，浏览器会以某种方式将浮动元素<strong>从正常流中移出</strong>，其他元素会<strong>“环绕”</strong>该元素。这是浮动元素最基本的特点，而且浮动元素与周围元素外边距不会合并。</p>
+</li>
+<li><p>浮动元素的包含块是其最近的块级祖先元素，而且浮动元素会生产一个块级框，因此，即使是行内元素，浮动以后也会变成块级元素。</p>
+</li>
+</ul>
+<h4 id="浮动元素摆放规则"><a href="#浮动元素摆放规则" class="headerlink" title="浮动元素摆放规则"></a>浮动元素摆放规则</h4><ul>
+<li><p>浮动元素的左（右）外边界不能超出其包含块的左（右）内边界。</p>
+</li>
+<li><p>浮动元素的左（或右）外边界必须是之前出现的左浮动（或右浮动）元素的右（或左）外边界，除非后出现浮动元素的顶端在先出现浮动元素底端下面。</p>
+<p>  这条规则用于防止浮动元素彼此“覆盖”。比如已经存在一个左浮动元素，另一个元素也要左浮动，那么后出现元素就要浮动在先出现浮动元素的右边；如果这样导致第二个元素的右外边界超出包含块的右内边界（违反第一条规则），就换行到先浮动元素的下面。</p>
+</li>
+<li><p>左浮动元素的右外边界不会在其右边右浮动元素的左外边界的右边。</p>
+<p>  这条规则用于防止浮动元素相互重叠。比如包含块500px，两浮动元素均300px，这条规则避免两元素间的100px重叠，事实上会让后浮动元素在先浮动元素下面。</p>
+</li>
+<li><p>浮动元素必须尽可能高地放置，但不能比<strong>之前所有浮动元素或块级元素</strong>的<strong>顶端</strong>更高。</p>
+</li>
+<li><p>如果浮动元素之前出现另一个元素，浮动元素的顶端不能比包含该元素所生成框的任何行框顶端更高。</p>
+<p>  这两条规则防止浮动元素一直浮动到顶端。</p>
+</li>
+<li><p>左（或右）浮动元素的左边（右边）有另一个浮动元素，前者的右外边界不能在其包含块的右（左）边界的右边（左边）。</p>
+<p>  这条规则防止多个元素出现在一个水平行上，宽度远远超出包含块宽度。</p>
+</li>
+<li><p>左浮动元素必须向左尽可能远，右浮动元素则必须向右尽可能远。（受上面规则限制）</p>
+</li>
+<li><p>浮动元素会延伸，从而包含其所有后代浮动元素。所以。通过将父元素设置为浮动元素，就可以把浮动元素包含在其父元素内。</p>
+</li>
+</ul>
+<h4 id="浮动元素的重叠"><a href="#浮动元素的重叠" class="headerlink" title="浮动元素的重叠"></a>浮动元素的重叠</h4><ul>
+<li><p>行内框与一个浮动元素重叠时，其边框、背景和内容都在该浮动元素“之上”显示。</p>
+</li>
+<li><p>块框与一个浮动元素重叠时，其边框和背景在该浮动元素“之下”显示，而内容在浮动元素“之上”显示。</p>
+</li>
+</ul>
+<h4 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clear: left | right | both | none | inherit</span><br></pre></td></tr></table></figure>
+<p>这个属性很好理解，left防止元素左边存在浮动元素，right防止元素右边存在浮动元素，both防止元素两边存在浮动，none为默认值。</p>
+<h3 id="定位-position"><a href="#定位-position" class="headerlink" title="定位(position)"></a>定位(position)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">position: static(默认值)|relative|absolute|fixed|inherit;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>static</code>：元素框正常生成。</li>
+<li><code>relative</code>: 元素框偏移某个距离。元素仍保持其未定位前的形状，它原本占的空间仍然保留。</li>
+<li><code>absolute</code>: 元素框从正常流中完全删除，不占据原本的空间，并且相对于其包含块定位。</li>
+<li><code>fixed</code>: 元素的表现类似于<code>position: absolute</code>，不过包含块是视窗（浏览器窗口）本身。</li>
+</ul>
+<h4 id="定位元素的包含块"><a href="#定位元素的包含块" class="headerlink" title="定位元素的包含块"></a>定位元素的包含块</h4><ul>
+<li>“根元素”的包含块（也称初始包含块）由用户代理建立。在HTML中，根元素就是<code>html</code>元素，不过有些浏览器会使用<code>body</code>作为根元素。在大多数浏览器中，初始包含块是一个视窗大小的矩形。</li>
+<li>对于一个非根元素，如果其<code>position</code>值是<code>relative</code>和<code>static</code>，包含块则由最近的块级框、表单元格或行内块祖先框的内容边界构成。</li>
+<li><p>对于一个非根元素，如果其<code>position</code>值是<code>absolute</code>，包含块设置为最近的<code>position</code>不是<code>static</code>的祖先元素（可以是任何类型）。寻找包含块过程如下：</p>
+<ul>
+<li>如果这个祖先是块级元素，包含块则设置为该元素的内边距边界；换句话说，就是由边框界定的区域。</li>
+<li>如果这个祖先是行内元素，包含块则设置为该祖先元素的内容边界。包含块的上边界和左边界是该祖先元素中第一个框内容区的上边界和左边界，包含块的下边界和右边界是该祖先元素中最后一个框内容区的下边界和右边界。</li>
+<li>如果没有祖先，元素的包含块定义为初始包含块。</li>
+</ul>
+</li>
+</ul>
+<p>有一点很重要：元素可以定位到其包含块的外面。这与浮动元素使用负外边距浮动到其父元素内容区外面很类似。这也说明这里的<strong>“包含块”</strong>可以称作<strong>“定位上下文”</strong>。</p>
+<h4 id="偏移属性"><a href="#偏移属性" class="headerlink" title="偏移属性"></a>偏移属性</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top、right、bottom、left: &lt;length&gt; | &lt;percentage&gt; | auto(default) | inherit;</span><br></pre></td></tr></table></figure>
+<p>正值会导致向内偏移，使边界朝着包含块的中心移动，而负值会导致向外偏移。这里提一下百分数设置，<code>top</code>和<code>bottom</code>相对于包含块的高度，<code>left</code>和<code>right</code>相对于包含块的宽度。</p>
+<h4 id="限制宽度和高度"><a href="#限制宽度和高度" class="headerlink" title="限制宽度和高度"></a>限制宽度和高度</h4><p>有时候需要对元素的高宽做一些限制，可以使用下面几个属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">min-width, min-height: &lt;length&gt; | &lt;percentage&gt; | inherit;</span><br><span class="line">max-width, max-height: &lt;length&gt; | &lt;percentage&gt; | none | inherit;</span><br></pre></td></tr></table></figure>
+<p>最大最小属性的一个很大好处是，可以相对安全地混合使用不同单位。使用百分比时，可以设置基于长度的限制。</p>
+<h4 id="内容溢出"><a href="#内容溢出" class="headerlink" title="内容溢出"></a>内容溢出</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">overflow: visible | hidden | scroll | auto | inherit;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>visible</code>: 元素的内容在元素框之外也可见</li>
+<li><code>scroll</code>: 元素的内容会在元素框的边界处裁剪，然后会出现一个滚动条让哟过户看到额外的内容</li>
+<li><code>hidden</code>: 元素的内容会在元素框的边界处裁剪，不过不会提供滚动接口使用户访问超出裁剪区的内容</li>
+<li><code>auto</code>: 只在必要时提供滚动条</li>
+</ul>
+<h4 id="绝对定位"><a href="#绝对定位" class="headerlink" title="绝对定位"></a>绝对定位</h4><p>元素绝对定位时，会从文档流中完全删除。然后相对于其包含块定位，其边界根据偏移属性(top, left)放置。绝对定位元素可以覆盖其他元素，也可以被其他元素覆盖。</p>
+<p>绝对元素的包含块是最近的position不为static的祖先元素，一般在选择元素做为包含块时，将其设为relative而且没有偏移。</p>
+<p>如果页面可以滚动，且绝对定位元素不是固定定位元素的后代，绝对定位元素会随着页面滚动。其原因是绝对定位元素最终总会相对于正常流的某一部分定位。</p>
+<p>绝对定位一个元素，如果没有设置偏移属性的话（left等属性默认为auto），该元素的位置会与其静态位置一致。</p>
+<h4 id="固定定位"><a href="#固定定位" class="headerlink" title="固定定位"></a>固定定位</h4><p>固定定位于绝对定位很类似，只不过固定元素的包含块是视窗。固定定位时，文档同样会完全从文档流中去除，不会有相对于文档中任何部分的位置。</p>
+<h4 id="相对定位"><a href="#相对定位" class="headerlink" title="相对定位"></a>相对定位</h4><p>相对定位理解起来比较简单。采用相对定位时，将使用偏移属性移动定位元素，该元素会从正常位置移走，但原来所占的空间不会消失，也就是说它并没有从文档流中移除。</p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017/03/06/box-shadow/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          box-shadow小记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017/02/26/css2.1-01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">css权威指南总结-基础</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

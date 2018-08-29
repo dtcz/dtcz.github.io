@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>css权威指南总结-基础 | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="CSS中的一些基本概念 声明和关键字  声明格式：一个属性后面跟一个冒号，再后面是一个值，然后是一个分号。  1&amp;#123;font: 16px/1 &apos;Microsoft YaHei&apos;, Arial, sans-serif, &apos;SimSun&apos;;&amp;#125;  值要么是一个关键字，要么是该属性可取关键字的一个列表（包含一个或者多个关键字），关键字之间用空格分隔。部分情况需要用斜线/分隔。  注释">
+<meta name="keywords" content="css,css2.1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css权威指南总结-基础">
+<meta property="og:url" content="http://yoursite.com/posts/2017/02/26/css2.1-01/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="CSS中的一些基本概念 声明和关键字  声明格式：一个属性后面跟一个冒号，再后面是一个值，然后是一个分号。  1&amp;#123;font: 16px/1 &apos;Microsoft YaHei&apos;, Arial, sans-serif, &apos;SimSun&apos;;&amp;#125;  值要么是一个关键字，要么是该属性可取关键字的一个列表（包含一个或者多个关键字），关键字之间用空格分隔。部分情况需要用斜线/分隔。  注释">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-07-26T16:20:38.200Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="css权威指南总结-基础">
+<meta name="twitter:description" content="CSS中的一些基本概念 声明和关键字  声明格式：一个属性后面跟一个冒号，再后面是一个值，然后是一个分号。  1&amp;#123;font: 16px/1 &apos;Microsoft YaHei&apos;, Arial, sans-serif, &apos;SimSun&apos;;&amp;#125;  值要么是一个关键字，要么是该属性可取关键字的一个列表（包含一个或者多个关键字），关键字之间用空格分隔。部分情况需要用斜线/分隔。  注释">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-css2.1-01" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      css权威指南总结-基础
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/02/26/css2.1-01/" class="article-date">
+  <time datetime="2017-02-26T15:40:22.000Z" itemprop="datePublished">2017-02-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/css/">css</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="CSS中的一些基本概念"><a href="#CSS中的一些基本概念" class="headerlink" title="CSS中的一些基本概念"></a>CSS中的一些基本概念</h3><ol>
+<li><p>声明和关键字</p>
+<p> 声明格式：一个属性后面跟一个冒号，再后面是一个值，然后是一个分号。</p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attribute">font</span>: <span class="number">16px</span>/<span class="number">1</span> <span class="string">'Microsoft YaHei'</span>, Arial, sans-serif, <span class="string">'SimSun'</span>;&#125;</span><br></pre></td></tr></table></figure>
+<p> 值要么是一个关键字，要么是该属性可取关键字的一个列表（包含一个或者多个关键字），关键字之间用空格分隔。部分情况需要用斜线<code>/</code>分隔。</p>
+</li>
+<li><p>注释</p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* This is a CSS comment */</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>元素</p>
+<blockquote>
+<p><strong>定义：</strong>元素是文档结构的基础。文档中的每个元素都对文档的表现起一定的作用。在CSS2.1中，这意味着每个元素生成一个框（盒），其中包含元素的内容。</p>
+</blockquote>
+<ul>
+<li>替换元素<br>是指用来替换元素内容的部分并非由文档内容直接表示。最直观的例子就是<code>img</code>元素，它由文档本身之外的一个图像文件来替换，<code>img</code>本身并没有具体的内容。<code>input</code>元素与之相似。</li>
+<li>非替换元素<br>大多数HTML元素都是非替换元素。这意味着，其内容由浏览器在元素本身生成的框中显示。段落、标题、表单元格、列表等元素都是非替换元素。</li>
+</ul>
+</li>
+<li><p>CSS与HTML结合</p>
+<ul>
+<li><p><code>link</code>标签</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"sheet1.css"</span> <span class="attr">media</span>=<span class="string">"all"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>style</code>元素</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;style type="text/css"&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>@import</code>指令</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;style type="text/css"&gt;</span><br><span class="line">@<span class="keyword">import</span> url(styles.css);</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">color</span>: gray;&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<a id="more"></a>
+<h3 id="CSS选择器"><a href="#CSS选择器" class="headerlink" title="CSS选择器"></a>CSS选择器</h3><ol>
+<li><p>元素选择器</p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 文档的元素就是最基本的选择器，上一行代码中，<code>html</code>是选择器，用<code>{}</code>包住的是声明块。<code>color:red;</code>是一句声明，其中<code>color</code>是指属性，<code>red</code>是值，每个声明最后要加上<code>;</code>。</p>
+</li>
+<li><p>选择器分组与通配符</p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span>, <span class="selector-tag">body</span>, <span class="selector-tag">div</span>, <span class="selector-tag">table</span>, <span class="selector-tag">thead</span>, <span class="selector-tag">tbody</span>, <span class="selector-tag">th</span>, <span class="selector-tag">tr</span>, <span class="selector-tag">td</span>, <span class="selector-tag">ul</span>, <span class="selector-tag">li</span>, <span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">* &#123; </span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>类选择器和id选择器</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"text"</span>&gt;</span>这是一段文本<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"bluetext"</span>&gt;</span>这是一段文本<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"text special-text"</span>&gt;</span>这是一段特殊的文本<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"text"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>这是一段超链接<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.text</span> &#123; <span class="comment">/* *.text */</span></span><br><span class="line">    <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.text</span><span class="selector-class">.special-text</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">24px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#bluetext</span> &#123; <span class="comment">/* *#bluetext */</span></span><br><span class="line">    <span class="attribute">color</span>: blue;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-class">.text</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: yellow;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>属性选择器</p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span><span class="selector-attr">[href="https://www.baidu.com"]</span> &#123;<span class="attribute">color</span>: <span class="number">#ff0</span>;&#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-attr">[href="https://www.baidu.com"]</span><span class="selector-attr">[title="百度"]</span> &#123;<span class="attribute">color</span>: <span class="number">#ff0</span>;&#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-attr">[href^="#"]</span> &#123; <span class="attribute">color</span>: purple;&#125;  <span class="comment">/* 匹配开头为 # 的超链接 */</span></span><br><span class="line"><span class="selector-tag">a</span><span class="selector-attr">[href$=".com"]</span> &#123; <span class="attribute">color</span>: red;&#125;  <span class="comment">/* 匹配末尾为 .com 的超链接 */</span></span><br><span class="line"><span class="selector-tag">a</span><span class="selector-attr">[href$=".pdf"]</span> &#123; <span class="attribute">color</span>: purple;&#125;  <span class="comment">/* 匹配末尾为 .pdf 的超链接 */</span></span><br><span class="line"><span class="selector-tag">a</span><span class="selector-attr">[href*=".cn"]</span> &#123;<span class="attribute">color</span>: blue;&#125;  <span class="comment">/* 匹配含 .cn 的超链接 */</span></span><br><span class="line">*<span class="selector-attr">[lang|="en"]</span></span><br><span class="line">*<span class="selector-attr">[lang|="en-us"]</span></span><br><span class="line">*<span class="selector-attr">[lang|="zh-cn"]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后代选择器</p>
+<ul>
+<li><p><strong>选择器用空格隔开</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>这是一段文本<span class="tag">&lt;<span class="name">span</span>&gt;</span>这是一段文本中的文本<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span> <span class="selector-tag">span</span> &#123;<span class="attribute">color</span>: red;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>只选择子元素的选择器 <code>&gt;</code></strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>This is <span class="tag">&lt;<span class="name">strong</span>&gt;</span>very<span class="tag">&lt;/<span class="name">strong</span>&gt;</span> important.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>This is <span class="tag">&lt;<span class="name">em</span>&gt;</span>really<span class="tag">&lt;<span class="name">strong</span>&gt;</span>very<span class="tag">&lt;/<span class="name">strong</span>&gt;</span><span class="tag">&lt;/<span class="name">em</span>&gt;</span> important.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">h1</span> &gt; <span class="selector-tag">strong</span> &#123; <span class="attribute">color</span>: red;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>选择相邻兄弟元素 <code>+</code></strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ol</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>List item 1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>List item 2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>List item 3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>List item 4<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>List item 5<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>List item 6<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">li</span> + <span class="selector-tag">li</span> &#123;<span class="attribute">font-weight</span>: bold;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>伪类选择器       </p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span> &#123;<span class="attribute">text-decoration</span>: none; <span class="attribute">color</span>: <span class="number">#000</span>;&#125;  </span><br><span class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:link</span> &#123; <span class="attribute">color</span>: green;&#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123;<span class="attribute">text-decoration</span>: underline; <span class="attribute">color</span>: blue;&#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:active</span> &#123;<span class="attribute">color</span>: yellow;&#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:visited</span> &#123;<span class="attribute">color</span>: red;&#125;</span><br><span class="line"><span class="selector-tag">input</span><span class="selector-pseudo">:focus</span> &#123;<span class="attribute">background</span>: silver; <span class="attribute">font-weight</span>: bold;&#125;</span><br><span class="line"><span class="selector-tag">li</span><span class="selector-pseudo">:first-child</span> &#123;<span class="attribute">color</span>: red;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>:link</code>: 指示作为超链接(即有一个href属性)并指向一个未访问地址的所有锚。有些浏览器会不正确的将<code>:link</code>指向任何超链接，包括已访问的和未访问的超链接。</li>
+<li><code>:visited</code>: 指示作为已访问地址超链接的所有锚。</li>
+<li><code>:hover</code>: 指示鼠标指针停留在哪个元素上。</li>
+<li><code>:active</code>: 指示被用户输入激活的元素。</li>
+<li><code>:focus</code>: 指示当前拥有输入焦点的元素，也就是说，可以接受键盘输入或者能以某种方式激活的元素。</li>
+<li><code>:first-child</code>: 静态伪类，选择元素的第一个子元素。</li>
+</ul>
+</li>
+<li>伪元素选择器 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:first-letter</span> &#123;<span class="attribute">color</span>: red; <span class="attribute">font-size</span>: <span class="number">200%</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:first-line</span> &#123;<span class="attribute">color</span>: red;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:before</span>, <span class="selector-tag">p</span><span class="selector-pseudo">:after</span> &#123; <span class="attribute">content</span>: <span class="string">'"'</span>;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="CSS优先级"><a href="#CSS优先级" class="headerlink" title="CSS优先级"></a>CSS优先级</h3><h4 id="特殊性"><a href="#特殊性" class="headerlink" title="特殊性"></a>特殊性</h4><p>先看以下三对规则：<br>  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* rule-1 */</span></span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">color</span>: red;&#125;</span><br><span class="line"><span class="selector-tag">body</span> <span class="selector-tag">h1</span> &#123;<span class="attribute">color</span>: green;&#125;</span><br><span class="line"><span class="comment">/* rule-2 */</span></span><br><span class="line"><span class="selector-tag">h2</span><span class="selector-class">.grape</span> &#123;<span class="attribute">color</span>: red;&#125;</span><br><span class="line"><span class="selector-tag">h2</span> &#123;<span class="attribute">color</span>: purple;&#125;</span><br><span class="line"><span class="comment">/* rule-3 */</span></span><br><span class="line"><span class="selector-tag">html</span> &gt; <span class="selector-tag">body</span> <span class="selector-tag">table</span> <span class="selector-tag">tr</span><span class="selector-attr">[id="total"]</span> <span class="selector-tag">td</span> <span class="selector-tag">ul</span> &gt; <span class="selector-tag">li</span> &#123;<span class="attribute">color</span>: red;&#125;</span><br><span class="line"><span class="selector-tag">li</span><span class="selector-id">#answer</span> &#123;<span class="attribute">color</span>: green;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因为匹配的元素最终只能显示一个颜色，这三对规则中每对只有一个会胜出。哪一个规则更强，答案在于每个选择器的<strong>特殊性</strong>。<br>选择器特殊性的规定：</p>
+<ul>
+<li>对于选择器给定的各个ID属性值，加0，1，0，0。</li>
+<li>对于选择器给定的各个类（class）属性值，属性选择或伪类，加0，0，1，0。</li>
+<li>对于选择器给定的各个元素和伪元素，加0，0，0，1。</li>
+<li>结合符和通配符选择器对于特殊性没有贡献。</li>
+</ul>
+<p>根据特殊性的规则，可以轻松计算出之前的三组选择器的特殊性，下面是比较结果：<br>  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* rule-1 */</span></span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">color</span>: red;&#125;               <span class="comment">/* 0,0,0,1 */</span></span><br><span class="line"><span class="selector-tag">body</span> <span class="selector-tag">h1</span> &#123;<span class="attribute">color</span>: green;&#125; <span class="comment">/* 0,0,0,2 (winner) */</span></span><br><span class="line"><span class="comment">/* rule-2 */</span>    </span><br><span class="line"><span class="selector-tag">h2</span><span class="selector-class">.grape</span> &#123;<span class="attribute">color</span>: red;&#125;    <span class="comment">/* 0,0,1,0 (winner) */</span></span><br><span class="line"><span class="selector-tag">h2</span> &#123;<span class="attribute">color</span>: purple;&#125;         <span class="comment">/* 0,0,0,1 */</span></span><br><span class="line"><span class="comment">/* rule-3 */</span>    </span><br><span class="line"><span class="selector-tag">html</span> &gt; <span class="selector-tag">body</span> <span class="selector-tag">table</span> <span class="selector-tag">tr</span><span class="selector-attr">[id="total"]</span> <span class="selector-tag">td</span> <span class="selector-tag">ul</span> &gt; <span class="selector-tag">li</span> &#123;<span class="attribute">color</span>: red;&#125; <span class="comment">/* 0,0,1,7 */</span></span><br><span class="line"><span class="selector-tag">li</span><span class="selector-id">#answer</span> &#123;<span class="attribute">color</span>: green;&#125;                                                 <span class="comment">/* 0,1,0,1 (winner) */</span></span><br></pre></td></tr></table></figure></p>
+<p>上面的四条规则中没有出现<strong>开头为 1 </strong>的特殊性，这实际上是为<strong>内联样式</strong>准备的，内联样式的特殊性是1，0，0，0，它比其他选择器特殊性都高。不过如果声明了重要性<code>!important</code>，它的特殊值也是1，0，0，0，但是它<strong>高于内联样式的特殊值</strong>。<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">h1 &#123;color: red;&#125; /* 0,0,0,1 */</span><br><span class="line">h1 &#123;color: blue !important;&#125; /* 1,0,0,0 高于内联样式*/</span><br><span class="line">&lt;h1 style=&quot;color: green&quot;&gt;Test&lt;/h1&gt; /* 1,0,0,0 */</span><br></pre></td></tr></table></figure></p>
+<h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><p>基于继承机制，样式不仅应用到指定的元素，还会应用到它的后代元素。继承是CSS中最基本的内容之一，除非有必要的理由，否则一般不会特别考虑，只是有一些地方需要注意。</p>
+<p>首先有些属性是不可以继承的，比如盒模型属性（包括<code>margin</code>,<code>padding</code>,<code>border</code>,<code>background</code>等）都不能继承。而且继承的值根本没有特殊性，甚至连 0 特殊性都没有，比如下面一段代码：</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">id</span>=<span class="string">"page-title"</span>&gt;</span>Meerkat <span class="tag">&lt;<span class="name">em</span>&gt;</span>Central<span class="tag">&lt;/<span class="name">em</span>&gt;</span><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Welcome to the best place on the web for meerkat information!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* &#123;<span class="attribute">color</span>: gray;&#125;</span><br><span class="line"><span class="selector-tag">h1</span><span class="selector-id">#page-title</span> &#123;<span class="attribute">color</span>: black;&#125;</span><br></pre></td></tr></table></figure>
+<p>上面<code>em</code>元素最终显示为灰色而不是黑色，因为通配选择器适用于所有元素，而且有 0 特殊性，其颜色声明指定的值 gray 要优先于继承值（black），因为继承值根本没有特殊性。因此，<code>em</code>元素会显示为灰色而不是黑色。</p>
+<h4 id="层叠"><a href="#层叠" class="headerlink" title="层叠"></a>层叠</h4><p>上面还忽略了一个问题：如果特殊性相等的两个规则同时应用于一个元素会怎么样？例如下面两个规则：<br>  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">color</span>: red;&#125;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">color</span>: blue;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>它们特殊性都是0，0，0，1，是相等的，但是显然只有一个颜色能应用到<code>h1</code>上。这里就需要要引出CSS的层叠规则：</p>
+<ol>
+<li>找出相关规则，与当前选中的元素相匹配。</li>
+<li>按照特殊性分组，带有<code>!important</code>的规则高于不带<code>!important</code>的规则。如果遇到冲突的属性定义，带<code>!important</code>的将胜出。然后需要查看CSS文件的来源，CSS文件有3个来源：<strong>编程人员定义</strong>，<strong>用户定义</strong>，<strong>浏览器定义</strong>。浏览器定义永远是最低的。 </li>
+<li>接下来比特殊性。每个css的声明都有一个特殊性值，值高的优先.。</li>
+<li>比完特殊性，如果还无法分出胜负，那么就遵循另一个规则，<strong>越后定义的声明，权重越大</strong>。</li>
+</ol>
+<p>对于第三条，还可以细分，CSS文件来源的权重由大到小依次是：</p>
+<ol>
+<li>用户自定义重要声明</li>
+<li>编程人员重要声明</li>
+<li>编程人员正常声明</li>
+<li>用户自定义正常声明</li>
+<li>浏览器代理声明</li>
+</ol>
+<p>这样上面一组规则优先级就可以确定：<br>  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">color</span>: red;&#125;</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">color</span>: blue;&#125; <span class="comment">/* winner */</span></span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017/03/01/css2.1-02/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          css权威指南总结-布局
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017/02/26/gulp-settings/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">gulp配置指南</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

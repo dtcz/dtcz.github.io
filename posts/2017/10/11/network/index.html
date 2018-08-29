@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>从 URL 输入到页面显示到底发生了什么？ | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="从在浏览器中输入网址，到屏幕上显示出网页的内容，在这个只有几秒钟的过程中，很多硬件和软件都在各自的岗位上相互配合完成了一系列的工作。  ——《网络是怎样连接的》  生成 HTTP 请求信息我们一般都是在 Web 浏览器中输入网址，所以要分析输入 URL 到页面展示的完整流程，就要先从浏览器开始。 解析 URL URL：Uniform Resource Locator，统一资源定位符。URL 是对">
+<meta name="keywords" content="计算机网络,HTTP,TCP&#x2F;IP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从 URL 输入到页面显示到底发生了什么？">
+<meta property="og:url" content="http://yoursite.com/posts/2017/10/11/network/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="从在浏览器中输入网址，到屏幕上显示出网页的内容，在这个只有几秒钟的过程中，很多硬件和软件都在各自的岗位上相互配合完成了一系列的工作。  ——《网络是怎样连接的》  生成 HTTP 请求信息我们一般都是在 Web 浏览器中输入网址，所以要分析输入 URL 到页面展示的完整流程，就要先从浏览器开始。 解析 URL URL：Uniform Resource Locator，统一资源定位符。URL 是对">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/IP01.png">
+<meta property="og:image" content="http://yoursite.com/images/IP02.png">
+<meta property="og:updated_time" content="2017-10-13T06:19:18.967Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从 URL 输入到页面显示到底发生了什么？">
+<meta name="twitter:description" content="从在浏览器中输入网址，到屏幕上显示出网页的内容，在这个只有几秒钟的过程中，很多硬件和软件都在各自的岗位上相互配合完成了一系列的工作。  ——《网络是怎样连接的》  生成 HTTP 请求信息我们一般都是在 Web 浏览器中输入网址，所以要分析输入 URL 到页面展示的完整流程，就要先从浏览器开始。 解析 URL URL：Uniform Resource Locator，统一资源定位符。URL 是对">
+<meta name="twitter:image" content="http://yoursite.com/images/IP01.png">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-network" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      从 URL 输入到页面显示到底发生了什么？
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/10/11/network/" class="article-date">
+  <time datetime="2017-10-11T02:09:10.000Z" itemprop="datePublished">2017-10-11</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/计算机网络/">计算机网络</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>从在浏览器中输入网址，到屏幕上显示出网页的内容，在这个只有几秒钟的过程中，很多硬件和软件都在各自的岗位上相互配合完成了一系列的工作。  ——《网络是怎样连接的》</p>
+</blockquote>
+<h2 id="生成-HTTP-请求信息"><a href="#生成-HTTP-请求信息" class="headerlink" title="生成 HTTP 请求信息"></a>生成 HTTP 请求信息</h2><p>我们一般都是在 Web 浏览器中输入网址，所以要分析输入 URL 到页面展示的完整流程，就要先从浏览器开始。</p>
+<h3 id="解析-URL"><a href="#解析-URL" class="headerlink" title="解析 URL"></a>解析 URL</h3><blockquote>
+<p>URL：Uniform Resource Locator，统一资源定位符。URL 是对可以从互联网上得到的资源的位置和访问方法的一种简洁的表示，是互联网上标准资源的地址。互联网上的每个文件都有一个唯一的 URL，它包含的信息指出文件的位置以及浏览器应该怎么处理它。</p>
+</blockquote>
+<p>我们平时说的网址就是一种 URL，以 http: 或 https: 开头。URL 也有其他协议，比如 ftp:、mailto: 等。</p>
+<blockquote>
+<p>协议（protocol）是指通信操作的规则。</p>
+</blockquote>
+<p>根据 HTTP 的规则，URL 包含几个部分，以<code>https://www.host.com:80/index.html?name=value#1</code>为例：</p>
+<ul>
+<li>协议：也称方案名（scheme），指的是访问服务器以获取资源时要使用哪种协议，即 https:。</li>
+<li>主机：host，资源宿主服务器的主机名或 IP 地址，即”//“后面的<code>www.host.com</code>。</li>
+<li>端口：port，资源宿主服务器正在监听的端口号，即”:”后面的数字 80。</li>
+<li>路径：path，服务器上资源的本地名，由一个斜杠”/“将其与前面的 URL 组件分隔开来，即 index.html。</li>
+<li>查询字符串：query，可以用该部分传递参数以达到某种目的，用”?”与其他部分分隔，即 ?name=value。</li>
+<li>片段标识符：fragment，表示资源片段的名字，不会将该部分传到服务器，用”#”与其他部分分隔，即 #1。</li>
+</ul>
+<a id="more"></a>
+<h3 id="HTTP-请求"><a href="#HTTP-请求" class="headerlink" title="HTTP 请求"></a>HTTP 请求</h3><p>解析完 URL 之后，浏览器会用 HTTP 协议来访问 Web 服务器。HTTP 协议定义了客户端和服务器之间交互的消息内容和步骤。</p>
+<p>首先，浏览器会向服务器发送请求消息，包括存放网页数据的文件名和方法，方法表示需要让 Web 服务器完成怎样的工作，常见的有 GET 和 POST。</p>
+<h2 id="向-DNS-服务器查询-Web-服务器的-IP-地址"><a href="#向-DNS-服务器查询-Web-服务器的-IP-地址" class="headerlink" title="向 DNS 服务器查询 Web 服务器的 IP 地址"></a>向 DNS 服务器查询 Web 服务器的 IP 地址</h2><p>生成 HTTP 消息之后，接下来需要委托操作系统将消息发送给 Web 服务器。在委托操作系统发送消息时，必须要提供的不是通信对象的域名，而是它的 IP 地址。因此，在生成 HTTP 消息之后，下一个步骤就是根据域名查询 IP 地址。</p>
+<h3 id="IP-地址的基本知识"><a href="#IP-地址的基本知识" class="headerlink" title="IP 地址的基本知识"></a>IP 地址的基本知识</h3><p>在网络中，所有的设备都会被分配一个地址。这个地址就相当于现实中某条路上的“×× 号 ×× 室”。“号”对应的号码是分配给整个子网的，称为网络号；“室”对应的号码是分配给子网中的计算机的，称为主机号，这个地址的整体称为 IP 地址。通过 IP 地址我们可以判断出访问对象服务器的位置，从而将消息发送到服务器。</p>
+<blockquote>
+<p>实际的 IP 地址：一串 32 比特的数字，分成 4 组，分别用十进制表示然后再用圆点隔开。</p>
+</blockquote>
+<p>IP地址中，网络号和主机号连起来总共是 32 比特，但这两部分的具体结构是不固定的。在组建网络时，用户可以自行决定它们之间的分配关系，因此，我们还需要另外的附加信息来表示 IP 地址的内部结构。</p>
+<p><img src="/images/IP01.png" alt="IP 地址的基本思路"></p>
+<p>这一附加信息称为子网掩码。子网掩码的格式如图所示，是一串与 IP 地址长度相同的 32 比特数字，其左边一半都是 1，右边一半都是 0。其中，子网掩码为 1 的部分表示网络号，子网掩码为 0 的部分表示主机号。可以将子网掩码按照和 IP 地址一样的方式以每 8 比特为单位用圆点分组后写在 IP 地址的右侧，也可以把 1 的部分的比特数用十进制表示并写在 IP 地址的右侧。</p>
+<p><img src="/images/IP02.png" alt="IP"></p>
+<p>子网掩码表示网络号与主机号之间的边界。在本例中，这个边界与字节的边界是正好吻合的，也就是正好划分在句点的位置上，实际上也可以划分在字节的中间位置。</p>
+<h3 id="域名和-IP-地址并用的理由"><a href="#域名和-IP-地址并用的理由" class="headerlink" title="域名和 IP 地址并用的理由"></a>域名和 IP 地址并用的理由</h3><p>TCP/IP 网络是通过 IP 地址来确定通信对象的，因此不知道 IP 地址就无法将消息发送给对方。</p>
+<p>那么在网址中不写服务器的名字，直接写 IP 地址不可以吗？实际上用 IP 地址来代替服务器名称也是能够正常工作的，然而要记住一串由数字组成的 IP 地址很困难，因此网址中使用服务器名称比较好。</p>
+<p>那么如果我们不用 IP 地址而是改用名称会怎么样呢？ IP 地址的长度为 32 比特，也就是 4 字节，域名最短也要几十个字节，最长可达 255 字节。换句话说，使用 IP 地址只需要处理 4 字节的数字，而域名则需要处理几十个到 255 个字节的字符，这增加了路由器的负担。由于路由器的速度是有极限的，使用名称本身来确定通信对象并不合适。</p>
+<p>因此，目前方案是让人来使用名称，让路由器来使用 IP 地址。为了填补两者之间的障碍，需要有一个机制能够通过名称来查询 IP 地址，或者通过 IP 地址来查询名称，这样就能够在人和机器双方都不做出牺牲的前提下完美地解决问题。这个机制就是 DNS。</p>
+<blockquote>
+<p>DNS：Domain Name System，域名服务系统。将服务器名称和 IP 地址进行关联是 DNS 最常见的用法，但 DNS 的功能并不仅限于此，它还可以将邮件地址和邮件服务器进行关联，以及为各种信息关联相应的名称。</p>
+</blockquote>
+<h3 id="通过解析器向-DNS-服务器发出查询"><a href="#通过解析器向-DNS-服务器发出查询" class="headerlink" title="通过解析器向 DNS 服务器发出查询"></a>通过解析器向 DNS 服务器发出查询</h3><p>查询 IP 地址的方法非常简单，只要询问最近的 DNS 服务器<code>www.lab.glasscom.com</code>的 IP 地址是什么”就可以了，DNS 服务器会回答说“该服务器的 IP 地址为 xxx.xxx.xxx.xxx”。</p>
+<p>向 DNS 服务器发出查询，也就是向 DNS 服务器发送查询消息，并接收服务器返回的响应消息。换句话说，对于 DNS 服务器，我们的计算机上一定有相应的 DNS 客户端，而相当于 DNS 客户端的部分称为 DNS 解析器，或者简称解析器。通过 DNS 查询 IP 地址的操作称为域名解析，因此负责执行解析（resolution）这一操作的就叫解析器（resolver）了。</p>
+<p>解析器实际上是一段程序，它包含在操作系统的 Socket 库中，其中包含的程序组件可以让其他的应用程序调用操作系统的网络功能，而解析器就是这个库中的其中一种程序组件。</p>
+<p>调用解析器后，解析器会向 DNS 服务器发送查询消息，然后 DNS 服务器会返回响应消息。响应消息中包含查询到的 IP 地址，解析器会取出 IP 地址，并将其写入浏览器指定的内存地址中。接下来，浏览器在向 Web 服务器发送消息时，只要从该内存地址取出 IP 地址，并将它与 HTTP 请求消息一起交给操作系统就可以了。</p>
+<h2 id="全球-DNS-服务器接力"><a href="#全球-DNS-服务器接力" class="headerlink" title="全球 DNS 服务器接力"></a>全球 DNS 服务器接力</h2><h3 id="DNS-服务器的基本工作"><a href="#DNS-服务器的基本工作" class="headerlink" title="DNS 服务器的基本工作"></a>DNS 服务器的基本工作</h3><p>DNS 服务器的基本工作就是接收来自客户端的查询消息，然后根据消息的内容返回响应。</p>
+<p>其中，来自客户端的查询消息包含以下 3 种信息。</p>
+<ul>
+<li>域名：服务器、邮件服务器（邮件地址中 @ 后面的部分）的名称</li>
+<li>Class：在最早设计 DNS 方案时，DNS 在互联网以外的其他网络中的应用也被考虑到了，而 Class 就是用来识别网络的信息。不过，如今除了互联网并没有其他的网络了，因此 Class 的值永远是代表互联网的 IN</li>
+<li>记录类型：表示域名对应何种类型的记录。例如，当类型为 A 时，表示域名对应的是 IP 地址；当类型为 MX 时，表示域名对应的是邮件服务器。对于不同的记录类型，服务器向客户端返回的信息也会不同</li>
+</ul>
+<p>DNS 服务器上事先保存有前面这 3 种信息对应的记录数据，然后根据这些记录查找符合查询请求的内容并对客户端作出响应的。</p>
+<h3 id="域名的层次结构"><a href="#域名的层次结构" class="headerlink" title="域名的层次结构"></a>域名的层次结构</h3><p>互联网中存在着不计其数的服务器，将这些服务器的信息全部保存在一台 DNS 服务器中是不可能的，因此一定会出现在 DNS 服务器中找不到要查询的信息的情况。解决方法就是将信息分布保存在多台 DNS 服务器中，这些 DNS 服务器相互接力配合，从而查找出要查询的信息。不过，这个机制其实有点复杂，因此我们先来看一看信息是如何在 DNS 服务器上注册并保存的。</p>
+<p>首先，DNS 服务器中的所有信息都是按照域名以分层次的结构来保存的。DNS 中的域名都是用句点来分隔的，比如<code>www.lab.glasscom.com</code>，这里的句点代表了不同层次之间的界限，用句点来分隔而已。在域名中，越靠右的位置表示其层级越高，相当于一个层级的部分称为域。因此，com 域的下一层是 glasscom 域，再下一层是 lab 域，再下面才是 www。</p>
+<p>这种具有层次结构的域名信息会注册到 DNS 服务器中，而每个域都是作为一个整体来处理的。换句话说就是，一个域的信息是作为一个整体存放在 DNS 服务器中的，不能将一个域拆开来存放在多台 DNS 服务器中。不过，DNS 服务器和域之间的关系也并不总是一对一的，一台 DNS 服务器中也可以存放多个域的信息。</p>
+<p>对于公司域来说，例如现在需要为每一个事业集团配备一台 DNS 服务器，分别管理各事业集团自己的信息，但我们之前也说过一个域是不可分割的，这该怎么办呢？没关系，我们可以在域的下面创建下级域，然后再将它们分别分配给各个事业集团。比如，假设公司的域为<code>example.co.jp</code>，我们可以在这个域的下面创建两个子域，即<code>sub1.example.co.jp</code>和<code>sub2.example.co.jp</code>，然后就可以将这两个下级域分配给不同的事业集团来使用。</p>
+<p>下面再来看一看如何找到我们要访问的 Web 服务器的信息归哪一台 DNS 服务器管。首先，将负责管理下级域的 DNS 服务器的 IP 地址注册到它们的上级 DNS 服务器中，然后上级 DNS 服务器的 IP 地址再注册到更上一级的 DNS 服务器中，以此类推。这样，我们就可以通过上级 DNS 服务器查询出下级 DNS 服务器的 IP 地址，也就可以向下级 DNS 服务器发送查询请求了。</p>
+<p>到这里所有的准备工作就都完成了。当我们配置一台 DNS 服务器时，必须要配置好上面这些信息，这样 DNS 服务器就能够从上万台 DNS 服务器中找到目标服务器。</p>
+<h3 id="通过缓存加快-DNS-服务器的响应"><a href="#通过缓存加快-DNS-服务器的响应" class="headerlink" title="通过缓存加快 DNS 服务器的响应"></a>通过缓存加快 DNS 服务器的响应</h3><blockquote>
+<p>缓存：指的是将使用过的数据存放在离使用该数据的地方较近的高速存储装置中，以便提高后续访问速度的技术。这一技术有很多应用，如 CPU 和内存之间的缓存、磁盘和内存之间的缓存等，在网络中缓存也是一种用来提高访问速度的普遍性技术。</p>
+</blockquote>
+<p>有时候并不需要从最上级的根域开始查找，因为 DNS 服务器有一个缓存功能，可以记住之前查询过的域名。如果要查询的域名和相关信息已经在缓存中，那么就可以直接返回响应，接下来的查询可以从缓存的位置开始向下进行。相比每次都从根域找起来说，缓存可以减少查询所需的时间。</p>
+<p>并且，当要查询的域名不存在时，“不存在”这一响应结果也会被缓存。这样，当下次查询这个不存在的域名时，也可以快速响应。</p>
+<p>这个缓存机制中有一点需要注意，那就是信息被缓存后，原本的注册信息可能会发生改变，这时缓存中的信息就有可能是不正确的。因此，DNS 服务器中保存的信息都设置有一个有效期，当缓存中的信息超过有效期后，数据就会从缓存中删除。而且，在对查询进行响应时，DNS 服务器也会告知客户端这一响应的结果是来自缓存中还是来自负责管理该域名的 DNS 服务器。</p>
+<h2 id="委托协议栈发送消息"><a href="#委托协议栈发送消息" class="headerlink" title="委托协议栈发送消息"></a>委托协议栈发送消息</h2><p>得到了 IP 地址，下面就要与其连接并发送消息了，这个过程同样不是浏览器做的，而是委托协议栈来完成的，具体过程是：</p>
+<ol>
+<li>创建套接字：操作系统创建一个套接字，协议栈返回一个描述符，浏览器存储起来，这个描述符是套接字的 ID，用于识别套接字，原因是同一个客户端可能跟很多服务器同时连接；</li>
+<li>连接：客户端的套接字与服务端的套接字进行连接，连接成功后，协议栈将目标服务器的 IP 地址和端口号保存在套接字中，下面就可以收发数据；</li>
+<li>通信：发送的数据是 HTTP 请求消息，发送的过程是：浏览器通过描述符查找到指定的套接字，并向套接字发送数据，数据便会通过网络传输到服务端的套接字，服务器接收到消息后处理然后返回响应消息；</li>
+<li>断开：消息返回后会被放入一块内存缓冲区内，浏览器可以直接读取这段消息。之后，操作系统断开套接字连接，本地的套接字也会被删除。</li>
+</ol>
+<h2 id="服务器处理-HTTP-请求"><a href="#服务器处理-HTTP-请求" class="headerlink" title="服务器处理 HTTP 请求"></a>服务器处理 HTTP 请求</h2><p>在 Web 服务器收到请求消息之后，会对其中的内容进行解析，根据这些要求来完成自己的工作，然后将结果存放在响应消息中。在响应消息的开头有一个状态码，它用来表示操作的执行结果是成功还是发生了错误。当我们访问 Web 服务器时，遇到找不到的文件就会显示出 404 Not Found 的错误信息，其实这就是状态码。状态码后面就是响应头字段和网页数据。</p>
+<p>响应消息会被发送回客户端，客户端收到之后，浏览器会从消息中读出所需的数据并显示在屏幕上。到这里，HTTP 的整个工作就完成了。</p>
+<h2 id="浏览器中的页面渲染"><a href="#浏览器中的页面渲染" class="headerlink" title="浏览器中的页面渲染"></a>浏览器中的页面渲染</h2><p>事实上，浏览器从响应消息中读出所需的数据并显示在屏幕上的过程并不简单，整个过程如下：</p>
+<ol>
+<li>首先，解析 HTML 代码，构建 DOM Tree；</li>
+<li>同时，解析 CSS Style，构建 CSSOM Tree；</li>
+<li>然后，组合 DOM Tree 与 CSSOM Tree，去除不可见元素，构建 Render Tree；</li>
+<li>再执行 reflow，根据 Render Tree 计算每个可见元素的布局（几何属性），会得出每个对象的精确位置和大小；</li>
+<li>最后，执行 repaint，通过绘制流程，将 Render Tree 的每个像素渲染到屏幕上。</li>
+</ol>
+<p>值得注意的是，渲染树只包含需要显示在页面中的 DOM 元素，像<code>&lt;head&gt;</code>元素或有<code>display: none</code>属性的元素都不在 Render Tree 中。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最终的过程可以总结为：解析 URL -&gt; 生成 HTTP 请求 -&gt; 域名解析（DNS）-&gt; 发送请求 -&gt; 服务器处理请求并回传响应到客户端（浏览器）-&gt; 页面渲染。</p>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017/10/14/html/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          HTML 总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017/09/24/ProJavaScript-Notes-17/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">重读 JS 高程（Chapter24、Chapter25）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

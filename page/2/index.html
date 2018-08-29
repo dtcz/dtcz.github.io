@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前端之路">
+<meta name="keywords" content="前端,js,javascript,es6,html5,开发者,程序猿,极客,编程,代码,IT,Developer,Programmer,Coder,Geek,html,css,css3">
+<meta property="og:type" content="website">
+<meta property="og:title" content="cz&#39;s blog">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="前端之路">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cz&#39;s blog">
+<meta name="twitter:description" content="前端之路">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-ProJavaScript-Notes-11" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/09/17/ProJavaScript-Notes-11/">重读 JS 高程（Chapter14）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/09/17/ProJavaScript-Notes-11/" class="article-date">
+  <time datetime="2017-09-17T01:46:39.000Z" itemprop="datePublished">2017-09-17</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter14-表单脚本"><a href="#Chapter14-表单脚本" class="headerlink" title="Chapter14. 表单脚本"></a>Chapter14. 表单脚本</h2><p>JavaScript 最早的应用就是分担服务器处理表单的责任，打破处处依赖服务器的局面。</p>
+<h3 id="表单基础知识"><a href="#表单基础知识" class="headerlink" title="表单基础知识"></a>表单基础知识</h3><p>在 HTML 中，表单是由<code>&lt;form&gt;</code>元素来表示的，而在 JavaScript 中，表单对应的则是 HTMLFormElement 类型。HTMLFormElement 继承了 HTMLElement，因而与其他 HTML 元素具有相同的默认属性。不过， HTMLFormElement 也有它自己下列独有的属性和方法。 </p>
+<ul>
+<li><code>acceptCharset</code>：服务器能够处理的字符集；等价于 HTML 中的<code>accept-charset</code>特性。 </li>
+<li><code>action</code>：接受请求的 URL；等价于 HTML 中的<code>action</code>特性。 </li>
+<li><code>elements</code>：表单中所有控件的集合（HTMLCollection）。 </li>
+<li><code>enctype</code>：请求的编码类型；等价于 HTML 中的<code>enctype</code>特性。 </li>
+<li><code>length</code>：表单中控件的数量。 </li>
+<li><code>method</code>：要发送的 HTTP 请求类型，通常是”get”或”post”；等价于 HTML 的<code>method</code>特性。 </li>
+<li><code>name</code>：表单的名称；等价于 HTML 的<code>name</code>特性。 </li>
+<li><code>reset()</code>：将所有表单域重置为默认值。 </li>
+<li><code>submit()</code>：提交表单。 </li>
+<li><code>target</code>：用于发送请求和接收响应的窗口名称；等价于 HTML 的<code>target</code>特性。</li>
+</ul>
+<p>除了通过<code>getElementById()</code>获取表单元素，也可以使用<code>document.forms</code>取得页面中所有表单。</p>
+<h4 id="提交表单"><a href="#提交表单" class="headerlink" title="提交表单"></a>提交表单</h4><p>用户单击提交按钮或图像按钮时，就会提交表单。使用<code>&lt;input&gt;</code>或<code>&lt;button&gt;</code>都可以定义提交按钮，只要将其<code>type</code>特性的值设置为”submit”即可，而图像按钮则是通过将<code>&lt;input&gt;</code>的<code>type</code>特性值设置为”image”来定义的。因此，只要我们单击以下代码生成的按钮，就可以提交表单。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 通用提交按钮 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Submit Form"</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 自定义提交按钮 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span>&gt;</span>Submit Form<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 图像按钮 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"image"</span> <span class="attr">src</span>=<span class="string">"graphic.gif"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>只要表单中存在上面列出的任何一种按钮，那么在相应表单控件拥有焦点的情况下，按回车键就可以提交该表单（textarea 是一个例外，在文本区中回车会换行）。如果表单里没有提交按钮，按回车键不会提交表单。</p>
+<p>以这种方式提交表单时，浏览器会在将请求发送给服务器之前触发<code>submit</code>事件。这样，我们就有机会验证表单数据，并据以决定是够允许表单提交。阻止这个事件的默认行为就可以取消表单提交。</p>
+<p>也可以使用编程方式调用<code>submit()</code>方法也可以提交表单。不过用该方法提交表单时不会触发<code>submit</code>事件，因此在调用该事件之前需要先验证表单数据。</p>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/09/17/ProJavaScript-Notes-11/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-MV-Architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/09/15/MV-Architecture/">前端 MV* 模式探究</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/09/15/MV-Architecture/" class="article-date">
+  <time datetime="2017-09-15T07:05:12.000Z" itemprop="datePublished">2017-09-15</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文是我学习前端 MV* 架构时所查阅资料的一个总结，同时也有一些个人的理解体现在里面。</p>
+<h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><p>MVC 把应用程序分成 Model 层、View 层和 Controller 层。</p>
+<h3 id="依赖关系"><a href="#依赖关系" class="headerlink" title="依赖关系"></a>依赖关系</h3><ul>
+<li>Model：负责获取并储存服务器端数据，Model 不需要知道 View 和 Controller 的状态，只需包含数据及提供数据操作的接口，执行相应的业务逻辑，不关心它会被如何显示或是如何被操作。</li>
+<li>View：View 是表示当前应用状态的视图。前端 View 由 HTML + CSS（也会用到 JavaScript 模板）组成。</li>
+<li>Controller：负责进行 Model 和 View 之间协作，进行路由、输入预处理，响应事件等应用逻辑。</li>
+</ul>
+<h3 id="调用关系"><a href="#调用关系" class="headerlink" title="调用关系"></a>调用关系</h3><ul>
+<li>View 接受用户交互请求，将请求转交给 Controller 处理；</li>
+<li>Controller 对来自 View 数据进行预处理、决定调用哪个 Model 的接口；</li>
+<li>Controller 操作 Model 执行相关的业务逻辑；</li>
+<li>Model 变更了以后会通过观察者模式通知 View 更新；</li>
+<li>View 通过观察者模式收到 Model 变更的消息，会向 Model 请求最新的数据，然后更新 View。</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/09/15/MV-Architecture/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ProJavaScript-Notes-10" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/09/13/ProJavaScript-Notes-10/">重读 JS 高程（Chapter13）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/09/13/ProJavaScript-Notes-10/" class="article-date">
+  <time datetime="2017-09-13T02:01:05.000Z" itemprop="datePublished">2017-09-13</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter13-事件"><a href="#Chapter13-事件" class="headerlink" title="Chapter13. 事件"></a>Chapter13. 事件</h2><blockquote>
+<p>事件，就是文档或浏览器窗口中发生的一些特定的交互瞬间。</p>
+</blockquote>
+<p>JavaScript 与 HTML 之间的交互是通过<strong>事件</strong>实现的。可以使用事件处理程序来预定事件，以便事件发生时执行相应的代码。</p>
+<h3 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h3><blockquote>
+<p><strong>事件流</strong>描述的是从页面中接收事件的顺序。</p>
+</blockquote>
+<h4 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h4><p>IE 的事件流叫做<strong>事件冒泡</strong>（event bubbling），即事件开始时由最具体的元素（文档中嵌套层次最深的那个节点）接收，然后逐级向上传播到较为不具体的节点（文档）。</p>
+<p>所有现代浏览器支持事件冒泡，但具体实现上还是有一些区别。IE5.5 事件冒泡会跳过<code>&lt;html&gt;</code>元素。IE9+ 则将事件一直冒泡到<code>window</code>对象。</p>
+<h4 id="事件捕获"><a href="#事件捕获" class="headerlink" title="事件捕获"></a>事件捕获</h4><p>Netscape 团队提出的另一种事件流叫做<strong>事件捕获</strong>（event capturing）。事件捕获与冒泡相反，首先由不具体的节点接收，最后是最具体的节点接收事件。事件捕获的用意是在事件到达预定目标之前捕获它。</p>
+<p>由于老版本的浏览器不支持事件捕获，因此建议使用事件冒泡，有特殊需要的时候在使用事件捕获。</p>
+<h4 id="DOM-事件流"><a href="#DOM-事件流" class="headerlink" title="DOM 事件流"></a>DOM 事件流</h4><p>“DOM2 级事件”规定的事件流包括三个阶段：事件捕获阶段、处于目标阶段和事件冒泡阶段。首先发生事件捕获，然后是实际目标接收到事件，最后一个阶段是事件冒泡阶段，可以在这个阶段对事件做出响应。</p>
+<p>IE9+ 支持 DOM 事件流，而且在捕获阶段也会出发事件对象上的事件，就是有两个机会在目标对象上操作事件，IE8 及更早版本不支持。</p>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/09/13/ProJavaScript-Notes-10/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ProJavaScript-Notes-09" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/09/08/ProJavaScript-Notes-09/">重读 JS 高程（Chapter12）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/09/08/ProJavaScript-Notes-09/" class="article-date">
+  <time datetime="2017-09-08T00:52:33.000Z" itemprop="datePublished">2017-09-08</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter12-DOM2-和-DOM3"><a href="#Chapter12-DOM2-和-DOM3" class="headerlink" title="Chapter12. DOM2 和 DOM3"></a>Chapter12. DOM2 和 DOM3</h2><h3 id="DOM-变化"><a href="#DOM-变化" class="headerlink" title="DOM 变化"></a>DOM 变化</h3><p>DOM2 级和 3 级的目的在扩展 DOM API，以满足操作 XML 的所有需求，同时提供更好的错误处理及特性检测能力。</p>
+<h4 id="针对XML命名空间的变化"><a href="#针对XML命名空间的变化" class="headerlink" title="针对XML命名空间的变化"></a>针对XML命名空间的变化</h4><p><strong>Node类型的变化</strong></p>
+<p>DOM2 级中，Node类型包含下列特定于命名空间的属性。</p>
+<ul>
+<li><code>localName</code>：不带命名空间前缀的节点名称。</li>
+<li><code>namespaceURI</code>：命名空间 URI，未指定则为<code>null</code>。</li>
+<li><code>prefix</code>：命名空间前缀，未指定则为<code>null</code>。</li>
+</ul>
+<p>DOM3 级</p>
+<ul>
+<li><code>isDefaultNamespace(namespaceURI)</code>：指定的 namespaceURI 在当前的默认命名空间的情况下返回true。</li>
+<li><code>lookupNamespaceURI(prefix)</code>：返回给定 prefix 的命名空间。</li>
+<li><code>lookupPrefix(namespaceURI)</code>：返回给定 namespaceURI 的前缀。</li>
+</ul>
+<p><strong>Document 类型的变化</strong></p>
+<p>DOM2 级中与命名空间相关的方法：</p>
+<ul>
+<li><code>createElementNS(namespaceURI, tagName)</code>：使用给定的 tagName 创建一个属于命名空间 namespaceURI 的新元素。</li>
+<li><code>createAttributeNS(namespaceURI, attributeName)</code>：使用给定的 attributeName 创建一个属于命名空间 namespaceURI 的新元素。</li>
+<li><code>getElementBytagNameNS(namespaceURI, tagName)</code>：返回属于命名空间 namespaceURI 的 tagName 元素的 NodeList。</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/09/08/ProJavaScript-Notes-09/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js-this" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/09/05/js-this/">你不知道的 this</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/09/05/js-this/" class="article-date">
+  <time datetime="2017-09-05T07:08:55.000Z" itemprop="datePublished">2017-09-05</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p> 本文总结了《你不知道的 JavaScript（上卷）》中有关 this 的讨论，以便查询参考。</p>
+</blockquote>
+<h2 id="this-的使用场景"><a href="#this-的使用场景" class="headerlink" title="this 的使用场景"></a>this 的使用场景</h2><p>JavaScript 中 this 的机制非常复杂，想要正确的使用绝非易事，那么我们为什么要学习它呢？显然它有着一些难以替代的优点。下面介绍一种 this 的使用场景：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用 this 的版本</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">identify</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name.toUpperCase();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">speak</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> greeting = <span class="string">"Hello, I'm "</span> + identify.call(<span class="keyword">this</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(greeting);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> me = &#123;</span><br><span class="line">    name: <span class="string">"Kyle"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> you = &#123;</span><br><span class="line">    name: <span class="string">"Reader"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">identify.call(me);  <span class="comment">// KYLE</span></span><br><span class="line">identify.call(you); <span class="comment">// READER</span></span><br><span class="line"></span><br><span class="line">speak.call(me);     <span class="comment">// Hello，我是 KYLE</span></span><br><span class="line">speak.call(you);    <span class="comment">// Hello，我是 READER</span></span><br></pre></td></tr></table></figure>
+<p>这段代码可以在不同的上下文对象中重复使用函数<code>inderify()</code>和<code>speak()</code>，而不用针对每个对象编写不同版本的函数。若不使用 this，则需要给<code>inderify()</code>和<code>speak()</code>显式传递上下文对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">identify</span>(<span class="params">context</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> context.name.toUpperCase();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">speak</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> greeting = <span class="string">"Hello, I'm "</span> + identify(context);</span><br><span class="line">    <span class="built_in">console</span>.log(greeting);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">identify(you); <span class="comment">// READER</span></span><br><span class="line">speak(me);     <span class="comment">// Hello，我是 KYLE</span></span><br></pre></td></tr></table></figure>
+<p>显然，this 提供了一种更优雅的方式来隐式“传递”一个对象引用，因此可以将 API 设计得更加简洁并且易于复用。</p>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/09/05/js-this/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ProJavaScript-Notes-08" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/09/02/ProJavaScript-Notes-08/">重读 JS 高程（Chapter10、Chapter11）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/09/02/ProJavaScript-Notes-08/" class="article-date">
+  <time datetime="2017-09-02T02:30:01.000Z" itemprop="datePublished">2017-09-02</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter10-DOM"><a href="#Chapter10-DOM" class="headerlink" title="Chapter10. DOM"></a>Chapter10. DOM</h2><p>DOM 是针对 HTML 和 XML 文档的一个API。DOM 描绘了一个层次化的节点树，允许开发人员添加、移除和修改页面的某一部分。</p>
+<h3 id="节点层次"><a href="#节点层次" class="headerlink" title="节点层次"></a>节点层次</h3><p>DOM 可以将任何 HTML 或 XML 文档描绘成一个由多层次节点构成的结构。</p>
+<h4 id="Node-类型"><a href="#Node-类型" class="headerlink" title="Node 类型"></a>Node 类型</h4><p>DOM1 级定义了一个 Node 接口，该接口将由 DOM 中的所有节点实现。JS 中所有节点类型都继承自 Node 类型，因此所有节点类型都共享着相同的基本属性和方法。</p>
+<p><strong><code>nodeType</code></strong></p>
+<p>每个节点都有一个<code>nodeType</code>属性，用于表明节点的类型，由 12 个数值常量表示。如下：</p>
+<ul>
+<li><code>Node.ELEMENT_NODE</code>(1)</li>
+<li><code>Node.ATTRIBUTE_NODE</code>(2)</li>
+<li><code>Node.TEXT_NODE</code>(3)</li>
+<li><code>Node.CDATA_SECTION_NODE</code>(4)</li>
+<li><code>Node.ENTITY_PEFERENCE</code>(5)</li>
+<li><code>Node.ENTITY_NODE</code>(6)</li>
+<li><code>Node.PROCESSING_INSTRUCTION_NODE</code>(7)</li>
+<li><code>Node.COMMENT_NODE</code>(8)</li>
+<li><code>Node.DOCUMENT_NODE</code>(9)</li>
+<li><code>Node.DOCUMENT_TYPE_NODE</code>(10)</li>
+<li><code>Node.DOCUMENT_FRAGMENT_NODE</code>(11)</li>
+<li><code>Node.NOTATION_NODE</code>(12)</li>
+</ul>
+<p>因为 IE 没有公开 Node 类型构造函数，因此不能直接使用上述常量，需要用数值比较。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(someNode.nodeType == <span class="number">1</span>)&#123; <span class="comment">//适用所有浏览器</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/09/02/ProJavaScript-Notes-08/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ProJavaScript-Notes-07" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/08/31/ProJavaScript-Notes-07/">重读 JS 高程（Chapter08、Chapter09）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/08/31/ProJavaScript-Notes-07/" class="article-date">
+  <time datetime="2017-08-31T10:18:21.000Z" itemprop="datePublished">2017-08-31</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter08-BOM"><a href="#Chapter08-BOM" class="headerlink" title="Chapter08. BOM"></a>Chapter08. BOM</h2><p>在 Web 中使用 JavaScript ，BOM 是真正的核心。BOM 提供了很多对象，用于访问浏览器的功能。</p>
+<h3 id="window对象"><a href="#window对象" class="headerlink" title="window对象"></a>window对象</h3><p>BOM 的核心对象是 window，它表示浏览器的一个实例。window 既是通过 JavaScript 访问浏览器窗口的一个接口，又是 ECMAScript 规定的 Global 对象。这意味着网页中定义的任何一个对象、变量和函数，都以 window 作为其 Global 对象。</p>
+<h4 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h4><p>所以在全局作用域中声明的变量、函数都会变成 window 对象的属性和方法。</p>
+<p>定义全局变量与在 window 对象上直接定义属性有差别：全局变量不能通过 delete 操作符删除，而直接定义在 window 对象上的可以。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> age = <span class="number">29</span>;</span><br><span class="line"><span class="built_in">window</span>.color = <span class="string">"red"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">delete</span> <span class="built_in">window</span>.age;</span><br><span class="line"><span class="keyword">delete</span> <span class="built_in">window</span>.error;   <span class="comment">//returns true</span></span><br><span class="line"></span><br><span class="line">alert(<span class="built_in">window</span>.age);    <span class="comment">//29</span></span><br><span class="line">alert(<span class="built_in">window</span>.color);  <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure>
+<p>尝试访问未声明的变量会抛出错误，但是通过查询 window 对象，可以知道某个可能未声明的变量是否存在。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抛出错误，因为 oldValue 未定义</span></span><br><span class="line"><span class="keyword">var</span> newValue = oldValue;</span><br><span class="line"><span class="comment">//不会抛出错误，因为这是属性查询，</span></span><br><span class="line"><span class="keyword">var</span> newValue = <span class="built_in">window</span>.oldValue;   <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure>
+<h4 id="窗口关系及框架"><a href="#窗口关系及框架" class="headerlink" title="窗口关系及框架"></a>窗口关系及框架</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Frameset Example<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">frameset</span> <span class="attr">rows</span>=<span class="string">"160,*"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">frame</span> <span class="attr">src</span>=<span class="string">"frame.htm"</span> <span class="attr">name</span>=<span class="string">"topFrame"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">frameset</span> <span class="attr">cols</span>=<span class="string">"50%,50%"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">frame</span> <span class="attr">src</span>=<span class="string">"anotherframe.htm"</span> <span class="attr">name</span>=<span class="string">"leftFrame"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">frame</span> <span class="attr">src</span>=<span class="string">"yetanotherframe.htm"</span> <span class="attr">name</span>=<span class="string">"rightFrame"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">frameset</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">frameset</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>top 对象始终指向最高（最外层）的框架，也就是浏览器窗口。建议用<code>top.frames[0]</code>或者<code>top.frames[&quot;topFrame&quot;]</code>来引用上方的框架。</p>
+<p>与 top 相对的另一个 window 对象是 parent。顾名思义，parent 对象始终指向当前框架的直接上层框架。</p>
+<p>与框架相关的最后一个对象是 self，它始终指向 window；实际上，self 和 window 可以互换使用。引入 self 只为与 top 和 parent 对象对应起来。</p>
+<h4 id="窗口位置"><a href="#窗口位置" class="headerlink" title="窗口位置"></a>窗口位置</h4><p>确定和修改 window 对象位置的属性，表示青口相对于屏幕左边和上边的位置</p>
+<ul>
+<li><code>screenLeft</code>，<code>screenTop</code>：IE，Safari，Opera 和 Chrome 支持</li>
+<li><code>screenX</code>，<code>screenY</code>：Firefox，Safari，Opera 和 Chrome 支持</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> leftPos = (<span class="keyword">typeof</span> <span class="built_in">window</span>.screenLeft == <span class="string">"number"</span>) ? <span class="built_in">window</span>.screenLeft : <span class="built_in">window</span>.screenX;</span><br><span class="line"><span class="keyword">var</span> topPos = (<span class="keyword">typeof</span> <span class="built_in">window</span>.screenTop == <span class="string">"number"</span>) ? <span class="built_in">window</span>.screenTop : <span class="built_in">window</span>.screenY;</span><br></pre></td></tr></table></figure>
+<p>IE, Opera 中，这两个属性保存的是从屏幕左边和上边由 window 对象表示的页面可见区的距离，也就是说如果存在工具栏，那么 window.screenTop 是工具栏像素高度。但是 Chrome，Firefox，Safari 中，保存的是整个浏览器窗口相对屏幕的坐标值。</p>
+<p>还有两个方法可以将窗口移动到一个新位置（有可能被浏览器禁用）：</p>
+<ul>
+<li><code>window.moveTo(x, y)</code>：接收新位置的 x 和 y 坐标值</li>
+<li><code>window.moveBy(dx, dy)</code>：接收水平和垂直方向上移动的像素数。</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/08/31/ProJavaScript-Notes-07/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ProJavaScript-Notes-06" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/08/30/ProJavaScript-Notes-06/">重读 JS 高程（Chapter07）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/08/30/ProJavaScript-Notes-06/" class="article-date">
+  <time datetime="2017-08-30T01:32:42.000Z" itemprop="datePublished">2017-08-30</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter07-函数表达式"><a href="#Chapter07-函数表达式" class="headerlink" title="Chapter07. 函数表达式"></a>Chapter07. 函数表达式</h2><p>定义函数的方式有两种：一种是函数声明，另一种就是函数表达式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//函数声明</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">functionName</span>(<span class="params">arg0, arg1, arg2</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//函数体</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//函数表达式</span></span><br><span class="line"><span class="keyword">var</span> functionName = <span class="function"><span class="keyword">function</span>(<span class="params">arg0, arg1, arg2</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//函数体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数声明的一个重要特征就是<strong>函数声明提升（function declaration hoisting)</strong>，意思是在执行代码前会先读取函数声明。</p>
+<h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><p>递归函数是在一个函数通过名字调用自身的情况下构成的。推荐做法是使用命名函数表达式，这种方式在严格模式和非严格模式下都行得通：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> factorial = (<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(num &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> num * f(num<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>以上代码创建了一个名为<code>f()</code>的命名函数表达式，然后将它赋值给<code>factorial</code>。即便把函数赋值给了另一个变量，函数的名字<code>f</code>仍然有效，所以递归调用照样能正确完成。</p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p><strong>闭包</strong>是指<strong>有权访问另一个函数作用域中的变量的函数</strong>。创建闭包的常见方式，就是在一个函数内部创建另一个函数，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createComparisonFunction</span>(<span class="params">propertyName</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span>  <span class="function"><span class="keyword">function</span> (<span class="params">object1, object2</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> object1[propertyName] - object2[propertyName];</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/08/30/ProJavaScript-Notes-06/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ProJavaScript-Notes-05" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/08/28/ProJavaScript-Notes-05/">重读 JS 高程（Chapter06）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/08/28/ProJavaScript-Notes-05/" class="article-date">
+  <time datetime="2017-08-28T14:07:38.000Z" itemprop="datePublished">2017-08-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter06-面向对象的程序设计"><a href="#Chapter06-面向对象的程序设计" class="headerlink" title="Chapter06. 面向对象的程序设计"></a>Chapter06. 面向对象的程序设计</h2><p>面向对象（Object-Oriented, OO）的标志就是有类的概念，通过类可以创建任意个具有相同属性和方法的对象。然而 ECMAScript 中没有类的概念，因此它的对象也与基于类的语言中的对象有所不同。ECMA-262 把对象定义为：</p>
+<blockquote>
+<p>无序属性的集合，其属性可以包含基本值、对象或者函数。</p>
+</blockquote>
+<p>ECMAScript 的对象可被看做散列表：即一组名值对，其中值可以是数据或函数。每个对象都是基于一个引用类型创建的，这个引用类型可以是原生类型，也可以是自定义类型。</p>
+<h3 id="理解对象"><a href="#理解对象" class="headerlink" title="理解对象"></a>理解对象</h3><p><strong>ES5 在定义只有内部才用的特性时（attribute）时，描述了属性（property）的各种特征</strong>。这些特性是为了实现 JavaScript 引擎用的，不能直接访问它们。为了表示特性是内部值，该规范把它们放在了两对方括号中，例如<code>[[Enumerable]]</code>。ECMAScript 中有两种属性：数据属性和访问器属性。</p>
+<h4 id="数据属性"><a href="#数据属性" class="headerlink" title="数据属性"></a>数据属性</h4><p><strong>数据属性包含一个数据值的位置</strong>。在这个位置可以读取和写入值。数据属性有 4 个描述其行为的特性：</p>
+<ul>
+<li><code>[[Configurable]]</code>：表示能否通过<code>delete</code>删除属性从而重新定义属性，以及除 writable 特性外的其他特性是否可以被修改，或者能否把属性修改为访问器属性。</li>
+<li><code>[[Enumerable]]</code>：表示能否通过<code>for-in</code>循环返回属性。</li>
+<li><code>[[Writable]]</code>：表示能否修改属性的值。</li>
+<li><code>[[Value]]</code>：包含这个属性的数据值。读取属性值的时候，从这个位置读；写入属性值的时候，把新值保存在这个位置。</li>
+</ul>
+<p>直接在对象上定义的属性，它们的<code>[[Configurable]]</code>、<code>[[Enumerable]]</code>和<code>[[Writable]]</code>特性都被设置为<code>true</code>，而<code>[[Value]]</code>特性被设置为特定的值。</p>
+<p>要修改属性默认的特性，必须使用<code>Object.defineProperty(obj, prop, descriptor)</code>方法。该方法接收三个参数：</p>
+<ul>
+<li><code>obj</code>：需要被操作的目标对象。</li>
+<li><code>prop</code>：目标对象需要定义或修改的属性的名称。</li>
+<li><code>descriptor</code>：将被定义或修改的属性的描述符。可选值：configurable、enumerable、writable 和 value。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;&#125;;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(person, <span class="string">"name"</span>, &#123;</span><br><span class="line">    configurable: <span class="literal">false</span>;</span><br><span class="line">    value: <span class="string">"Nicholas"</span></span><br><span class="line">&#125;);</span><br><span class="line">alert(person.name);      <span class="comment">//"Nicholas"</span></span><br><span class="line"><span class="keyword">delete</span> person.name;</span><br><span class="line">alert(person.name);      <span class="comment">//"Nicholas"</span></span><br></pre></td></tr></table></figure>
+<p>注意： 一旦把 configurable 定义为不可配置的，就不能将它再变回可配置的，修改除 writable 之外的特性，都会导致错误。</p>
+<p>使用<code>Object.defineProperty()</code><strong>创建新属性</strong>时，若不指定参数，<code>configurable</code>、<code>enumerable</code>和<code>writable</code>特性的默认值都是<code>false</code>。 </p>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/08/28/ProJavaScript-Notes-05/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ProJavaScript-Notes-04" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/08/26/ProJavaScript-Notes-04/">重读 JS 高程（Chapter05）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/08/26/ProJavaScript-Notes-04/" class="article-date">
+  <time datetime="2017-08-26T05:17:15.000Z" itemprop="datePublished">2017-08-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter05-引用类型"><a href="#Chapter05-引用类型" class="headerlink" title="Chapter05. 引用类型"></a>Chapter05. 引用类型</h2><p>引用类型的值（对象）是<strong>引用类型</strong>的一个<strong>实例</strong>。新对象是使用 new 操作符后跟一个构造函数来创建的。构造函数本身就是一个函数，只不过该函数是出于创建新对象的目的而定义的。比如下面代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br></pre></td></tr></table></figure>
+<h3 id="Object-类型"><a href="#Object-类型" class="headerlink" title="Object 类型"></a>Object 类型</h3><p>到目前为止，我们看到的大多数引用类型值都是 Object 类型的实例；而且Object 也是 ECMAScript 中最多的一个类型。创建 Object 实例的方式有两种：</p>
+<ul>
+<li>第一种是使用 new 操作符后跟 Object 构造函数</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">person.name = <span class="string">"Nicholas"</span>;</span><br><span class="line">person.age = <span class="number">29</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>另一种方式是使用对象字面量表达法</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">    name: <span class="string">"Nicholas"</span>,</span><br><span class="line">    age: <span class="number">29</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在需要向函数传入大量可选参数的情况下，对象字面量语法最合适，命名参数虽然容易处理，但是不够灵活。最好的做法是对那些必需值使用命名参数，而使用对象字面量来封装多个可选参数。</p>
+<p>访问对象属性可以使用点表达式和方括号表达式。方括号表达式的主要优点是可以通过变量来访问属性，而且如果属性名中包含会导致语法错误的字符，或者属性名使用的是关键字和保留字，也可以使用方括号表示法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">person.name;</span><br><span class="line">person[<span class="string">"name"</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> propertyName = <span class="string">"name"</span>;</span><br><span class="line">person[propertyName]</span><br><span class="line"></span><br><span class="line">person[<span class="string">"first name"</span>] = <span class="string">"Nicholas"</span>;</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/08/26/ProJavaScript-Notes-04/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    </nav>
+  
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

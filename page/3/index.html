@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前端之路">
+<meta name="keywords" content="前端,js,javascript,es6,html5,开发者,程序猿,极客,编程,代码,IT,Developer,Programmer,Coder,Geek,html,css,css3">
+<meta property="og:type" content="website">
+<meta property="og:title" content="cz&#39;s blog">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="前端之路">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cz&#39;s blog">
+<meta name="twitter:description" content="前端之路">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-ProJavaScript-Notes-03" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/08/16/ProJavaScript-Notes-03/">重读 JS 高程（Chapter04）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/08/16/ProJavaScript-Notes-03/" class="article-date">
+  <time datetime="2017-08-16T04:36:50.000Z" itemprop="datePublished">2017-08-16</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter04-变量、作用域和内存问题"><a href="#Chapter04-变量、作用域和内存问题" class="headerlink" title="Chapter04. 变量、作用域和内存问题"></a>Chapter04. 变量、作用域和内存问题</h2><h3 id="基本类型和引用类型的值"><a href="#基本类型和引用类型的值" class="headerlink" title="基本类型和引用类型的值"></a>基本类型和引用类型的值</h3><p>ECMAScript 中的变量可能包含两种不同数据类型的值：基本类型值和引用类型值。<strong>基本类型值指的是简单的数据段，而引用类型值指那些可能由多个值构成的对象。</strong>在将一个值赋给变量时，解析器必须确定这个值是基本类型值还是引用类型值。</p>
+<h4 id="动态的属性"><a href="#动态的属性" class="headerlink" title="动态的属性"></a>动态的属性</h4><p>不允许给基本类型值添加属性（尽管不会报错），只能给引用类型值动态地添加（删除）属性和方法。</p>
+<h4 id="复制变量值"><a href="#复制变量值" class="headerlink" title="复制变量值"></a>复制变量值</h4><ul>
+<li>如果从一个变量向另一个变量复制基本类型的值，会在变量对象上创建一个新值，然后把该值复制到为新变量分配的位置上。</li>
+<li>如果从一个变量向另一个变量复制引用类型的值，同样也会将存储在变量对象中的值复制一份放到为新变量分配的空间中。不同的是，这个值的副本实际上是一个指针，而这个指针指向存储在堆中的一个对象。复制操作结束后，两个变量实际上将引用同一个对象。因此，改变其中一个变量，就会影响另一个变量。</li>
+</ul>
+<h4 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h4><p>ECMAScript 中所有函数的参数都是<strong>按值传递</strong>的。也就是说，把函数外部的值复制给函数内部的参数，就和把值从一个变量复制到另一个变量一样。基本类型值的传递如同基本类型变量的复制一样，而引用类型值的传递，则如同引用类型变量的复制一样。有不少开发人员在这一点上可能会感到困惑，因为<strong>访问变量有按值和按引用两种方式</strong>，而<strong>参数只能按值传递</strong>。</p>
+<p>在向参数传递基本类型的值时，被传递的值会被复制给一个局部变量（即命名参数，或者用 ECMAScript 的概念来说，就是 arguments 对象中的一个元素）。在向参数传递引用类型的值时，会把这个值在内存中的地址复制给一个局部变量，因此这个局部变量的变化会反映在函数的外部。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123; </span><br><span class="line">    obj.name = <span class="string">"Nicholas"</span>; </span><br><span class="line">    obj = <span class="keyword">new</span> <span class="built_in">Object</span>(); </span><br><span class="line">    obj.name = <span class="string">"Greg"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">setName(person);</span><br><span class="line">alert(person.name);    <span class="comment">//"Nicholas"</span></span><br></pre></td></tr></table></figure>
+<p>如果 person 是按引用传递的，那么 person 就会自动被修改为指向其 name 属性值 为”Greg”的新对象。但是，当接下来再访问 person.name 时，显示的值仍然是”Nicholas”。</p>
+<p><strong>这说明即使在函数内部修改了参数的值，但原始的引用仍然保持未变。</strong>实际上，当在函数内部重写 obj 时，这 个变量引用的就是一个局部对象了。而这个局部对象会在函数执行完毕后立即被销毁。<strong>可以把 ECMAScript 函数的参数想象成局部变量。</strong></p>
+<h4 id="检测类型"><a href="#检测类型" class="headerlink" title="检测类型"></a>检测类型</h4><ul>
+<li>确定一个值是哪种基本类型可以使用 typeof 操作符。typeof 返回值是字符串，有六种可能： “number”，”string”，”boolean”，”object”，”function” 和 “undefined”。</li>
+</ul>
+<ul>
+<li>确定一个值是哪种引用类型可以使用 instanceof 操作符。所有引用类型都是 Object 的实例。</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/08/16/ProJavaScript-Notes-03/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ProJavaScript-Notes-02" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/08/14/ProJavaScript-Notes-02/">重读 JS 高程（Chapter03）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/08/14/ProJavaScript-Notes-02/" class="article-date">
+  <time datetime="2017-08-14T04:35:56.000Z" itemprop="datePublished">2017-08-14</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter03-基本概念"><a href="#Chapter03-基本概念" class="headerlink" title="Chapter03. 基本概念"></a>Chapter03. 基本概念</h2><h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>ECMAScript 的语法大量借鉴了 C 及其他类 C 语言（如 Perl 和 Java）的语法。</p>
+<h4 id="区分大小写"><a href="#区分大小写" class="headerlink" title="区分大小写"></a>区分大小写</h4><p>ECMAScript 中的一切（变量、函数名和操作符）都区分大小写。</p>
+<h4 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h4><p>指变量、函数、属性的名字，或者函数的参数。标识符可以是按照下列格式规则组合起来的一个或多个字符：</p>
+<ul>
+<li>第一个字符必须是一个字母、下划线（_）或一个美元符号（$）；</li>
+<li>其他字符可以是字母、下划线、美元符号或数字。</li>
+</ul>
+<p>标识符中的字母也可以包含扩展的 ASCII 或 Unicode 字母字符，但不推荐这样做。</p>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单行注释</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*  这是一个多行</span></span><br><span class="line"><span class="comment">*  （块级）注释</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/08/14/ProJavaScript-Notes-02/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ProJavaScript-Notes-01" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/07/28/ProJavaScript-Notes-01/">重读 JS 高程（Chapter01、Chapter02）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/07/28/ProJavaScript-Notes-01/" class="article-date">
+  <time datetime="2017-07-28T06:42:02.000Z" itemprop="datePublished">2017-07-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter01-JavaScript-简介"><a href="#Chapter01-JavaScript-简介" class="headerlink" title="Chapter01. JavaScript 简介"></a>Chapter01. JavaScript 简介</h2><p>一个完整的 JavaScript 由下列三个不同的部分组成：</p>
+<ul>
+<li>核心（ECMAScript）</li>
+<li>文档对象模型（DOM）</li>
+<li>浏览器对象模型（BOM）</li>
+</ul>
+<h3 id="ECMAScript"><a href="#ECMAScript" class="headerlink" title="ECMAScript"></a>ECMAScript</h3><p>ECMA-262 的第 5 版是 JS 的第一个稳定版本，得到了各浏览器厂商的支持。它规定了语言的下列组成部分：</p>
+<ul>
+<li>语法</li>
+<li>类型</li>
+<li>语句</li>
+<li>关键字</li>
+<li>保留字</li>
+<li>操作符</li>
+<li>对象</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/07/28/ProJavaScript-Notes-01/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-colorpicker" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/03/06/colorpicker/">IFE项目-颜色选择器(colorPicker)实践笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/03/06/colorpicker/" class="article-date">
+  <time datetime="2017-03-06T03:19:54.000Z" itemprop="datePublished">2017-03-06</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>大概用了三天时间完成了这个颜色选择器的项目，之前并没有做过类似的东西，所以时间大多消耗在了搜索上，我把实现思路记录下来，欢迎讨论交流。</p>
+<h3 id="不同颜色格式之间的转换"><a href="#不同颜色格式之间的转换" class="headerlink" title="不同颜色格式之间的转换"></a>不同颜色格式之间的转换</h3><p>颜色选择器要求支持HSL，RGB，还有十六进制颜色三种格式，看到题目要求，我第一反应就是photoshop的拾色器，因为切图经常要用。在仔细观察了photoshop的拾色器之后，发现它是基于hsb颜色的（做完发现其实也可以调到rgb等其他模式），由于只了解rgb和十六进制颜色，然后我开始搜集hsl和hsb的相关资料，最终查到了两篇文章作为参考：</p>
+<ul>
+<li><a href="http://www.zhangxinxu.com/wordpress/2010/03/javascript-hex-rgb-hsl-color-convert/" target="_blank" rel="noopener">javascript HEX十六进制与RGB, HSL颜色的相互转换</a></li>
+<li><a href="http://www.cnblogs.com/benymor/p/6415653.html" target="_blank" rel="noopener">Color.js 增强你对颜色的控制</a></li>
+</ul>
+<p>rgb转十六进制比较简单，复杂的地方在于hsl，hsb与rgb之间的相互转换。rgb与hsl转换参考第一篇文章，有详细的公式代码；rgb转hsb参考第二篇文章，里面介绍了一个插件插件，可以直接读源码获取公式。其实第二篇文章的插件可以直接用，但是我还是没忍住造轮子，自己写了一个颜色转换的模块，准备以后慢慢完善，想参考的可以点这里<a href="https://github.com/dtcz/ifetask_2017/blob/master/BusinessPlatform/colorpick/dist/js/color.js" target="_blank" rel="noopener">color.js</a>，我抽时间加上详细的注释。</p>
+<h3 id="UI界面"><a href="#UI界面" class="headerlink" title="UI界面"></a>UI界面</h3><p>颜色转换的问题解决了，接下来需要实现下面的UI界面：</p>
+<p><img src="/images/color-picker.png" alt="拾色器"></p>
+<p>中间那一栏渐变色比较简单，使用canvas的createLinearGradient和addColorStop实现，颜色取值为hsl([0-360], 100%, 50%)，代码如下：</p>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/03/06/colorpicker/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-box-shadow" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/03/06/box-shadow/">box-shadow小记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/03/06/box-shadow/" class="article-date">
+  <time datetime="2017-03-06T01:50:59.000Z" itemprop="datePublished">2017-03-06</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/css/">css</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>每次使用box-shadow都感觉不是很得心应手，所以写这篇文章作为一个笔记。</p>
+<h3 id="浏览器支持程度"><a href="#浏览器支持程度" class="headerlink" title="浏览器支持程度"></a>浏览器支持程度</h3><p><img src="/images/box-shadow.png" alt=""></p>
+<p>可看到只有IE8及以下不支持，兼容性比较好</p>
+<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">box-shadow: [inset] x-offset y-offset blur-radius spread-radius color</span><br></pre></td></tr></table></figure>
+<ul>
+<li>阴影类型：此参数可选，默认投影方式是外阴影，如取其唯一值“inset”，其投影为内阴影；</li>
+<li>阴影水平偏移量(x-offset)：其值可以是正负值。如果为正值，则阴影在对象的右边，其值为负值时，阴影在对象的左边；</li>
+<li>阴影垂直偏移量(y-offset)：其值可以是正负值。如果为正值，阴影在对象的底部，其值为负值时，阴影在对象的顶部；</li>
+<li>阴影模糊半径(blur-radius)：此参数可选，但其值只能是为正值，如果其值为 0 时，表示阴影不具有模糊效果，其值越大阴影的边缘就越模糊；</li>
+<li>阴影扩展半径(spread-radius)：此参数可选，其值可以是正负值，如果值为正，则整个阴影都延展扩大，反之值为负值时，则缩小；</li>
+<li>阴影颜色(color)：此参数可选。如不设定颜色，浏览器会取默认色，但各浏览器默认取色不一致，特别是在 webkit 内核下的 safari 和 chrome 浏览器下表现为透明色，在 Firefox/Opera 下表现为黑色（已验证），建议不要省略此参数。</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/03/06/box-shadow/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-css2.1-02" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/03/01/css2.1-02/">css权威指南总结-布局</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/03/01/css2.1-02/" class="article-date">
+  <time datetime="2017-03-01T03:25:57.000Z" itemprop="datePublished">2017-03-01</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/css/">css</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h3><h4 id="核心属性：display"><a href="#核心属性：display" class="headerlink" title="核心属性：display"></a>核心属性：display</h4><p>用于规定元素生成的框（盒）的类型，影响显示方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">display: none | inline | block | inline-block | list-item | run-in | table | inline-table | table-row-group | table-header-group | table-footer-group | table-row | table-colume-group | table-column | table-cell | table-caption | inherit;</span><br></pre></td></tr></table></figure>
+<p>日常开发常见的是<code>none</code>,<code>inline</code>,<code>block</code>,<code>inline-block</code>,<code>list-item</code>。和<code>table</code>相关的值用的比较少，这是因为表格布局已经被抛弃了，但是在某些场景下也会使用，比如元素居中用表格布局很轻易就能实现。</p>
+<h4 id="normal-flow-正常流、普通流、文档流"><a href="#normal-flow-正常流、普通流、文档流" class="headerlink" title="normal flow(正常流、普通流、文档流)"></a>normal flow(正常流、普通流、文档流)</h4><blockquote>
+<p><strong>定义：</strong>normal flow是指西方语言的文本从左向右、从上到下显示，这也是我们熟悉的传统HTML文档的文本布局（在非西方语言中，流的方向可能不同）。大多数元素都在正常流中，要让一个元素不在正常流中，唯一的办法就是使之成为<strong>浮动或者定位元素</strong>。</p>
+</blockquote>
+<h4 id="正常流中的包含块"><a href="#正常流中的包含块" class="headerlink" title="正常流中的包含块"></a>正常流中的包含块</h4><blockquote>
+<p><strong>定义：</strong>每个元素都相对于其包含块摆放，包含块就是一个元素的“布局上下文”。CSS2.1定义了一系列规则来确定元素的包含块。这里先介绍部分规则：对于正常流中的一个元素，包含块由最近的块级祖先框、表单元格或行内块祖先框的内容边界构成。</p>
+</blockquote>
+<h4 id="块级元素-block"><a href="#块级元素-block" class="headerlink" title="块级元素(block)"></a>块级元素(<code>block</code>)</h4><blockquote>
+<p><strong>定义：</strong>是指段落，标题或<code>div</code>(division)之类的元素。这些元素在<strong>正常流</strong>中时，会在<strong>其框之前和之后</strong>生成<strong>“换行”</strong>，所以<strong>处于正常流中的块级元素垂直摆放</strong>。通过声明<code>display: block</code>，可以让元素生成块级框。</p>
+</blockquote>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/03/01/css2.1-02/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-css2.1-01" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/02/26/css2.1-01/">css权威指南总结-基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/02/26/css2.1-01/" class="article-date">
+  <time datetime="2017-02-26T15:40:22.000Z" itemprop="datePublished">2017-02-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/css/">css</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="CSS中的一些基本概念"><a href="#CSS中的一些基本概念" class="headerlink" title="CSS中的一些基本概念"></a>CSS中的一些基本概念</h3><ol>
+<li><p>声明和关键字</p>
+<p> 声明格式：一个属性后面跟一个冒号，再后面是一个值，然后是一个分号。</p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attribute">font</span>: <span class="number">16px</span>/<span class="number">1</span> <span class="string">'Microsoft YaHei'</span>, Arial, sans-serif, <span class="string">'SimSun'</span>;&#125;</span><br></pre></td></tr></table></figure>
+<p> 值要么是一个关键字，要么是该属性可取关键字的一个列表（包含一个或者多个关键字），关键字之间用空格分隔。部分情况需要用斜线<code>/</code>分隔。</p>
+</li>
+<li><p>注释</p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* This is a CSS comment */</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>元素</p>
+<blockquote>
+<p><strong>定义：</strong>元素是文档结构的基础。文档中的每个元素都对文档的表现起一定的作用。在CSS2.1中，这意味着每个元素生成一个框（盒），其中包含元素的内容。</p>
+</blockquote>
+<ul>
+<li>替换元素<br>是指用来替换元素内容的部分并非由文档内容直接表示。最直观的例子就是<code>img</code>元素，它由文档本身之外的一个图像文件来替换，<code>img</code>本身并没有具体的内容。<code>input</code>元素与之相似。</li>
+<li>非替换元素<br>大多数HTML元素都是非替换元素。这意味着，其内容由浏览器在元素本身生成的框中显示。段落、标题、表单元格、列表等元素都是非替换元素。</li>
+</ul>
+</li>
+<li><p>CSS与HTML结合</p>
+<ul>
+<li><p><code>link</code>标签</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"sheet1.css"</span> <span class="attr">media</span>=<span class="string">"all"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>style</code>元素</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;style type="text/css"&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>@import</code>指令</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;style type="text/css"&gt;</span><br><span class="line">@<span class="keyword">import</span> url(styles.css);</span><br><span class="line"><span class="selector-tag">h1</span> &#123;<span class="attribute">color</span>: gray;&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/02/26/css2.1-01/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-gulp-settings" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/2017/02/26/gulp-settings/">gulp配置指南</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/02/26/gulp-settings/" class="article-date">
+  <time datetime="2017-02-26T08:10:11.000Z" itemprop="datePublished">2017-02-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a> <a class="article-category-link" href="/categories/javascript/前端工具/">前端工具</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>不知不觉中，使用gulp作为自动化工具已经快一年了。这一年都没怎么更新配置，感觉跟不上时代了，这次下定决心更新一下配置，完善一下功能，并把完整的配置过程记录下来。想参考配置不想看文章的可以直接翻到最后。</p>
+<h3 id="gulp及相关插件的安装"><a href="#gulp及相关插件的安装" class="headerlink" title="gulp及相关插件的安装"></a>gulp及相关插件的安装</h3><p>首先，用<code>npm init</code>创建一个项目，生成package.json，然后进行gulp及相关插件安装，下面给出安装示例和最终的package.json，大家可以直接复制进行安装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install -g gulp//全局安装gulp</span><br><span class="line">npm install --save-dev gulp //项目中安装gulp，--save的意思是保存在package.json中，-dev表示作为开发的依赖模块，不用于生产环境</span><br><span class="line">npm install --save-dev gulp-rename //安装gulp-rename插件，其他插件安装方法和这个一样</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//package.json</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"gulp-settings"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"description"</span>: <span class="string">"a commonly used settings of gulp"</span>,</span><br><span class="line">  <span class="string">"main"</span>: <span class="string">"index.js"</span>,</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"test"</span>: <span class="string">"mocha test"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"author"</span>: <span class="string">"cz"</span>,</span><br><span class="line">  <span class="string">"license"</span>: <span class="string">"ISC"</span>,</span><br><span class="line">  <span class="string">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"browser-sync"</span>: <span class="string">"^2.18.8"</span>,</span><br><span class="line">    <span class="string">"del"</span>: <span class="string">"^2.2.2"</span>,</span><br><span class="line">    <span class="string">"gulp"</span>: <span class="string">"^3.9.1"</span>,</span><br><span class="line">    <span class="string">"gulp-autoprefixer"</span>: <span class="string">"^3.1.1"</span>,</span><br><span class="line">    <span class="string">"gulp-changed"</span>: <span class="string">"^2.0.0"</span>,</span><br><span class="line">    <span class="string">"gulp-clean-css"</span>: <span class="string">"^3.0.3"</span>,</span><br><span class="line">    <span class="string">"gulp-concat"</span>: <span class="string">"^2.6.1"</span>,</span><br><span class="line">    <span class="string">"gulp-imagemin"</span>: <span class="string">"^3.1.1"</span>,</span><br><span class="line">    <span class="string">"gulp-jshint"</span>: <span class="string">"^2.0.4"</span>,</span><br><span class="line">    <span class="string">"gulp-notify"</span>: <span class="string">"^3.0.0"</span>,</span><br><span class="line">    <span class="string">"gulp-plumber"</span>: <span class="string">"^1.1.0"</span>,</span><br><span class="line">    <span class="string">"gulp-pug"</span>: <span class="string">"^3.2.0"</span>,</span><br><span class="line">    <span class="string">"gulp-rename"</span>: <span class="string">"^1.2.2"</span>,</span><br><span class="line">    <span class="string">"gulp-ruby-sass"</span>: <span class="string">"^2.1.1"</span>,</span><br><span class="line">    <span class="string">"gulp-uglify"</span>: <span class="string">"^2.0.1"</span>,</span><br><span class="line">    <span class="string">"gulp-zip"</span>: <span class="string">"^4.0.0"</span>,</span><br><span class="line">    <span class="string">"gulp.spritesmith"</span>: <span class="string">"^6.3.0"</span>,</span><br><span class="line">    <span class="string">"jshint"</span>: <span class="string">"^2.9.4"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><p><img src="/images/pic.png" alt=""></p>
+<ul>
+<li>sass-cache是sass编译生成的文件，node_moudules是插件存放的地方，这两个不需要我们去创建。</li>
+<li>dist是最终生成的项目文件，打包后用于生产环境</li>
+<li>src指的是开发的源文件，里面包含images,javascripts,sass文件夹</li>
+<li>views存放jade(pug)文件，即html模板文件</li>
+<li>vendor是只一些不是自己编写的js插件或者css样式，比如jQuery,bootstrap等</li>
+<li>gulpfile.js是gulp配置文件
+        
+          <p class="article-more-link">
+            <a href="/posts/2017/02/26/gulp-settings/#more">More...</a>
+          </p>
+        
+      
+
+      
+        
+    </div>
+  </div>
+  
+</article>
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    </nav>
+  
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

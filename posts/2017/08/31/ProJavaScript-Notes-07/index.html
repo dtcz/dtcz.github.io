@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>重读 JS 高程（Chapter08、Chapter09） | cz&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Chapter08. BOM在 Web 中使用 JavaScript ，BOM 是真正的核心。BOM 提供了很多对象，用于访问浏览器的功能。 window对象BOM 的核心对象是 window，它表示浏览器的一个实例。window 既是通过 JavaScript 访问浏览器窗口的一个接口，又是 ECMAScript 规定的 Global 对象。这意味着网页中定义的任何一个对象、变量和函数，都以 w">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重读 JS 高程（Chapter08、Chapter09）">
+<meta property="og:url" content="http://yoursite.com/posts/2017/08/31/ProJavaScript-Notes-07/index.html">
+<meta property="og:site_name" content="cz&#39;s blog">
+<meta property="og:description" content="Chapter08. BOM在 Web 中使用 JavaScript ，BOM 是真正的核心。BOM 提供了很多对象，用于访问浏览器的功能。 window对象BOM 的核心对象是 window，它表示浏览器的一个实例。window 既是通过 JavaScript 访问浏览器窗口的一个接口，又是 ECMAScript 规定的 Global 对象。这意味着网页中定义的任何一个对象、变量和函数，都以 w">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-30T15:41:54.943Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重读 JS 高程（Chapter08、Chapter09）">
+<meta name="twitter:description" content="Chapter08. BOM在 Web 中使用 JavaScript ，BOM 是真正的核心。BOM 提供了很多对象，用于访问浏览器的功能。 window对象BOM 的核心对象是 window，它表示浏览器的一个实例。window 既是通过 JavaScript 访问浏览器窗口的一个接口，又是 ECMAScript 规定的 Global 对象。这意味着网页中定义的任何一个对象、变量和函数，都以 w">
+  
+    <link rel="alternative" href="/atom.xml" title="cz&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-ProJavaScript-Notes-07" class="article article-type-post" itemscope itemprop="blogPost">
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      重读 JS 高程（Chapter08、Chapter09）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/posts/2017/08/31/ProJavaScript-Notes-07/" class="article-date">
+  <time datetime="2017-08-31T10:18:21.000Z" itemprop="datePublished">2017-08-31</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Chapter08-BOM"><a href="#Chapter08-BOM" class="headerlink" title="Chapter08. BOM"></a>Chapter08. BOM</h2><p>在 Web 中使用 JavaScript ，BOM 是真正的核心。BOM 提供了很多对象，用于访问浏览器的功能。</p>
+<h3 id="window对象"><a href="#window对象" class="headerlink" title="window对象"></a>window对象</h3><p>BOM 的核心对象是 window，它表示浏览器的一个实例。window 既是通过 JavaScript 访问浏览器窗口的一个接口，又是 ECMAScript 规定的 Global 对象。这意味着网页中定义的任何一个对象、变量和函数，都以 window 作为其 Global 对象。</p>
+<h4 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h4><p>所以在全局作用域中声明的变量、函数都会变成 window 对象的属性和方法。</p>
+<p>定义全局变量与在 window 对象上直接定义属性有差别：全局变量不能通过 delete 操作符删除，而直接定义在 window 对象上的可以。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> age = <span class="number">29</span>;</span><br><span class="line"><span class="built_in">window</span>.color = <span class="string">"red"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">delete</span> <span class="built_in">window</span>.age;</span><br><span class="line"><span class="keyword">delete</span> <span class="built_in">window</span>.error;   <span class="comment">//returns true</span></span><br><span class="line"></span><br><span class="line">alert(<span class="built_in">window</span>.age);    <span class="comment">//29</span></span><br><span class="line">alert(<span class="built_in">window</span>.color);  <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure>
+<p>尝试访问未声明的变量会抛出错误，但是通过查询 window 对象，可以知道某个可能未声明的变量是否存在。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抛出错误，因为 oldValue 未定义</span></span><br><span class="line"><span class="keyword">var</span> newValue = oldValue;</span><br><span class="line"><span class="comment">//不会抛出错误，因为这是属性查询，</span></span><br><span class="line"><span class="keyword">var</span> newValue = <span class="built_in">window</span>.oldValue;   <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure>
+<h4 id="窗口关系及框架"><a href="#窗口关系及框架" class="headerlink" title="窗口关系及框架"></a>窗口关系及框架</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Frameset Example<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">frameset</span> <span class="attr">rows</span>=<span class="string">"160,*"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">frame</span> <span class="attr">src</span>=<span class="string">"frame.htm"</span> <span class="attr">name</span>=<span class="string">"topFrame"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">frameset</span> <span class="attr">cols</span>=<span class="string">"50%,50%"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">frame</span> <span class="attr">src</span>=<span class="string">"anotherframe.htm"</span> <span class="attr">name</span>=<span class="string">"leftFrame"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">frame</span> <span class="attr">src</span>=<span class="string">"yetanotherframe.htm"</span> <span class="attr">name</span>=<span class="string">"rightFrame"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">frameset</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">frameset</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>top 对象始终指向最高（最外层）的框架，也就是浏览器窗口。建议用<code>top.frames[0]</code>或者<code>top.frames[&quot;topFrame&quot;]</code>来引用上方的框架。</p>
+<p>与 top 相对的另一个 window 对象是 parent。顾名思义，parent 对象始终指向当前框架的直接上层框架。</p>
+<p>与框架相关的最后一个对象是 self，它始终指向 window；实际上，self 和 window 可以互换使用。引入 self 只为与 top 和 parent 对象对应起来。</p>
+<h4 id="窗口位置"><a href="#窗口位置" class="headerlink" title="窗口位置"></a>窗口位置</h4><p>确定和修改 window 对象位置的属性，表示青口相对于屏幕左边和上边的位置</p>
+<ul>
+<li><code>screenLeft</code>，<code>screenTop</code>：IE，Safari，Opera 和 Chrome 支持</li>
+<li><code>screenX</code>，<code>screenY</code>：Firefox，Safari，Opera 和 Chrome 支持</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> leftPos = (<span class="keyword">typeof</span> <span class="built_in">window</span>.screenLeft == <span class="string">"number"</span>) ? <span class="built_in">window</span>.screenLeft : <span class="built_in">window</span>.screenX;</span><br><span class="line"><span class="keyword">var</span> topPos = (<span class="keyword">typeof</span> <span class="built_in">window</span>.screenTop == <span class="string">"number"</span>) ? <span class="built_in">window</span>.screenTop : <span class="built_in">window</span>.screenY;</span><br></pre></td></tr></table></figure>
+<p>IE, Opera 中，这两个属性保存的是从屏幕左边和上边由 window 对象表示的页面可见区的距离，也就是说如果存在工具栏，那么 window.screenTop 是工具栏像素高度。但是 Chrome，Firefox，Safari 中，保存的是整个浏览器窗口相对屏幕的坐标值。</p>
+<p>还有两个方法可以将窗口移动到一个新位置（有可能被浏览器禁用）：</p>
+<ul>
+<li><code>window.moveTo(x, y)</code>：接收新位置的 x 和 y 坐标值</li>
+<li><code>window.moveBy(dx, dy)</code>：接收水平和垂直方向上移动的像素数。</li>
+</ul>
+<a id="more"></a>
+<h4 id="窗口大小"><a href="#窗口大小" class="headerlink" title="窗口大小"></a>窗口大小</h4><ul>
+<li><code>innerWidth</code>，<code>innerHeight</code>，<code>outerWidth</code>，<code>outerHeight</code>：Firefox，IE，Safari 中<code>outerWidth</code>和<code>outerHeight</code>返回浏览器窗口本身尺寸；<code>innerWidth</code>和<code>innerHeight</code>表示该容器页面视图区大小（减去边框宽度）。Chrome 中它们均返回视口（viewport）大小而非浏览器窗口大小。</li>
+<li><code>document.documentElement.clientWidth</code>，<code>document.documentElement.clientHeight</code>，<code>document.body.clientWidth</code>，<code>document.body.clientWidth</code>：可以用来确定视口大小。</li>
+</ul>
+<p>最终取得浏览器视口大小的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> pageWidth = <span class="built_in">window</span>.innerWidth,</span><br><span class="line">    pageHeight = <span class="built_in">window</span>.innerHeight;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> pageWidth != <span class="string">"number"</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">document</span>.compatMode == <span class="string">"CSS1Compat"</span>)&#123;</span><br><span class="line">        pageWidth = <span class="built_in">document</span>.documentElement.clientWidth;</span><br><span class="line">        pageHeight = <span class="built_in">document</span>.documentElement.clientHeight;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        pageWidth = <span class="built_in">document</span>.body.clientWidth;</span><br><span class="line">        pageHeight = <span class="built_in">document</span>.body.clientHeight;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样存在两个方法可以调整浏览器窗口大小，不过可能被浏览器禁用</p>
+<ul>
+<li><code>window.resizeTo(x, y)</code>：接收浏览器窗口新宽度和新高度。</li>
+<li><code>window.resizeBy(dx, dy)</code>：接收新窗口与原窗口的宽度和高度之差。</li>
+</ul>
+<h4 id="导航和打开窗口"><a href="#导航和打开窗口" class="headerlink" title="导航和打开窗口"></a>导航和打开窗口</h4><p>使用<code>window.open()</code>方法既可以导航到一个特定的 URL，也可以打开一个新的浏览器窗口。这个方法可以接受 4 个参数：</p>
+<ul>
+<li>要加载的 URL</li>
+<li>窗口目标，可以是已存在的窗口或者框架，如”topFrame”、<code>_self</code>、<code>_parent</code>、<code>_top</code>、<code>_blank</code></li>
+<li>一个特性字符串，包括<code>height</code>,<code>left</code>,<code>location</code>,<code>menubar</code>,<code>resizable</code>,<code>scrollbars</code>,<code>status</code>,<code>toolbar</code>,<code>top</code>,<code>width</code>  </li>
+</ul>
+<ul>
+<li>一个表示新页面是否取代浏览器历史记录中当前加载页面的布尔值</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.open(<span class="string">"http://www/wrox.com/"</span>, <span class="string">"wroxWindow"</span>, <span class="string">"height=400, width=400, top=10, left=10, resizable=yes"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="间歇调用和超时调用"><a href="#间歇调用和超时调用" class="headerlink" title="间歇调用和超时调用"></a>间歇调用和超时调用</h4><p>JavaScript 是单线程语言，但它允许通过设置超时值和间歇时间值来调度代码在特定的时刻执行。</p>
+<ul>
+<li><code>setTimeout()</code>：超时调用函数，接受两个参数，要执行的代码和以毫秒表示的时间。<ul>
+<li>第一个参数可以是一个包含 JavaScript 代码的字符串，也可以是一个函数</li>
+<li>第二个参数是一个表示等待多长时间的毫秒数，但经过该时间后指定的代码不一定会执行。因为 JavaScript 是一个单线程的解释器，因此一定时间只能执行一段代码。有一个任务队列可以控制要执行的代码，这些任务会按照将它们添加到队列的顺序执行。<code>setTimeout()</code>的第二个参数告诉 JavaScript 再过多长时间把当前任务添加到队列中。如果队列是空的，那么添加的代码会立即执行。</li>
+<li>返回值是一个数值 ID，它是计划执行代码的唯一标识符，可以通过它来取消超时调用。</li>
+</ul>
+</li>
+<li><code>clearTimeout()</code>：传入超时调用 ID，取消该调用。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> timeoutId = setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">   alert(<span class="string">"Hello World!"</span>); </span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">clearTimeout(timeoutId);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>setInterval()</code>：间歇调用函数，与<code>setTimeout()</code>接收的参数相同，不过会按照指定的时间间隔重复执行代码，直至间歇调用被取消或者页面被卸载。</li>
+<li><code>clearInterval()</code>：取消尚未执行的间歇调用。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> max = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> intervalId = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">incrementNumber</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    num++;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (num == max) &#123;</span><br><span class="line">        clearInterval(intervalId);</span><br><span class="line">        alert(<span class="string">"Done"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">intervalId = setInterval(incrementNumber, <span class="number">500</span>);</span><br></pre></td></tr></table></figure>
+<p>以上代码也可以用超时调用实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> max = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">incrementNumber</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    num++;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span> (num &lt; max) &#123;</span><br><span class="line">        setTimeout(incrementNumber, <span class="number">500</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        alert(<span class="string">"Done"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setTimeout(incrementNumber, <span class="number">500</span>);</span><br></pre></td></tr></table></figure>
+<p>实际开发中很少使用间歇调用，因为最后一个间歇调用可能会在前一个间歇调用结束之前启动，使用超时调用模拟可以完全避免这一点。</p>
+<h4 id="系统对话框"><a href="#系统对话框" class="headerlink" title="系统对话框"></a>系统对话框</h4><ul>
+<li><code>alert()</code>：接受一个字符串并将其显示给用户</li>
+<li><code>confirm()</code>：与<code>alert()</code>基本相同，不过多了确认和取消按钮，会返回一个布尔值（OK/true，Cancel/false）；</li>
+<li><code>prompt()</code>：除了显示确认和取消，还会显示一个文本输入域，接受两个参数，显示给用户的文本提示，和文本输入域的默认值，单击确认会返回文本输入域的值，单击取消会返回<code>null</code></li>
+<li><code>window.print()</code>：显示“打印”对话框</li>
+<li><code>window.find()</code>：显示“查找”对话框</li>
+</ul>
+<h3 id="location-对象"><a href="#location-对象" class="headerlink" title="location 对象"></a>location 对象</h3><p>location 是最有用的 BOM 对象之一，它提供了与当前窗口中加载的文档有关的信息，还提供了一些导航功能。location 也是一个很特别的对象，它既是 window 对象的属性，也是 document 对象的属性。下标列出 location 对象的所有属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>例子</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hash</td>
+<td>“#contents”</td>
+<td>返回URL中的hash（#号跟零或多个字符），无hash返回空字符串</td>
+</tr>
+<tr>
+<td>host</td>
+<td>“<a href="http://www.wrox.com8080&quot;" target="_blank" rel="noopener">www.wrox.com8080&quot;</a></td>
+<td>返回服务器名称和端口号</td>
+</tr>
+<tr>
+<td>hostname</td>
+<td>“<a href="http://www.wrox.com&quot;" target="_blank" rel="noopener">www.wrox.com&quot;</a></td>
+<td>返回不带端口号的服务器名称</td>
+</tr>
+<tr>
+<td>href</td>
+<td>“<a href="http://www.wrox.com&quot;" target="_blank" rel="noopener">http://www.wrox.com&quot;</a></td>
+<td>返回当前加载页面的完整URL。location.toString()也返回这个值</td>
+</tr>
+<tr>
+<td>pathname</td>
+<td>“/WileyCDA/“</td>
+<td>返回URL中的目录和（或）文件名</td>
+</tr>
+<tr>
+<td>port</td>
+<td>“8080”</td>
+<td>返回URL中指定的端口号，无端口返回空字符串</td>
+</tr>
+<tr>
+<td>protocol</td>
+<td>“http:”</td>
+<td>返回页面使用的协议。通常是http:或https:</td>
+</tr>
+<tr>
+<td>search</td>
+<td>“?q=javascript”</td>
+<td>返回URL的查询字符串，以问号开头</td>
+</tr>
+</tbody>
+</table>
+<h4 id="查询字符串参数"><a href="#查询字符串参数" class="headerlink" title="查询字符串参数"></a>查询字符串参数</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getQueryStringArgs</span>(<span class="params"></span>)</span>&#123;    </span><br><span class="line">    <span class="keyword">var</span> qs = location.search.length &gt; <span class="number">0</span> ? location.search.substring(<span class="number">1</span>) : <span class="string">""</span>,</span><br><span class="line">        args = &#123;&#125;,</span><br><span class="line">        items = qs.length ? qs.split(<span class="string">"&amp;"</span>) : [],</span><br><span class="line">        item, name, value,</span><br><span class="line">        i = <span class="number">0</span>,</span><br><span class="line">        len = items.length;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; len; i++)&#123;</span><br><span class="line">        item = items[i].split(<span class="string">"="</span>);</span><br><span class="line">        name = <span class="built_in">decodeURIComponent</span>(item[<span class="number">0</span>]);</span><br><span class="line">        value = <span class="built_in">decodeURIComponent</span>(item[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (name.length)&#123;</span><br><span class="line">            args[name] = value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> args;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//query：?q=javascript&amp;num=10</span></span><br><span class="line"><span class="keyword">var</span> args = getQueryStringArgs();</span><br><span class="line"></span><br><span class="line">alert(args[<span class="string">"q"</span>]);     <span class="comment">//"javascript"</span></span><br><span class="line">alert(args[<span class="string">"num"</span>]);   <span class="comment">//"10"</span></span><br></pre></td></tr></table></figure>
+<h4 id="位置操作"><a href="#位置操作" class="headerlink" title="位置操作"></a>位置操作</h4><ul>
+<li><code>location.assign()</code>：接受一个 URL 作为参数，可以立即打开新 URL 并在浏览器历史记录中生成一条记录。如果是将<code>location.href</code>或<code>window.location</code>设置为一个URL值，也会以该值调用<code>assign()</code>方法。</li>
+<li><code>location.replace()</code>：接受一个 URL 作为参数，可以立即打开新 URL ，但是不会生成历史记录。</li>
+<li><code>location.reload()</code>：重新加载页面，如果不传递参数，浏览器就会以最有效的方式重新加载，如果该页面自上次请求后没有改变过，页面就会从浏览器缓存中重新加载。如果要强制从服务器重新加载，则需要传递参数<code>true</code>。</li>
+</ul>
+<h3 id="navigator对象"><a href="#navigator对象" class="headerlink" title="navigator对象"></a>navigator对象</h3><p>navigator 对象已经成为识别客服端浏览器的事实标准。下表列出一些 navigator 的属性和方法：</p>
+<table>
+<thead>
+<tr>
+<th>属性或方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>appCodeName</td>
+<td>浏览器的名称，通常都是Mozilla</td>
+</tr>
+<tr>
+<td>appName</td>
+<td>完整的浏览器名称</td>
+</tr>
+<tr>
+<td>appVersion</td>
+<td>浏览器版本</td>
+</tr>
+<tr>
+<td>cookieEnabled</td>
+<td>表示cookie是否启用</td>
+</tr>
+<tr>
+<td>javaEnabled()</td>
+<td>表示当前浏览器中是否启用的Java</td>
+</tr>
+<tr>
+<td>language</td>
+<td>浏览器的主语言</td>
+</tr>
+<tr>
+<td>mimeTypes</td>
+<td>在浏览器中注册的MIME类型数组</td>
+</tr>
+<tr>
+<td>onLIne</td>
+<td>表示浏览器是否链接到了因特网</td>
+</tr>
+<tr>
+<td>platform</td>
+<td>浏览器所在的系统平台</td>
+</tr>
+<tr>
+<td>plugins</td>
+<td>浏览器中安装的插件信息的数组</td>
+</tr>
+<tr>
+<td>userAgent</td>
+<td>浏览器的用户代理字符串</td>
+</tr>
+<tr>
+<td>vendor</td>
+<td>浏览器的品牌</td>
+</tr>
+<tr>
+<td>product</td>
+<td>产品名称</td>
+</tr>
+<tr>
+<td>registerContentHandler()</td>
+<td>针对特定的MIME类型将一个站点注册为处理程序</td>
+</tr>
+<tr>
+<td>registerProtocolHandler()</td>
+<td>针对特定的协议将一个站点注册为处理程序</td>
+</tr>
+</tbody>
+</table>
+<h4 id="检测插件"><a href="#检测插件" class="headerlink" title="检测插件"></a>检测插件</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//plugin detection - doesn't work in IE</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasPlugin</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    name = name.toLowerCase();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; navigator.mimeTypes.length; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span> (navigator.mimeTypes[i].name.toLowerCase().indexOf(name) &gt; <span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//detect flash</span></span><br><span class="line">alert(hasPlugin(<span class="string">"Flash"</span>));</span><br><span class="line"><span class="comment">//detect quicktime</span></span><br><span class="line">alert(hasPlugin(<span class="string">"QuickTime"</span>));     </span><br><span class="line"><span class="comment">//detect Java</span></span><br><span class="line">alert(hasPlugin(<span class="string">"Java"</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//plugin detection for IE</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasIEPlugin</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">new</span> ActiveXObject(name);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (ex)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//detect flash</span></span><br><span class="line">alert(hasIEPlugin(<span class="string">"ShockwaveFlash.ShockwaveFlash"</span>));</span><br><span class="line"><span class="comment">//detect quicktime</span></span><br><span class="line">alert(hasIEPlugin(<span class="string">"QuickTime.QuickTime"</span>));</span><br></pre></td></tr></table></figure>
+<p>注：plugins 集合有一个名叫 refresh() 的方法，用于刷新 plugins 以反映最新安装的插件。这个方法接受一个参数，表示是否应该重新加载页面的一个布尔值。设置为 true，则会重新加载包含插件的所有页面；否则，只更新 plugins 集合，不重新加载页面。</p>
+<h4 id="注册处理程序"><a href="#注册处理程序" class="headerlink" title="注册处理程序"></a>注册处理程序</h4><p><code>registerContentHandler()</code>，<code>registerProtocolHandler()</code>：这两个方法可以让一个站点指明它可以处理特定类型的消息，比如 RSS 和在线电子邮件程序。</p>
+<ul>
+<li><code>registerContentHandler()</code>：接收三个参数：要处理的 MIME 类型、可以处理该 MIME 类型页面的 URL 以及应用程序名称。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">navigator.registerContentHandler(<span class="string">"application/rss+xml"</span>, <span class="string">"https://www.somereader.com?feed=%s"</span>,<span class="string">"Some Reader"</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>registerProtocolHandler()</code>：接收三个参数：要处理的协议、可以处理该协议页面的 URL 以及应用程序名称。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">navigator.registerProtocolHandler(<span class="string">"mailto"</span>, <span class="string">"https://www.somemailclient.com?cmd=%s"</span>,<span class="string">"Some Mail Client"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="screen-对象"><a href="#screen-对象" class="headerlink" title="screen 对象"></a>screen 对象</h3><p>screen 对象使用率不是特别高，比较常见的使用场景是移动端。下表列出一些常见属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>availHeight</td>
+<td>屏幕像素高度减系统部件高度之后的值（只读）</td>
+</tr>
+<tr>
+<td>availLeft</td>
+<td>未被系统部件占用的最左侧的像素值（只读）</td>
+</tr>
+<tr>
+<td>availTop</td>
+<td>未被系统部件占用的最上方的像素值（只读）</td>
+</tr>
+<tr>
+<td>availWidth</td>
+<td>屏幕像素宽度减系统部件宽度之后的值（只读）</td>
+</tr>
+<tr>
+<td>colorDepth</td>
+<td>用于表示颜色的位数（只读）</td>
+</tr>
+<tr>
+<td>height</td>
+<td>屏幕像素高度</td>
+</tr>
+<tr>
+<td>width</td>
+<td>屏幕像素宽度</td>
+</tr>
+<tr>
+<td>pixelDepth</td>
+<td>屏幕的位深（只读）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="history-对象"><a href="#history-对象" class="headerlink" title="history 对象"></a>history 对象</h3><p>history 对象保存着用户上网的历史记录，从窗口被打开的那一刻算起。</p>
+<ul>
+<li><code>go()</code>：使用<code>go()</code>方法可以在用户的历史记录中任意跳转，可以向前也可以向后，只接受一个参数。传递整数，表示向后或者向前跳转的页面的一个整数值。负数表示后退，整数表示前进。也可以传递字符串，此时浏览器会跳转到历史记录中包含该字符串的第一个位置。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">history.go(<span class="number">-1</span>);   <span class="comment">//后退一页</span></span><br><span class="line">history.go(<span class="number">1</span>);    <span class="comment">//前进一页</span></span><br><span class="line">history.go(<span class="number">2</span>);    <span class="comment">//前进两页</span></span><br><span class="line">history.go(<span class="string">"wrox.com"</span>) <span class="comment">// 跳转到最近的wrox页面</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>back()</code>，<code>forward()</code>：后退和前进，用来代替<code>go()</code>。</li>
+<li><code>length</code>：history 对象还有一个<code>length</code>属性，保存着历史记录的数量。对于加载到窗口、标签页或者框架中的第一个页面，history.length 等于 0。</li>
+</ul>
+<h2 id="Chapter09-客户端检测"><a href="#Chapter09-客户端检测" class="headerlink" title="Chapter09. 客户端检测"></a>Chapter09. 客户端检测</h2><p>由于浏览器间存在差别，通常要根据不同浏览器的能力分别编写不同的代码。</p>
+<h3 id="能力检测"><a href="#能力检测" class="headerlink" title="能力检测"></a>能力检测</h3><p>最常用也最为人们广泛接受的客户端检测形式的能力检测（又称特性检测）。能力检测的目标不是识别特定的浏览器，而是识别浏览器的能力。采用这种方式只要确定浏览器支持特定的能力，就可以给出解决方案。能力检测的基本模式如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (object.propertyInQuestion) &#123;</span><br><span class="line">    <span class="comment">// 使用 object.propertyInQuestion</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>举例来说，IE5.0 之前的版本不支持<code>document.getElementById()</code>这个DOM方法，尽管可以使用非标准的<code>document.all</code>属性实现相同的目的。于是，出现了如下能力检测代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getElement</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">document</span>.getElementById)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">document</span>.getElementById(id);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">document</span>.all) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">document</span>.all[id];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"No way to retrieve element!"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>理解能力检测要理解两个概念：</p>
+<ul>
+<li>第一个概念就是先检测达成目的的最常用的特性。</li>
+<li>第二个概念就是必须测试实际要用到的特性。一个特性存在，不意味另一个特性也存在。</li>
+</ul>
+<p>检测某个或某几个特性并不能确定浏览器，事实上，根据浏览器不同将能力组合起来是更可取的方式。最好一次性检测所有相关特性，而不要分别检测。</p>
+<h3 id="怪癖检测"><a href="#怪癖检测" class="headerlink" title="怪癖检测"></a>怪癖检测</h3><p>与能力检测类似，怪癖检测（quirks detection）的目标是识别浏览器的特殊行为。但与能力检测确认浏览器支持什么能力不同，怪癖检测是想要知道浏览器存在什么缺陷（“怪癖”也就是 bug）。这通常需要运行一小段代码，以确定某一特性不能正常工作。</p>
+<p>一般来说，“怪癖”都是个别浏览器的个别版本独有的，一般被归为 bug。在新版本中可能会也可能不会被修复。由于检测“怪癖”涉及运行代码，因此我们建议仅检测那些对你有直接影响的“怪癖”。而且最好在脚本一开始就执行此类检测，以遍今早解决问题。</p>
+<h3 id="用户代理检测"><a href="#用户代理检测" class="headerlink" title="用户代理检测"></a>用户代理检测</h3><p>第三种，也是争议最大的一种客户端检测技术叫做<strong>用户代理检测</strong>。用户代理检测通过检测用户代理字符串来确定实际使用的浏览器。可以通过<code>navigator.userAgent</code>属性访问用户代理字符串。在服务器端，这是一种广为接受的做法，但是在客户端，用户代理则被当作一种万不得已才用的做法，其优先级排在前两种方法之后。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ua = navigator.userAgent;</span><br></pre></td></tr></table></figure>
+<h4 id="Opera"><a href="#Opera" class="headerlink" title="Opera"></a>Opera</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">window</span>.opera)&#123;</span><br><span class="line">    engine.ver = browser.ver = <span class="built_in">window</span>.opera.version();</span><br><span class="line">    engine.opera = browser.opera = <span class="built_in">parseFloat</span>(engine.ver);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="WebKit-Chrome-Safari"><a href="#WebKit-Chrome-Safari" class="headerlink" title="WebKit(Chrome, Safari)"></a>WebKit(Chrome, Safari)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="regexp">/AppleWebKit\/(\S+)/</span>.test(ua))&#123; <span class="comment">//WebKit 的 ua 中包含“Gecko”和“KHTML”， “AppleWebKit” 独一无二</span></span><br><span class="line">    engine.ver = <span class="built_in">RegExp</span>[<span class="string">"$1"</span>];</span><br><span class="line">    engine.webkit = <span class="built_in">parseFloat</span>(engine.ver);</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//分辨Chrome与Safari</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="regexp">/Chrome\/(\S+)/</span>.test(ua))&#123;</span><br><span class="line">        browser.ver = <span class="built_in">RegExp</span>[<span class="string">"$1"</span>];</span><br><span class="line">        browser.chrome = <span class="built_in">parseFloat</span>(browser.ver);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/Version\/(\S+)/</span>.test(ua))&#123;</span><br><span class="line">        browser.ver = <span class="built_in">RegExp</span>[<span class="string">"$1"</span>];</span><br><span class="line">        browser.safari = <span class="built_in">parseFloat</span>(browser.ver);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//approximate version</span></span><br><span class="line">        <span class="keyword">var</span> safariVersion = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (engine.webkit &lt; <span class="number">100</span>)&#123;</span><br><span class="line">            safariVersion = <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (engine.webkit &lt; <span class="number">312</span>)&#123;</span><br><span class="line">            safariVersion = <span class="number">1.2</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (engine.webkit &lt; <span class="number">412</span>)&#123;</span><br><span class="line">            safariVersion = <span class="number">1.3</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            safariVersion = <span class="number">2</span>;</span><br><span class="line">        &#125;   </span><br><span class="line"></span><br><span class="line">        browser.safari = browser.ver = safariVersion;        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="KHTML"><a href="#KHTML" class="headerlink" title="KHTML"></a>KHTML</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="regexp">/KHTML\/(\S+)/</span>.test(ua) || <span class="regexp">/Konqueror\/([^;]+)/</span>.test(ua))&#123;</span><br><span class="line">    engine.ver = browser.ver = <span class="built_in">RegExp</span>[<span class="string">"$1"</span>];</span><br><span class="line">    engine.khtml = browser.konq = <span class="built_in">parseFloat</span>(engine.ver);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Gecko-Firefox"><a href="#Gecko-Firefox" class="headerlink" title="Gecko(Firefox)"></a>Gecko(Firefox)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="regexp">/rv:([^\)]+)\) Gecko\/\d&#123;8&#125;/</span>.test(ua))&#123;    </span><br><span class="line">      engine.ver = <span class="built_in">RegExp</span>[<span class="string">"$1"</span>];</span><br><span class="line">      engine.gecko = <span class="built_in">parseFloat</span>(engine.ver);</span><br><span class="line"></span><br><span class="line">      <span class="comment">//检测 Firefox</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="regexp">/Firefox\/(\S+)/</span>.test(ua))&#123;</span><br><span class="line">          browser.ver = <span class="built_in">RegExp</span>[<span class="string">"$1"</span>];</span><br><span class="line">          browser.firefox = <span class="built_in">parseFloat</span>(browser.ver);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>####MSIE(IE)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="regexp">/MSIE ([^;]+)/</span>.test(ua))&#123;    </span><br><span class="line">    engine.ver = browser.ver = <span class="built_in">RegExp</span>[<span class="string">"$1"</span>];</span><br><span class="line">    engine.ie = browser.ie = <span class="built_in">parseFloat</span>(engine.ver);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="OS（操作系统）"><a href="#OS（操作系统）" class="headerlink" title="OS（操作系统）"></a>OS（操作系统）</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p = navigator.platform;</span><br><span class="line">system.win = p.indexOf(<span class="string">"Win"</span>) == <span class="number">0</span>;</span><br><span class="line">system.mac = p.indexOf(<span class="string">"Mac"</span>) == <span class="number">0</span>;</span><br><span class="line">system.x11 = (p == <span class="string">"X11"</span>) || (p.indexOf(<span class="string">"Linux"</span>) == <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//detect windows operating systems</span></span><br><span class="line"><span class="keyword">if</span> (system.win)&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="regexp">/Win(?:dows )?([^do]&#123;2&#125;)\s?(\d+\.\d+)?/</span>.test(ua))&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">RegExp</span>[<span class="string">"$1"</span>] == <span class="string">"NT"</span>)&#123;</span><br><span class="line">            <span class="keyword">switch</span>(<span class="built_in">RegExp</span>[<span class="string">"$2"</span>])&#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"5.0"</span>:</span><br><span class="line">                    system.win = <span class="string">"2000"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"5.1"</span>:</span><br><span class="line">                    system.win = <span class="string">"XP"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"6.0"</span>:</span><br><span class="line">                    system.win = <span class="string">"Vista"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"6.1"</span>:</span><br><span class="line">                    system.win = <span class="string">"7"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">default</span>:</span><br><span class="line">                    system.win = <span class="string">"NT"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;                </span><br><span class="line">            &#125;                            </span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">RegExp</span>[<span class="string">"$1"</span>] == <span class="string">"9x"</span>)&#123;</span><br><span class="line">            system.win = <span class="string">"ME"</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            system.win = <span class="built_in">RegExp</span>[<span class="string">"$1"</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Mobile"><a href="#Mobile" class="headerlink" title="Mobile"></a>Mobile</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">system.iphone = ua.indexOf(<span class="string">"iPhone"</span>) &gt; <span class="number">-1</span>;</span><br><span class="line">system.ipod = ua.indexOf(<span class="string">"iPod"</span>) &gt; <span class="number">-1</span>;</span><br><span class="line">system.ipad = ua.indexOf(<span class="string">"iPad"</span>) &gt; <span class="number">-1</span>;</span><br><span class="line">system.nokiaN = ua.indexOf(<span class="string">"NokiaN"</span>) &gt; <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//windows mobile</span></span><br><span class="line"><span class="keyword">if</span> (system.win == <span class="string">"CE"</span>)&#123;</span><br><span class="line">    system.winMobile = system.win;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (system.win == <span class="string">"Ph"</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="regexp">/Windows Phone OS (\d+.\d+)/</span>.test(ua))&#123;;</span><br><span class="line">        system.win = <span class="string">"Phone"</span>;</span><br><span class="line">        system.winMobile = <span class="built_in">parseFloat</span>(<span class="built_in">RegExp</span>[<span class="string">"$1"</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//determine iOS version</span></span><br><span class="line"><span class="keyword">if</span> (system.mac &amp;&amp; ua.indexOf(<span class="string">"Mobile"</span>) &gt; <span class="number">-1</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="regexp">/CPU (?:iPhone )?OS (\d+_\d+)/</span>.test(ua))&#123;</span><br><span class="line">        system.ios = <span class="built_in">parseFloat</span>(<span class="built_in">RegExp</span>.$<span class="number">1.</span>replace(<span class="string">"_"</span>, <span class="string">"."</span>));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        system.ios = <span class="number">2</span>;  <span class="comment">//can't really detect - so guess</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//determine Android version</span></span><br><span class="line"><span class="keyword">if</span> (<span class="regexp">/Android (\d+\.\d+)/</span>.test(ua))&#123;</span><br><span class="line">    system.android = <span class="built_in">parseFloat</span>(<span class="built_in">RegExp</span>.$<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Game"><a href="#Game" class="headerlink" title="Game"></a>Game</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//gaming systems</span></span><br><span class="line">system.wii = ua.indexOf(<span class="string">"Wii"</span>) &gt; <span class="number">-1</span>;</span><br><span class="line">system.ps = <span class="regexp">/playstation/i</span>.test(ua);</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+        
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017/09/02/ProJavaScript-Notes-08/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          重读 JS 高程（Chapter10、Chapter11）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017/08/30/ProJavaScript-Notes-06/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">重读 JS 高程（Chapter07）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/dtcz" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2018 cz 
+	  - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	  - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+	</div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/dtcz" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
